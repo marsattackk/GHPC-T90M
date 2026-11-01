@@ -106,6 +106,12 @@ Line-of-sight protection straight from the front, in mm of steel, **without ERA*
 | | Turret cheeks (vs APFSDS / vs HEAT) | Upper glacis (vs APFSDS / vs HEAT) |
 |---|---|---|
 | **T-90M (this mod)** | **690 / 820** | **552 / 752** |
+| [T-90A](https://github.com/marsattackk/GHPC-T90A) (my other mod) | 690 / 819 | 549 / 748 |
+| T-80B (vanilla) | 595 / 669 | 485 / 602 |
+| M1IP (vanilla) | 516 / 999 | 348 / 361 |
+
+*Median over a grid of straight-on shots. Both T-90s measured in game on the cheek block and glacis, the vanilla tanks
+from their armour in the game's files over the whole cheek face, so their thin edges pull their median down a bit.*
 
 Relikt adds about **250** against APFSDS and **650** against HEAT on the turret (**600** on the hull) wherever a box is
 hit. A box that's gone off is gone, a second hit on the same spot only meets the armour behind it.
