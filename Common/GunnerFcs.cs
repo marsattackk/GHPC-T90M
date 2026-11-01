@@ -1,0 +1,339 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using GHPC.Equipment;
+using GHPC.Equipment.Optics;
+using GHPC.Weapons;
+using HarmonyLib;
+using Reticle;
+using UnityEngine;
+
+namespace T90M.Common
+{
+	internal static class GunnerFcs
+	{
+		internal sealed class Settings
+		{
+			public float LaserMin, LaserMax;
+			public Vector2 LineOfSightLimits;
+			public float LineOfSightAzimuth;
+			public bool ViewStopsAtAzimuth;
+			public int RangeStep = 100;
+			public int DisplayRangeIncrement = 50;
+			public float FireGateAngle = 0.1f;
+			public bool ManualMode = true;
+		}
+
+		// AimWorldVector takes input without limit. Past a stabilised sight's stop it piles up unseen and the sight sticks
+		// until it's wound back off. In azimuth the view has no limit at all.
+		internal static class AimClamp
+		{
+			static readonly Dictionary<FireControlSystem, List<UsableOptic>> Sights = new Dictionary<FireControlSystem, List<UsableOptic>>();
+			static readonly Dictionary<FireControlSystem, float> Azimuth = new Dictionary<FireControlSystem, float>();
+			static readonly MethodInfo SetAim = Reflect.PropertySetter(typeof(FireControlSystem), nameof(FireControlSystem.AimWorldVector));
+
+			internal static void Register(FireControlSystem fcs, UsableOptic optic)
+			{
+				if (fcs == null || optic == null) return;
+				foreach (var dead in Sights.Keys.Where(k => k == null).ToList()) Sights.Remove(dead);
+				if (!Sights.TryGetValue(fcs, out var l)) Sights[fcs] = l = new List<UsableOptic>();
+				if (!l.Contains(optic)) l.Add(optic);
+			}
+
+			internal static void Register(FireControlSystem fcs, UsableOptic optic, float azimuth)
+			{
+				Register(fcs, optic);
+				foreach (var dead in Azimuth.Keys.Where(k => k == null).ToList()) Azimuth.Remove(dead);
+				if (fcs != null && azimuth > 0f) Azimuth[fcs] = azimuth;
+			}
+
+			static readonly Dictionary<UsableOptic, float> OpticAzimuth = new Dictionary<UsableOptic, float>();
+
+			static float Yaw(Vector3 d) => Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg;
+
+			[HarmonyPatch(typeof(FireControlSystem), nameof(FireControlSystem.AdjustAimByRatio))]
+			static class Patch
+			{
+				static void Prefix(FireControlSystem __instance, out Vector3 __state)
+				{
+					__state = Vector3.zero;
+					try { __state = __instance.AimWorldVector; }
+					catch (Exception e) { PatchGuard.Failed("Sight aim limit", e); }
+				}
+
+				static void Postfix(FireControlSystem __instance, Vector3 __state)
+				{
+					try { Clamp(__instance, __state); }
+					catch (Exception e) { PatchGuard.Failed("Sight aim limit", e); }
+				}
+
+				static void Clamp(FireControlSystem __instance, Vector3 __state)
+				{
+					if (!Sights.TryGetValue(__instance, out var optics)) return;
+					var mode = __instance.CurrentStabMode;
+					if (mode != StabilizationMode.Vector && mode != StabilizationMode.None) return;
+					UsableOptic o = null;
+					foreach (var x in optics) if (x != null && x.slot != null && x.slot.IsActive) { o = x; break; }
+					if (o == null) return;
+					var parent = o.slot.transform.parent;
+					if (parent == null) return;
+					var lim = o.LocalElevationLimits;
+					float az0;
+					if (OpticAzimuth.Count == 0 || !OpticAzimuth.TryGetValue(o, out az0)) Azimuth.TryGetValue(__instance, out az0);
+					if (lim == Vector2.zero && az0 <= 0f) return;
+					var d = parent.InverseTransformDirection(__instance.AimWorldVector).normalized;
+					float e = Mathf.Asin(Mathf.Clamp(d.y, -1f, 1f)) * Mathf.Rad2Deg;
+					float lo = lim.x != 0f ? lim.x : -90f, hi = lim.y != 0f ? lim.y : 90f;
+					float yaw = Yaw(d), yaw2 = yaw;
+					if (az0 > 0f)
+					{
+						float a = Mathf.Max(az0, Mathf.Abs(Yaw(parent.InverseTransformDirection(__state))));
+						yaw2 = Mathf.Clamp(yaw, -a, a);
+					}
+					if (e >= lo && e <= hi && yaw2 == yaw) return;
+					float c = Mathf.Clamp(e, lo, hi) * Mathf.Deg2Rad;
+					var flat = yaw2 != yaw ? new Vector3(Mathf.Sin(yaw2 * Mathf.Deg2Rad), 0f, Mathf.Cos(yaw2 * Mathf.Deg2Rad)) : new Vector3(d.x, 0f, d.z);
+					flat = flat.sqrMagnitude > 1e-8f ? flat.normalized : Vector3.forward;
+					var w = parent.TransformDirection(flat * Mathf.Cos(c) + Vector3.up * Mathf.Sin(c));
+					if (mode == StabilizationMode.Vector) __instance.SetAimVector(w, true);
+					else SetAim.Invoke(__instance, new object[] { w });
+				}
+			}
+		}
+
+		internal static void Apply(UsableOptic dayOptic, Settings s)
+		{
+			FireControlSystem fcs = dayOptic.FCS;
+
+			fcs.MaxLaserRange = s.LaserMax;
+			fcs.RegisteredRangeLimits = new Vector2(0f, s.LaserMax);
+			fcs.MarkRangeInvalidBelow = s.LaserMin;
+			fcs.IgnoreRangeBelow = 0f;
+			fcs.LaserAim = LaserAimMode.ImpactPoint;
+			fcs.randomRadius = new AngularLength(5f, AngularLength.AngularUnit.MIL_NATO);
+			fcs.RangeStep = s.RangeStep;
+			fcs.RangeGranularity = 0;
+			fcs.DisplayRangeIncrement = s.DisplayRangeIncrement;
+			fcs.EnableRangeInterpolation = false;
+
+			// Delta-D on a fire control without TurretPlatform floods Player.log with an error every frame.
+			if (fcs.TurretPlatform != null)
+			{
+				fcs.UseDeltaD = true;
+				fcs.ImperfectDeltaD = true;
+			}
+
+			fcs.CurrentStabMode = StabilizationMode.Vector;
+			fcs.ImperfectFixedRangePointStab = false;
+			fcs.PointStabIncludesVertical = false;
+			fcs.SuperelevateWeapon = true;
+			fcs.SuperleadWeapon = true;
+			fcs.RefreshAimOnAmmoChange = true;
+
+			fcs.RecordTraverseRateBuffer = true;
+			fcs.TraverseBufferSeconds = 1f;
+			fcs.DynamicLead = true;
+			fcs.InertialCompensation = false;
+			SetPrivate(fcs, "PointStabAffectsLead", false);
+			SetPrivate(fcs, "InertiaLeadIncludesVertical", false);
+			SetPrivate(fcs, "_counterMotionLeadAlwaysOn", false);
+			SetPrivate(fcs, "_autoDumpViaPalmSwitches", false);
+			SetPrivate(fcs, "_horizontalLeadOnly", true);
+			SetPrivate(fcs, "_useSeparateLead", false);
+
+			if (s.FireGateAngle >= 0f) fcs.FireGateAngle = s.FireGateAngle;
+			fcs.SuperelevateFireGating = true;
+			fcs.IgnoreHorizontalForFireGating = true;
+			OwnLayGate(fcs);
+
+			fcs.HasManualMode = s.ManualMode;
+			fcs.ManualModeTriggers = s.ManualMode ? new[] { FcsManualModeStartTrigger.SetRangeManually } : new FcsManualModeStartTrigger[0];
+			fcs.AutoModeTriggers = s.ManualMode ? new[] { FcsManualModeCancelTrigger.Lase } : new FcsManualModeCancelTrigger[0];
+			fcs.ManualModeLead = FcsManualModeLead.DisableLeadCompensation;
+			fcs.ManualModeSuperelevation = FcsManualModeSuperelevation.DisableSuperelevation;
+			fcs.ManualModeOpticAlign = OpticAlignment.BoresightStabilized;
+			fcs.ZeroReticleRangeInAutoMode = true;
+
+			dayOptic.Alignment = OpticAlignment.BoresightStabilized;
+			dayOptic.RotateElevation = true;
+			dayOptic.RotateAzimuth = true;
+			dayOptic.CantCorrect = true;
+			dayOptic.ForceHorizontalReticleAlign = true;
+			dayOptic.LocalElevationLimits = s.LineOfSightLimits;
+			if (s.ViewStopsAtAzimuth && s.LineOfSightAzimuth > 0f) dayOptic.LocalAzimuthLimits = new Vector2(-s.LineOfSightAzimuth, s.LineOfSightAzimuth);
+			AimClamp.Register(fcs, dayOptic, s.LineOfSightAzimuth);
+			SetPrivate(fcs, "_fixParallaxForVectorMode", false);
+
+			Resync(fcs, dayOptic);
+		}
+
+		// With an override GHPC opens the gate within superelevation + FireGateAngle of the sight line, sign ignored, so a
+		// shot before the gun has climbed goes low by up to the whole drop (3BK18M at 1500 m: 17 m).
+		internal static readonly HashSet<FireControlSystem> OwnLay = new HashSet<FireControlSystem>();
+
+		static void OwnLayGate(FireControlSystem fcs)
+		{
+			OwnLay.RemoveWhere(k => k == null);
+			OwnLay.Add(fcs);
+			fcs.FireGateOverrideTransform = null;
+		}
+
+		// DoLase doesn't skip the unit's own colliders, but a ray starting inside one misses it.
+		internal static Transform LaserWindow(Transform root, FireControlSystem fcs, Transform turret, Vector3 window, string name)
+		{
+			if (fcs == null || turret == null) return null;
+			var t = new GameObject(name).transform;
+			t.SetParent(turret, false);
+			t.SetPositionAndRotation(root.TransformPoint(window), root.rotation);
+			fcs.LaserOrigin = t;
+			return t;
+		}
+
+		internal static void HeadView(string tag, Transform window, params Transform[] parts)
+		{
+			if (window == null || window.parent == null) { MelonLoader.MelonLogger.Warning($"{tag}: no laser window; the sight's view stays on the base sight."); return; }
+			foreach (var p in parts.Where(x => x != null).Distinct())
+			{
+				var h = p.GetComponent<HeadPoint>() ?? p.gameObject.AddComponent<HeadPoint>();
+				h.Turret = window.parent;
+				h.Local = window.localPosition;
+				h.Put();
+			}
+		}
+
+		// At range 0 the parallax term alone lays the gun from the muzzle back at the sight head.
+		internal static class Parallax
+		{
+			internal static readonly HashSet<FireControlSystem> Fcs = new HashSet<FireControlSystem>();
+			internal const float MinRange = 10f;
+			static readonly FieldInfo Flag = Reflect.Field(typeof(FireControlSystem), "_fixParallaxForVectorMode");
+
+			internal static void Register(FireControlSystem fcs)
+			{
+				Fcs.RemoveWhere(k => k == null);
+				if (fcs != null) Fcs.Add(fcs);
+			}
+
+			[HarmonyPatch(typeof(FireControlSystem), nameof(FireControlSystem.CompensatedWeaponVector))]
+			static class Patch
+			{
+				static void Prefix(FireControlSystem __instance)
+				{
+					try { Fix(__instance); }
+					catch (Exception e) { PatchGuard.Failed("Gun parallax", e); }
+				}
+
+				static void Fix(FireControlSystem __instance)
+				{
+					if (Flag == null || Fcs.Count == 0 || !Fcs.Contains(__instance)) return;
+					Flag.SetValue(__instance, __instance.CurrentRange >= MinRange);
+				}
+			}
+		}
+
+		[DefaultExecutionOrder(-100)]
+		internal sealed class HeadPoint : MonoBehaviour
+		{
+			internal Transform Turret;
+			internal Vector3 Local;
+			internal void Put() { if (Turret != null) transform.position = Turret.TransformPoint(Local); }
+
+			void Update() => Put();
+			void LateUpdate() => Put();
+
+			// AimablePlatform turns the turret in its LateUpdate, after this one, so once more before each camera culls.
+			static readonly HashSet<HeadPoint> Live = new HashSet<HeadPoint>();
+			static bool _hooked;
+			void OnEnable()
+			{
+				Live.Add(this);
+				if (!_hooked) { _hooked = true; Camera.onPreCull += PreCull; }
+			}
+
+			void OnDisable() => Live.Remove(this);
+			static void PreCull(Camera _)
+			{
+				foreach (var h in Live) if (h != null) h.Put();
+			}
+		}
+
+		// UpdateLaserAim points the laser at the aim wherever the turret is, mid-swing that's through the turret's own front.
+		internal static class LaserAim
+		{
+			static readonly Dictionary<FireControlSystem, (UsableOptic sight, Settings s)> Sights = new Dictionary<FireControlSystem, (UsableOptic, Settings)>();
+
+			internal static void Register(FireControlSystem fcs, UsableOptic sight, Settings s)
+			{
+				if (fcs == null || sight == null || s == null) return;
+				foreach (var dead in Sights.Keys.Where(k => k == null).ToList()) Sights.Remove(dead);
+				Sights[fcs] = (sight, s);
+			}
+
+			static void Hold(FireControlSystem fcs)
+			{
+				try { HoldNow(fcs); }
+				catch (Exception e) { PatchGuard.Failed("Laser on the sight head", e); }
+			}
+
+			static void HoldNow(FireControlSystem fcs)
+			{
+				if (Sights.Count == 0 || !Sights.ContainsKey(fcs) || fcs.LaserOrigin == null) return;
+				var w = Limit(fcs, fcs.LaserAim == LaserAimMode.ImpactPoint ? fcs.AimWorldVector : fcs.LaserOrigin.forward, out bool held);
+				if (!held) return;
+				fcs.LaserOrigin.forward = w;
+			}
+
+			internal static Vector3 Limit(FireControlSystem fcs, Vector3 aim, out bool held)
+			{
+				held = false;
+				if (fcs == null || !Sights.TryGetValue(fcs, out var e) || e.sight == null || e.sight.slot == null) return aim;
+				var parent = e.sight.slot.transform.parent;
+				if (parent == null) return aim;
+				var d = parent.InverseTransformDirection(aim).normalized;
+				float az = Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg, el = Mathf.Asin(Mathf.Clamp(d.y, -1f, 1f)) * Mathf.Rad2Deg;
+				float a = e.s.LineOfSightAzimuth, lo = e.s.LineOfSightLimits.x != 0f ? e.s.LineOfSightLimits.x : -90f, hi = e.s.LineOfSightLimits.y != 0f ? e.s.LineOfSightLimits.y : 90f;
+				float az2 = a > 0f ? Mathf.Clamp(az, -a, a) : az, el2 = Mathf.Clamp(el, lo, hi);
+				if (az2 == az && el2 == el) return aim;
+				held = true;
+				float c = el2 * Mathf.Deg2Rad, h = az2 * Mathf.Deg2Rad;
+				return parent.TransformDirection(new Vector3(Mathf.Sin(h) * Mathf.Cos(c), Mathf.Sin(c), Mathf.Cos(h) * Mathf.Cos(c)));
+			}
+
+			[HarmonyPatch(typeof(FireControlSystem), "UpdateLaserAim")]
+			static class Patch
+			{
+				static void Postfix(FireControlSystem __instance) => Hold(__instance);
+			}
+
+			[HarmonyPatch(typeof(FireControlSystem), "DoLase")]
+			static class LasePatch
+			{
+				static void Prefix(FireControlSystem __instance) => Hold(__instance);
+			}
+		}
+
+		// FireControlSystem caches these in Awake, RegisterOptic and DeferredStart.
+		static void Resync(FireControlSystem fcs, UsableOptic dayOptic)
+		{
+			SetPrivate(fcs, "_manualModeOnRangeSet", fcs.HasManualMode);
+			SetPrivate(fcs, "_autoModeOnLase", fcs.HasManualMode);
+			SetPrivate(fcs, "_originalSuperelevationMode", true);
+			SetPrivate(fcs, "_originalSuperleadMode", true);
+			SetPrivate(fcs, "_originalRangeLimits", fcs.RegisteredRangeLimits);
+			SetPrivate(fcs, "_originalRangeStep", fcs.RangeStep);
+			SetPrivate(fcs, "_recordedOriginalRangeValues", true);
+			SetPrivate(fcs, "_originalMainOpticAlign", dayOptic.Alignment);
+
+			if (!(Reflect.Field(typeof(FireControlSystem), "_initialized")?.GetValue(fcs) is bool initialized) || !initialized) return;
+
+			Reflect.Method(typeof(FireControlSystem), "SetManualMode", new[] { typeof(bool) })?.Invoke(fcs, new object[] { false });
+			Reflect.Method(typeof(FireControlSystem), "EngageLead")?.Invoke(fcs, null);
+		}
+
+		static void SetPrivate(object target, string field, object value)
+		{
+			Reflect.Field(typeof(FireControlSystem), field)?.SetValue(target, value);
+		}
+	}
+}
