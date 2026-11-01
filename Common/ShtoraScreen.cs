@@ -805,16 +805,31 @@ namespace T90M.Common
 
 			internal const float SightMaxHeight = 100f;
 			internal static readonly Vector2 OutsideAt = new Vector2(-40f, 110f), SightAt = new Vector2(-280f, 5f);
+
+			internal const float MonitorMargin = 10f, MonitorFoot = 70f, MonitorMinBar = 120f;
+			internal static (Vector2 at, float scale)? MonitorBar(Vector2 size)
+			{
+				if (!ThermalSight.NoScopeMask.Showing || Screen.height <= 0 || size.x <= 0f || size.y <= 0f) return null;
+				float bar = (1080f * Screen.width / Screen.height - 1440f) / 2f;
+				if (bar < MonitorMinBar) return null;
+				float s = Mathf.Min((bar - 2f * MonitorMargin) / size.x, (1080f - MonitorFoot - MonitorMargin) / size.y);
+				return (new Vector2(-(bar - size.x * s) / 2f, MonitorFoot), s);
+			}
+
+			internal static int LayoutKey(bool inSight) => !inSight ? 0 : !ThermalSight.NoScopeMask.Showing ? 1 : 2 + Screen.width * 8192 + Screen.height;
+
 			static int _layout = -1;
 			static void Fit(RectTransform panel) { _layout = -1; Place(panel, false); }
 
 			static void Place(RectTransform panel, bool inSight)
 			{
-				if (_layout == (inSight ? 1 : 0)) return;
-				_layout = inSight ? 1 : 0;
+				int key = LayoutKey(inSight);
+				if (_layout == key) return;
+				_layout = key;
 				panel.anchorMin = panel.anchorMax = panel.pivot = new Vector2(1f, 0f);
-				panel.anchoredPosition = inSight ? SightAt : OutsideAt;
-				float s = inSight ? Mathf.Min(1f, SightMaxHeight / panel.sizeDelta.y) : 1f;
+				var bar = inSight ? MonitorBar(panel.sizeDelta) : null;
+				panel.anchoredPosition = bar?.at ?? (inSight ? SightAt : OutsideAt);
+				float s = bar?.scale ?? (inSight ? Mathf.Min(1f, SightMaxHeight / panel.sizeDelta.y) : 1f);
 				panel.localScale = new Vector3(s, s, 1f);
 			}
 

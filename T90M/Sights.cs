@@ -25,7 +25,7 @@ namespace T90M
 			LaserMax = 10000f,
 			LineOfSightLimits = new Vector2(-10f, 30f),
 			LineOfSightAzimuth = 7.5f,
-			ViewStopsAtAzimuth = true,
+			LeadLimit = 7.5f,
 			RangeStep = 100,
 			DisplayRangeIncrement = 10,
 			FireGateAngle = 0.1f,

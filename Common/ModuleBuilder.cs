@@ -92,7 +92,7 @@ namespace T90M.Common
 						var box = go.AddComponent<BoxCollider>();
 						box.center = toBone.MultiplyPoint3x4(b.Centre);
 						box.size = b.Size;
-						if (look.material != null && m.XrayVerts == null)
+						if (look.material != null && m.XrayVerts == null && !m.NoXray)
 						{
 							var vis = GameObject.CreatePrimitive(PrimitiveType.Cube);
 							UnityEngine.Object.DestroyImmediate(vis.GetComponent<Collider>());
@@ -128,7 +128,7 @@ namespace T90M.Common
 						ua.AngleMatters = m.Armour.AngleMatters;
 						ArmourRicochet.SetValue(ua, m.Armour.Ricochet); ArmourNormalizes.SetValue(ua, m.Armour.Normalizes); ArmourShatter.SetValue(ua, m.Armour.Shatter);
 					}
-					if (look.template != null)
+					if (look.template != null && !m.NoXray)
 					{
 						var av = go.AddComponent<AarVisual>();
 						av.RenderMode = look.template.RenderMode; av.SwitchMaterials = look.template.SwitchMaterials; av.PreserveLayerUntilAar = look.template.PreserveLayerUntilAar;

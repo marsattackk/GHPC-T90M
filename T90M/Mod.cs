@@ -41,13 +41,14 @@ namespace T90M
 		internal static MelonPreferences_Entry<bool> KordCases;
 		internal static MelonPreferences_Entry<bool> EraEffects;
 
-		const string Repo = null;
+		const string Repo = "marsattackk/GHPC-T90M";
 		static readonly SettingsMigration[] Migrations = { };
 
 		static readonly string[] MenuScenes = { "MainMenu2_Scene", "MainMenu2-1_Scene", "LOADER_MENU", "LOADER_INITIAL", "t64_menu", "leo2_menu" };
 
 		public override void OnInitializeMelon()
 		{
+			BuildStamp.Log(Info.Name);
 			UnityErrors.Install(typeof(T90MMod).Namespace);
 			var cfg = MelonPreferences.CreateCategory("T-90M");
 			Enabled = cfg.CreateEntry("Enabled", true, description: "Adds the T-90M as its own unit (Instant Action, campaign roster, ATAC key \"T90M\").");
@@ -59,9 +60,9 @@ namespace T90M
 			ScreensAutomatic = cfg.CreateEntry("TShU-1-2M automatic screens", true, description: "true (default): a laser from the front fires an aerosol screen toward it by itself (automatic mode). false = semi-automatic mode: the warning only, the screen is fired by hand (vehicle menu: TShU-1-2M, or the smoke key). For T-90Ms spawned after the change.");
 			ScreensTone = cfg.CreateEntry("TShU-1-2M alarm tone", true, description: "true (default): the laser warning sounds a tone. false = the screen page only, no sound. For T-90Ms spawned after the change.");
 			ScreensPage = cfg.CreateEntry("TShU-1-2M warning page", true, description: "true (default): the laser warning shows the commander's screen page (the four sensor sectors, the direction, what the system did) at the bottom right. false = no page, the tone only. For T-90Ms spawned after the change.");
-			ScreensPageAlways = cfg.CreateEntry("TShU-1-2M page always on screen", false, description: "false (default): the screen page comes up on a laser warning and goes away a few seconds after. true = it stays on screen the whole time you're in the T-90M, showing the grenades left and the mode between warnings. Either way, looking through a sight it is drawn smaller, in the black strip under the picture. For T-90Ms spawned after the change.");
+			ScreensPageAlways = cfg.CreateEntry("TShU-1-2M page always on screen", false, description: "false (default): the screen page comes up on a laser warning and goes away a few seconds after. true = it stays on screen the whole time you're in the T-90M, showing the grenades left and the mode between warnings. Either way, in the thermal sight, the PDT and the panorama it sits larger in the black bar right of the picture (on a widescreen), and in the day sight smaller, under the picture. For T-90Ms spawned after the change.");
 			KordCases = cfg.CreateEntry("Kord spent cases", true, description: "true (default): the station's Kord MT throws its spent cases out of the chute, and they lie on the tank until it tilts or brakes hard. false = no cases (the belt still feeds). For T-90Ms spawned after the change.");
-			EraEffects = cfg.CreateEntry("ERA destruction effects", false, description: "false (default): a set-off ERA container looks as before (it still works as armour, once). true = it is gone with a blast, the plate round it sooted, nets over it cut. For T-90Ms spawned after the change.");
+			EraEffects = cfg.CreateEntry("ERA destruction effects", true, description: "true (default): a set-off ERA container is gone with a blast, the plate round it sooted, nets over it cut. false = it looks as before (it still works as armour, once). For T-90Ms spawned after the change.");
 			UpdateCheck.Config(cfg, FriendlyName, Info.Version, Repo);
 			PortSettings.Finish(cfg, Info.Version, Migrations);
 			if (!Enabled.Value) return;
@@ -174,7 +175,7 @@ namespace T90M
 			var flir = Shader.Find("Standard (FLIR)");
 			foreach (var part in root.GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("T90M_")).ToArray())
 				if (part.parent == null || !part.parent.name.StartsWith("T90M_")) VehiclePaint.ApplyPaint(part.gameObject, template, flir, PaintedPrefix);
-			VanillaMaterials.Apply(root, r => r.name.StartsWith("T90M_"), Roles);
+			VanillaMaterials.Apply(root, r => r.GetComponentsInParent<Transform>(true).Any(t => t.name.StartsWith("T90M_")), Roles);
 			if (HatchUndersides.Plain(root, "t90m_hatch_inner") == 0) MelonLogger.Warning($"{FriendlyName}: no hatch underside material found (old bundle?).");
 			try
 			{
@@ -292,6 +293,7 @@ namespace T90M
 			LampFace = new Vector3(-0.475f, 2.419f - 1.369f, -1.872f + 0.527f),
 			LampNormal = new Vector3(0f, 0f, -1f),
 			DigitScale = 1.18f,
+			DigitSpacing = 0.059f,
 		};
 
 		static IEnumerator LateSetup(Vehicle vehicle, bool atSpawn)

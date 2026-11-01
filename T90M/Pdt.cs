@@ -74,6 +74,7 @@ namespace T90M
 			s.VisionType = NightVisionType.None;
 			s.LinkedNightSight = null;
 			SightMotion.Stabilised(s);
+			GunnerFcs.LeadClamp.NoLeadWhile(fcs, s);
 
 			const string file = "pdt.jsonc";
 			var spec = Reticles.Spec(file);

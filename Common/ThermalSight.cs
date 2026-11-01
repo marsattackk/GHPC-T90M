@@ -172,16 +172,20 @@ namespace T90M.Common
 		{
 			CameraSlot _slot;
 			CameraSpriteManager _sprites;
+			static readonly HashSet<CameraSlot> Slots = new HashSet<CameraSlot>();
+
+			internal static bool Showing { get { var a = CameraSlot.ActiveInstance; return a != null && Slots.Contains(a); } }
 
 			internal void Init(CameraSlot slot)
 			{
 				_slot = slot;
+				Slots.Add(slot);
 				slot.ActiveChanged += OnActive;
 			}
 
 			void OnDestroy()
 			{
-				if (_slot != null) _slot.ActiveChanged -= OnActive;
+				if (_slot != null) { _slot.ActiveChanged -= OnActive; Slots.Remove(_slot); }
 			}
 
 			float _nextLook;

@@ -28,6 +28,10 @@ This README describes **version 0.1.0**. No other mod needed, just MelonLoader.
    "Showcase of most playable vehicles" mission. In the campaign it's rarer than the T-90A, about half as common, and
    turns up after you've done 2 missions. You can turn that off or change it in the settings below.
 
+Once per game start the mod asks GitHub whether there's a newer release, and if there is, it puts one line in the
+MelonLoader console with a link to the releases page. Nothing in game, nothing gets downloaded or installed, and if
+you're offline it just doesn't say anything. Set `Check for updates` to false (Settings, below) to turn it off.
+
 To remove it, delete `Mods\T90M.dll` and the `Mods\T90M` folder. That's safe mid-campaign too, the game's campaign
 save doesn't keep a list of units, so nothing in it points at the T-90M.
 
@@ -108,8 +112,8 @@ hit. A box that's gone off is gone, a second hit on the same spot only meets the
 
 A Relikt box only goes off for something that's worth it. Machine-gun and autocannon rounds up to 30 mm, and fragments
 and spall, leave it whole, the same rule as on my T-90A. GHPC on its own sets ERA off on any hit, a PKT round included.
-By default a box that has gone off still looks the same, it just doesn't protect anything any more. Set
-`ERA destruction effects` to true and it's gone with a blast instead, the plate round it sooted and the nets over it cut.
+By default a box that has gone off is gone with a blast, the plate round it sooted and the nets over it cut. Set
+`ERA destruction effects` to false and it still looks the same instead, it just doesn't protect anything any more.
 
 - **Turret:** welded rolled steel at the model's own thickness, with the cheek filling set to match Russian estimates
   for the T-90M's turret front.
@@ -192,7 +196,8 @@ The T-90M has the screen half of the old Shtora and no IR jammer (the jammer lam
 
 - **Laser warning** all round: two precise heads on the turret front (45° either side) and two coarse ones on the sides.
   Get lased and a warning page comes up bottom right with a tone, showing which way it came from and what the system
-  did. The page is my take on the commander's touch screen, the real one's layout isn't published.
+  did. The page is my take on the commander's touch screen, the real one's layout isn't published. In the thermal
+  sight, the PDT and the panorama it goes bigger in the black bar to the right of the picture.
 - **Automatic 3D17 aerosol screens** from the smoke tubes towards a laser in the front sector. An AI tank whose laser is
   blocked by the screen has to judge the range by eye.
 - **From the vehicle menu** (TShU-1-2M): fire a screen where the gun points, or turn the turret to a laser that came from
@@ -250,13 +255,14 @@ before editing it):
 | `APFSDS` | `"3BM60"` / `"3BM42"` (where the game doesn't pick one itself) | 3BM60 |
 | `Armour preset` | `"game-scale"` / `"source-only"` | game-scale |
 | `Weathered paint` | true (dirt, wear and rust) / false (clean factory paint) | true |
-| `ERA destruction effects` | false (a set-off Relikt box looks as before) / true (it's gone with a blast, soot round it, the nets over it cut; for T-90Ms spawned after the change) | false |
+| `ERA destruction effects` | false (a set-off Relikt box looks as before) / true (it's gone with a blast, soot round it, the nets over it cut; for T-90Ms spawned after the change) | true |
 | `TShU-1-2M` | true (laser warning and automatic aerosol screens) / false (none of it: the game's ordinary smoke salvo) | true |
 | `TShU-1-2M automatic screens` | true (a laser from the front fires a screen by itself) / false (semi-automatic: the warning only, you fire the screen from the vehicle menu or with the smoke key) | true |
 | `TShU-1-2M alarm tone` | true (the laser warning sounds a tone) / false (the page only) | true |
 | `TShU-1-2M warning page` | true (the warning page shows bottom right) / false (the tone only) | true |
 | `TShU-1-2M page always on screen` | false (the page comes up on a warning and goes away after) / true (always on screen while you're in the T-90M) | false |
 | `Kord spent cases` | true (the Kord throws out its spent cases, they lie on the tank) / false (no cases, the belt still feeds) | true |
+| `Check for updates` | true (asks GitHub once per game start, one line in the MelonLoader console if there's a newer release) / false (no check) | true |
 
 There's also a `ConfigVersion` line at the end, the version that last wrote the section. Leave it alone, it's how the
 mod tells which settings are still on an old default.

@@ -61,4 +61,12 @@
     </Reference>
   </ItemGroup>
 
+  <!-- Build stamp (BuildStamp.targets, beside this file): AssemblyInformationalVersion "<version>+<commit>.public", logged on
+       load. The commit is the one this source was cleaned from when the release build passes it (-p:GitCommit=...), else "unknown". -->
+  <PropertyGroup>
+    <BuildFlavour Condition="'$(BuildFlavour)' == ''">public</BuildFlavour>
+    <StampAskGit>false</StampAskGit>
+  </PropertyGroup>
+  <Import Project="BuildStamp.targets" Condition="Exists('BuildStamp.targets')" />
+
 </Project>

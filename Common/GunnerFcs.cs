@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GHPC.Camera;
 using GHPC.Equipment;
 using GHPC.Equipment.Optics;
 using GHPC.Weapons;
@@ -19,6 +20,7 @@ namespace T90M.Common
 			public Vector2 LineOfSightLimits;
 			public float LineOfSightAzimuth;
 			public bool ViewStopsAtAzimuth;
+			public float LeadLimit;
 			public int RangeStep = 100;
 			public int DisplayRangeIncrement = 50;
 			public float FireGateAngle = 0.1f;
@@ -163,6 +165,7 @@ namespace T90M.Common
 			dayOptic.LocalElevationLimits = s.LineOfSightLimits;
 			if (s.ViewStopsAtAzimuth && s.LineOfSightAzimuth > 0f) dayOptic.LocalAzimuthLimits = new Vector2(-s.LineOfSightAzimuth, s.LineOfSightAzimuth);
 			AimClamp.Register(fcs, dayOptic, s.LineOfSightAzimuth);
+			LeadClamp.Register(fcs, s.LeadLimit);
 			SetPrivate(fcs, "_fixParallaxForVectorMode", false);
 
 			Resync(fcs, dayOptic);
@@ -228,6 +231,45 @@ namespace T90M.Common
 				{
 					if (Flag == null || Fcs.Count == 0 || !Fcs.Contains(__instance)) return;
 					Flag.SetValue(__instance, __instance.CurrentRange >= MinRange);
+				}
+			}
+		}
+
+		// GHPC's lead has no limit: tracking rate x range x flight time, tens of degrees after a long lase.
+		internal static class LeadClamp
+		{
+			static readonly Dictionary<FireControlSystem, float> Limit = new Dictionary<FireControlSystem, float>();
+
+			internal static void Register(FireControlSystem fcs, float deg)
+			{
+				foreach (var dead in Limit.Keys.Where(k => k == null).ToList()) Limit.Remove(dead);
+				if (fcs != null && deg > 0f) Limit[fcs] = deg;
+			}
+
+			internal static void NoLeadWhile(FireControlSystem fcs, CameraSlot slot)
+			{
+				foreach (var dead in Off.Keys.Where(k => k == null).ToList()) Off.Remove(dead);
+				if (fcs == null || slot == null) return;
+				if (!Off.TryGetValue(fcs, out var l)) Off[fcs] = l = new List<CameraSlot>();
+				if (!l.Contains(slot)) l.Add(slot);
+			}
+
+			static readonly Dictionary<FireControlSystem, List<CameraSlot>> Off = new Dictionary<FireControlSystem, List<CameraSlot>>();
+
+			[HarmonyPatch(typeof(FireControlSystem), "GetLeadWorldOffset")]
+			static class Patch
+			{
+				static void Postfix(FireControlSystem __instance, ref Vector3 __result)
+				{
+					try
+					{
+						if (Off.Count > 0 && Off.TryGetValue(__instance, out var slots) && slots.Any(x => x != null && x.IsActive)) { __result = Vector3.zero; return; }
+						if (Limit.Count == 0 || !Limit.TryGetValue(__instance, out float deg)) return;
+						float max = Mathf.Max(__instance.CurrentRange, 1f) * Mathf.Tan(deg * Mathf.Deg2Rad);
+						if (__result.sqrMagnitude <= max * max) return;
+						__result = __result.normalized * max;
+					}
+					catch (Exception e) { PatchGuard.Failed("Lead limit", e); }
 				}
 			}
 		}

@@ -14,6 +14,7 @@ namespace T90M.Common
 			public Vector3? BoxFaceR, BoxNormalR, BoxFaceL, BoxNormalL;
 			public float Standoff = 0.008f;
 			public float DigitScale = 1.25f;
+			public float? DigitSpacing;
 		}
 
 		internal static void Apply(Transform root, Transform turret, Settings s)
@@ -29,7 +30,7 @@ namespace T90M.Common
 				{
 					// Not sharedMesh, the number control works on the instance.
 					var mesh = mf.mesh;
-					if (done.Add(mesh)) ScaleDigits(mesh, s.DigitScale);
+					if (done.Add(mesh)) ScaleDigits(mesh, s.DigitScale, s.DigitSpacing);
 				}
 				var c = mf != null ? r.transform.TransformPoint(mf.mesh.bounds.center) : r.bounds.center;
 				r.transform.position += target - c;
@@ -48,18 +49,21 @@ namespace T90M.Common
 			}
 		}
 
-		static void ScaleDigits(Mesh mesh, float k)
+		static void ScaleDigits(Mesh mesh, float k, float? spacing)
 		{
 			var v = mesh.vertices;
 			if (v.Length == 0) return;
 			float cx = v.Average(p => p.x);
 			var groups = new[] { Enumerable.Range(0, v.Length).Where(i => v[i].x < cx).ToList(), Enumerable.Range(0, v.Length).Where(i => v[i].x >= cx).ToList() };
-			foreach (var g in groups)
-			{
-				if (g.Count == 0) continue;
-				var c = g.Aggregate(Vector3.zero, (a, i) => a + v[i]) / g.Count;
-				foreach (int i in g) v[i] = c + (v[i] - c) * k;
-			}
+			if (groups.Any(g => g.Count == 0)) return;
+			var centres = groups.Select(g => g.Aggregate(Vector3.zero, (a, i) => a + v[i]) / g.Count).ToArray();
+			float vanilla = Vector3.Distance(centres[0], centres[1]);
+			var mid = (centres[0] + centres[1]) * 0.5f;
+			var dir = (centres[1] - centres[0]).normalized;
+			float half = (spacing ?? vanilla) * 0.5f;
+			var targets = new[] { mid - dir * half, mid + dir * half };
+			for (int g = 0; g < 2; g++)
+				foreach (int i in groups[g]) v[i] = targets[g] + (v[i] - centres[g]) * k;
 			mesh.vertices = v;
 			mesh.RecalculateBounds();
 		}
