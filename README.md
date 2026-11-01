@@ -59,6 +59,21 @@ What changed, and what that means in game:
 | Main gun ammo | 42 rounds | 40: 22 in the carousel, 8 in the hull, 10 in the bustle box |
 | Rounds | 3BM42 / 3BM60, 3BK18M, 3OF26, 9M119M Invar (700 mm) | the same shells plus the 3OF82 Telnik air-burst, and the 9M119M1 Invar-M (850 mm) |
 
+What's flat out better on the T-90M:
+
+- **ERA:** Relikt adds about 250 / 650 where Kontakt-5 adds 140 / 550, and it's in the rubber side screens too.
+- **Screens:** nets on the turret and slats at the back. The T-90A has neither.
+- **Ammo out of the crew's way:** 10 of the 40 rounds sit in the bustle box behind blow-off lids, so a hit there
+  burns out the box and not the crew. On the T-90A all 42 are in the hull with the crew.
+- **Turret traverse:** 40°/s against 24°/s, so you get onto a target off to the side a lot quicker.
+- **Commander:** the PK PAN has a thermal channel and its own laser, and the commander can lay the gun or slew it
+  onto a target for the gunner. The T-90A's TKN-4S has day and night channels, no thermal, and can't do either.
+- **Missile:** the Invar-M goes through 850 mm against the Invar's 700.
+- **Telnik:** an air-burst round the T-90A doesn't have at all.
+- **Engine:** 1130 hp against 1000.
+
+What isn't better: the front armour under the ERA (below), it has no IR jammer, its Kord fires a lot slower, and it carries 2 rounds fewer.
+
 Under the ERA the front armour hasn't changed. The T-90M kept the T-90A's welded turret with the same cheek filling and
 the same glacis, which is why the numbers further down are pretty much the T-90A's (690 / 820 against 690 / 819 on the
 cheeks). Where it's actually better protected is the ERA, the screens and getting 10 rounds out of the crew's way.
