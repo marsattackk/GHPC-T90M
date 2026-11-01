@@ -31,6 +31,41 @@ This README describes **version 0.1.0**. No other mod needed, just MelonLoader.
 To remove it, delete `Mods\T90M.dll` and the `Mods\T90M` folder. That's safe mid-campaign too, the game's campaign
 save doesn't keep a list of units, so nothing in it points at the T-90M.
 
+## From the T-90A to the T-90M
+
+The T-90M "Proryv" (Object 188M) is what the T-90A turned into. Uralvagonzavod's design bureau started on it in the
+early 2010s as "Proryv-3", taking what worked on the T-90AM and its export version the T-90MS ("Proryv-2") and fixing
+what the army had found wrong with the older tanks. It was first shown at Army-2018 and the first ones reached the army
+in spring 2020. A lot of them aren't new builds at all, most are T-90As taken out of storage and rebuilt, so underneath
+it's basically the same tank. Same hull, running gear, autoloader and gearbox, still the T-72's 4.2 km/h reverse.
+
+What changed, and what that means in game:
+
+| | T-90A (my other mod) | T-90M (this one) |
+|---|---|---|
+| ERA | Kontakt-5, about +140 vs APFSDS / +550 vs HEAT | Relikt, about +250 / +650 (+600 on the hull), also in the rubber side screens |
+| Other screens | none | nets on the turret, slats at the back |
+| Turret | welded, every round inside the hull | the same welded front, plus an armoured bustle box on the rear with 10 rounds behind blow-off lids |
+| Gunner's sight | 1G46 with the ESSA thermal on its own head, 1A45T fire control | Sosna-U, day and thermal in one head, Kalina fire control |
+| Commander | TKN-4S day / night sight | PK PAN panorama, TV and thermal, can lay the gun and hand targets to the gunner |
+| Remote Kord | on the cupola, 2 belts of 150, 625 rounds a minute, PZU-7 or TKN-4S | on top of the panorama, one belt of 300, 200 or 100 rounds a minute, panorama only |
+| Defensive aids | Shtora-1: IR jammer, laser warning, aerosol screens | TShU-1-2M: laser warning and aerosol screens, no jammer |
+| Engine | V-92S2, 1000 hp | V-92S2F, 1130 hp |
+| Turret traverse | 24°/s | 40°/s |
+| Main gun ammo | 42 rounds | 40: 22 in the carousel, 8 in the hull, 10 in the bustle box |
+| Rounds | 3BM42 / 3BM60, 3BK18M, 3OF26, 9M119M Invar (700 mm) | the same shells plus the 3OF82 Telnik air-burst, and the 9M119M1 Invar-M (850 mm) |
+
+Under the ERA the front armour hasn't changed. The T-90M kept the T-90A's welded turret with the same cheek filling and
+the same glacis, which is why the numbers further down are pretty much the T-90A's (690 / 820 against 690 / 819 on the
+cheeks). Where it's actually better protected is the ERA, the screens and getting 10 rounds out of the crew's way.
+From the side and above it's still a T-72.
+
+On the mod side, I built the T-90M after the T-90A, on the same groundwork. Everything I worked out on the T-90A
+carries over: how the armour's put together, the ERA that doesn't go off for a PKT round, the Invar's tandem
+precursor, the Kord's belt feed and spent cases, the paint, the T-80B's crew voices, and a fix on one goes into the
+other. What's new is what's new on the real tank: the bustle box as its own compartment, the panorama with the Kord on
+it, Relikt and the nets, TShU-1-2M and the Telnik round. It's still its own mod, neither needs the other.
+
 ## "It's a War Thunder model, does it even work in GHPC?"
 
 Yes. The looks come from War Thunder, and so do the **shapes** of the armour plates, because War Thunder's damage model
