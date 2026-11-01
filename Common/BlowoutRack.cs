@@ -33,6 +33,7 @@ namespace T90M.Common
 			public float ResidualTnt = 1f, ResidualFlame = 2f, ResidualIgniteMin = 160f, ResidualIgniteMax = 170f, ResidualBurn = 180f, ResidualTemp = 600f;
 		}
 
+		// GHPC kills chassis power on a burst in any compartment. The box is sealed off from the crew and engine, so the tank keeps running.
 		internal sealed class Isolated : MonoBehaviour { public GHPC.Unit Unit; }
 
 		static readonly AccessTools.FieldRef<CompartmentExit, Compartment> ExitCompartment = Reflect.FieldRefAccess<CompartmentExit, Compartment>("_compartment");
@@ -40,12 +41,15 @@ namespace T90M.Common
 		[HarmonyPatch(typeof(CompartmentExit), nameof(CompartmentExit.SetFireRatioByFlameHeight))]
 		static class FireScalePatch
 		{
+			// The drawn flames only, the height that throws the lids and heats the box stays GHPC's.
 			static void Prefix(CompartmentExit __instance, ref float __0)
 			{
 				if (__instance != null) ExitCompartment(__instance);
 			}
 		}
 
+		// GHPC's cook-off blast is a sphere that hits its own tank through the floor, it took the engine out 1.4 m below.
+		// Own parts hidden while the box updates, so it goes up and out like the panels are meant to send it.
 		[HarmonyPatch(typeof(Compartment), nameof(Compartment.DoUpdate))]
 		static class VentPatch
 		{
@@ -102,6 +106,7 @@ namespace T90M.Common
 				.FirstOrDefault(c => c != null && c.GetComponentsInParent<GHPC.Utility.LateFollow>(true).Any(f => f.FollowTarget == bone));
 			if (sibling == null) { problems.Add($"no compartment volume following '{bone.name}' to put the box beside"); return; }
 
+			// Built inactive, Compartment.Awake has to see every field set.
 			var go = new GameObject(s.VolumeName);
 			go.SetActive(false);
 			Followers.PlaceOnBone(go.transform, bone, sibling.transform.parent);
@@ -135,7 +140,7 @@ namespace T90M.Common
 			if (old != null)
 			{
 				old.Clusters.Remove(rack.Flammables);
-				old.Parent?.Clusters.Remove(rack.Flammables);
+				old.Parent?.Clusters.Remove(rack.Flammables);   // a child compartment's clusters are listed in its parent too
 			}
 
 			var up = InteriorMap.Find(root, s.UpReference) ?? bone;

@@ -9,7 +9,7 @@ using MelonLoader.Utils;
 using T90M.Common;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.1.0", "marsattackk")]
+[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.1.1", "marsattackk")]
 [assembly: MelonGame("Radian Simulations LLC", "GHPC")]
 
 namespace T90M
@@ -144,6 +144,7 @@ namespace T90M
 		static byte[] _trimmedSkin;
 		static bool _trimmedSkinRead;
 
+		// The T-72M1's running gear is one skinned mesh with the skirts in it, so I ship a copy with them cut out.
 		static byte[] TrimmedSkin()
 		{
 			if (_trimmedSkinRead) return _trimmedSkin;
@@ -175,6 +176,7 @@ namespace T90M
 			var flir = Shader.Find("Standard (FLIR)");
 			foreach (var part in root.GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("T90M_")).ToArray())
 				if (part.parent == null || !part.parent.name.StartsWith("T90M_")) VehiclePaint.ApplyPaint(part.gameObject, template, flir, PaintedPrefix);
+			// Moving parts keep their bare group names until Station renames them, so match on any T90M_ parent.
 			VanillaMaterials.Apply(root, r => r.GetComponentsInParent<Transform>(true).Any(t => t.name.StartsWith("T90M_")), Roles);
 			if (HatchUndersides.Plain(root, "t90m_hatch_inner") == 0) MelonLogger.Warning($"{FriendlyName}: no hatch underside material found (old bundle?).");
 			try
@@ -192,6 +194,7 @@ namespace T90M
 			{
 				BaseRigT72M1.MoveEjectionMarkers(root, turret.TransformVector(new Vector3(-0.033f, 2.114f, -1.518f) - BaseRigT72M1.EjectionPortCentre));
 			}
+			// Before PortAxes moves the pivots, the pieces are placed in prefab space with the rig at rest.
 			var volumes = Armour(vehicle);
 			try { Interior.Apply(vehicle); }
 			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} interior failed (left as the T-72M1's): " + e); }
@@ -207,10 +210,12 @@ namespace T90M
 			var axes = PortAxes.FromRig(Rig, BaseRigT72M1.TurretPivot, BaseRigT72M1.GunPivot, FriendlyName);
 			if (axes != null) PortAxes.Apply(vehicle, axes);
 			else MelonLogger.Warning($"{FriendlyName}: bundle's rig map has no axes; the turret turns on the T-72M1's pivots.");
+			// Spawn only: Unit builds its weapon and camera lists straight after, a late station never makes it in.
 			if (atSpawn) try { Station.Apply(vehicle); }
 			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} commander's station failed (the station stays fixed): " + e); }
 			if (atSpawn) try { Modules.Build(vehicle); }
 			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} modules failed (the T-72M1's kept): " + e); }
+			// Left at the T-72M1's sight the laser starts inside the turret front and ranges our own ERA.
 			if (atSpawn) try { Sights.PlaceLaser(vehicle); }
 			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} laser placement failed (the T-72M1's kept): " + e); }
 			if (atSpawn) try { Sights.PlacePeriscope(vehicle); }
@@ -293,11 +298,12 @@ namespace T90M
 			LampFace = new Vector3(-0.475f, 2.419f - 1.369f, -1.872f + 0.527f),
 			LampNormal = new Vector3(0f, 0f, -1f),
 			DigitScale = 1.18f,
-			DigitSpacing = 0.059f,
+			DigitSpacing = 0.059f,   // two windows on the lamp, the T-72's 7.3 cm put each digit off its window
 		};
 
 		static IEnumerator LateSetup(Vehicle vehicle, bool atSpawn)
 		{
+			// A spawned unit's smoke launcher cached the crew before it existed and never fires without a refresh.
 			yield return SmokeLaunchers.RefreshCrewLater(vehicle, FriendlyName);
 			if (vehicle == null) yield break;
 			try { CrewVoices.Apply(vehicle, FriendlyName); }

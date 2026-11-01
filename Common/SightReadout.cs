@@ -43,7 +43,7 @@ namespace T90M.Common
 			{
 				if (o.Readouts.TryGetValue(s.Range, out var range))
 				{
-					optic.RangeText = range;
+					optic.RangeText = range;   // GHPC writes the range into it from here on
 					optic.RangeTextQuantize = s.RangeQuantize;
 					optic.RangeTextDivideBy = 1;
 					optic.RangeTextArchetype = s.RangeFormat;

@@ -10,7 +10,7 @@ namespace T90M
 {
 	internal static class Firepower
 	{
-		internal static readonly int[] Counts = { 20, 8, 4, 4, 4 };
+		internal static readonly int[] Counts = { 20, 8, 4, 4, 4 };   // mine, no source gives a regulation mix
 		internal static readonly int[] CarouselCounts = { 12, 4, 2, 0, 2 };
 		internal static readonly int[] HullRearCounts = { 4, 1, 1, 0, 0 };
 		internal static readonly int[] BustleCounts = { 4, 3, 1, 0, 2 };
@@ -21,9 +21,10 @@ namespace T90M
 			Prefix = "T90M_",
 			RackPath = "T-72 TURRET COLLIDERS/SPARE AMMO RACK",
 			RackName = "bustle box",
-			RetrievalDelay = 60f,
+			RetrievalDelay = 20f,   // made up, nobody times a crewman passing a round in through the roof
 			StorageDelay = 2f,
 			CompartmentName = "turret bustle",
+			// The M1's 2 m for 180 s burnt for ages on a box this size, these are mine. Lids still go on GHPC's flame height.
 			ResidualFlame = 0.5f,
 			ResidualBurn = 30f,
 			VolumeName = "Bustle Volume (COMPARTMENT)",
@@ -44,6 +45,7 @@ namespace T90M
 			UnitKey = T90MMod.UnitKey,
 			Prefix = "t90m",
 			SourceUnit = "T80B",
+			// GHPC matches rounds by name, so these can't share one with the T-90A's or the two lists mix.
 			Apfsds = new[]
 			{
 				new PortAmmo.Round
@@ -83,6 +85,7 @@ namespace T90M
 					a.RhaPenetration = 850f;
 					a.Tandem = true;
 					a.Mass = 17.2f;
+					// GHPC flies a missile at one constant speed, 5 km in 17 s.
 					a.MuzzleVelocity = 294f;
 					a.MaximumRange = 5000f;
 					a.ArmingDistance = 100f;
@@ -103,6 +106,7 @@ namespace T90M
 				},
 			},
 			TotalCounts = Counts,
+			// GHPC restocks from the end of this list: hull rack first, the bustle box last.
 			Racks = new[]
 			{
 				new PortAmmo.Rack { Index = 0, Counts = CarouselCounts, MissileSlots = new[] { 21, 20 } },
@@ -134,7 +138,7 @@ namespace T90M
 			ElementMass = 0.003f,
 			ElementArea = 4.86e-5f,
 			ElementCaliber = 7.9f,
-			ElementCoeff = 0.6f,
+			ElementCoeff = 0.6f,   // GHPC's Coeff is half the Cd, a tumbling cylinder is about 1.2
 			ElementPen = 6f,
 			ElementPenSpeed = 1200f,
 		};

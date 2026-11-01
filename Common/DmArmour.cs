@@ -37,7 +37,7 @@ namespace T90M.Common
 				var line = raw.TrimEnd('\r');
 				if (line.Length == 0 || line.StartsWith("#")) continue;
 				var f = line.Split('\t');
-				if (f.Length < 11) continue;
+				if (f.Length < 11) continue;   // older bundles stop at source, no slat column
 				d.Add(new Entry
 				{
 					Piece = f[0], Mode = f[1], Ke = float.Parse(f[2], CI), Ce = float.Parse(f[3], CI), KeAfter = float.Parse(f[4], CI), CeAfter = float.Parse(f[5], CI),

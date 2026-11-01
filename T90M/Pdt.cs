@@ -74,6 +74,7 @@ namespace T90M
 			s.VisionType = NightVisionType.None;
 			s.LinkedNightSight = null;
 			SightMotion.Stabilised(s);
+			// It looks along the bore, so the computer's lead swung the view ahead on a fast turn and snapped it back.
 			GunnerFcs.LeadClamp.NoLeadWhile(fcs, s);
 
 			const string file = "pdt.jsonc";
@@ -100,6 +101,7 @@ namespace T90M
 			foreach (var p in problems) MelonLogger.Warning($"{Tag} ПДТ: {p}");
 		}
 
+		// GHPC only lines up a reticle's Impact group on sights laid on the impact point, this one looks along the bore.
 		[DefaultExecutionOrder(20)]
 		internal class Mark : MonoBehaviour
 		{
@@ -110,6 +112,7 @@ namespace T90M
 			void LateUpdate()
 			{
 				if (_o?.reticleMesh == null || _fcs == null || _o.slot == null || !_o.slot.IsActive) return;
+				// At range 0 GHPC's impact point is the gun itself, the mark jumped 303 mrad. No range, mark on the bore.
 				var p = _fcs.CurrentRange >= 1f ? _fcs.ImpactPointWorldPosition(false) : _o.slot.transform.position + _o.slot.transform.forward * 1000f;
 				_o.reticleMesh.SetAlignment(ReticleTree.GroupBase.Alignment.Impact, p);
 			}

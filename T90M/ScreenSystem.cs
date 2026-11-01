@@ -20,6 +20,7 @@ namespace T90M
 
 		internal static void Apply(Vehicle vehicle)
 		{
+			// Off just means no station. Every ShtoraScreen patch does nothing without one and the tubes fire GHPC's own salvo.
 			bool on = T90MMod.ScreensOn.Value;
 			if (!on) return;
 			var s = Defaults.Copy();
@@ -28,6 +29,7 @@ namespace T90M
 			bool page = T90MMod.ScreensPage.Value;
 			bool pageAlways = T90MMod.ScreensPageAlways.Value;
 			s.Display = page ? ShtoraScreen.Look.ScreenPage : ShtoraScreen.Look.ControlPanel;
+			// The page plays its own tone, the Hud's only sounds when there's no page, so never both.
 			s.PageTone = s.AlarmTone && page;
 			s.AlarmTone = s.AlarmTone && !page;
 			s.PanelShown = false;

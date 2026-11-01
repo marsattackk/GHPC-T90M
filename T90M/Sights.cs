@@ -25,6 +25,7 @@ namespace T90M
 			LaserMax = 10000f,
 			LineOfSightLimits = new Vector2(-10f, 30f),
 			LineOfSightAzimuth = 7.5f,
+			// Lead kept inside the head's 7.5 deg travel. Unclamped, the gun ran off ahead after a long lase and dragged the view with it.
 			LeadLimit = 7.5f,
 			RangeStep = 100,
 			DisplayRangeIncrement = 10,
@@ -34,6 +35,7 @@ namespace T90M
 
 		const float ThermalWide = 6.75f, ThermalNarrow = 2.25f, ThermalZoom = 1.125f;
 		const int ThermalHeight = 576;
+		// The render fills the 16:9 screen, 1024 across gives 768 over the 4:3 picture in the middle.
 		const int ThermalWidth = 1024;
 		const float LaserRecharge = 2f;
 
@@ -74,7 +76,7 @@ namespace T90M
 			var slot = root.GetComponentsInChildren<CameraSlot>(true).FirstOrDefault(s => s.name == "Gunner's Periscope Camera");
 			if (slot == null) { MelonLogger.Warning($"{T90MMod.FriendlyName}: gunner's periscope slot not found; left as it is."); return; }
 			slot.transform.position = root.TransformPoint(PeriscopePoint);
-			slot.DirectAttachOnly = true;
+			slot.DirectAttachOnly = true;   // Unit skips these in Cycle View, the slot stays for anything attached to it
 		}
 
 		internal class Marker : MonoBehaviour { }
@@ -91,6 +93,7 @@ namespace T90M
 			day.slot.OtherFovs = new[] { DayNarrow };
 			day.slot.AllowFreeZoom = false;
 			day.slot.fovAspect = true;
+			// The T-72M1's sight has no zoom so no zoom sound either, these are the T-80B's.
 			day.slot.ZoomInAudioEvent = "event:/Effects/Optic/Optic_Zoom_In";
 			day.slot.ZoomOutAudioEvent = "event:/Effects/Optic/Optic_Zoom_Out";
 			SightMotion.Stabilised(day.slot);
@@ -132,6 +135,7 @@ namespace T90M
 
 		static string ThermalMarks(UsableOptic o, List<string> problems)
 		{
+			// GHPC won't draw a dark reticle over a thermal picture, so every mark is a screen item.
 			if (o.reticleMesh != null) o.reticleMesh.gameObject.SetActive(false);
 			var wideSpec = Reticles.Spec("sosna_u_thermal_wide.jsonc");
 			var narrowSpec = Reticles.Spec("sosna_u_thermal_narrow.jsonc");

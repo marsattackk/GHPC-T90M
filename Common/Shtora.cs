@@ -191,9 +191,7 @@ namespace T90M.Common
 		}
 
 		static readonly Dictionary<LiveRound, Flight> Flights = new Dictionary<LiveRound, Flight>();
-		// GHPC reseeds UnityEngine.Random from the clock all over the place (RandomUtil.RandomizeUnityRandom).
-		static readonly System.Random Rng = new System.Random();
-		static float Draw() => (float)Rng.NextDouble();
+		static float Draw() => ModRandom.Value;
 
 		static bool Jammable(AmmoType a, Settings s) =>
 			a != null && a.Guidance == AmmoType.GuidanceType.SACLOS && a.Name != null && s.Missiles.Any(p => a.Name.StartsWith(p, StringComparison.OrdinalIgnoreCase));

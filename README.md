@@ -12,7 +12,7 @@ two work fine installed together.
   <img src="docs/images/t90m_firing.jpg" width="49%" alt="The T-90M firing">
 </p>
 
-This README describes **version 0.1.0**. No other mod needed, just MelonLoader.
+This README describes **version 0.1.1**. No other mod needed, just MelonLoader.
 
 ## Installing it
 
@@ -326,7 +326,7 @@ vanilla assets later doesn't break it.
 | 3OF82 "Telnik" | the 3OF26's shell with an air-burst fuse, 450 fragments in a 20° cone |
 | 3BK18M HEAT, 3OF26 HE-Frag | the game's own rounds |
 
-The bustle box is refilled only outside combat, like on the real tank: rounds come out of it (slowly, a minute each)
+The bustle box is refilled only outside combat, like on the real tank: rounds come out of it (slowly, 20 s each)
 but nothing restocks it in a fight.
 
 </details>

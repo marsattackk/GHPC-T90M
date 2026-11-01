@@ -70,6 +70,7 @@ namespace T90M.Common
 			go.tag = "Penetrable";
 			var col = go.AddComponent<MeshCollider>();
 			col.sharedMesh = go.GetComponent<MeshFilter>().sharedMesh;
+			// VariableArmor measures entry to exit through its own mesh, it has to stay non-convex.
 			col.convex = e.Convex;
 			if (e.Variable)
 			{
@@ -122,6 +123,7 @@ namespace T90M.Common
 		internal static Material XrayMaterial(string spec, string tag)
 		{
 			if (_xray.TryGetValue(spec, out var m) && m != null) return m;
+			// No handle on GHPC's x-ray material, but the T-72M1's cheek array carries it, so any loaded AarVisual will do.
 			var from = Resources.FindObjectsOfTypeAll<AarVisual>().FirstOrDefault(v => v.AarMaterial != null && v.AarMaterial.name == XrayTemplate);
 			m = from != null ? from.AarMaterial : null;
 			if (m == null) return null;
@@ -137,6 +139,7 @@ namespace T90M.Common
 		internal static readonly string[] Materials = DmArmour.Materials;
 		static readonly Dictionary<string, ArmorCodexScriptable> _codex = new Dictionary<string, ArmorCodexScriptable>();
 
+		// Our own codex assets. The vanilla ones are shared by every tank in the game, never edit them.
 		static ArmorCodexScriptable Codex(DmArmour.Entry e, string tag)
 		{
 			if (!Materials.Contains(e.Material)) return null;

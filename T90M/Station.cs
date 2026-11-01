@@ -112,6 +112,7 @@ namespace T90M
 			cradleT.SetPositionAndRotation(W(cradleM.Pivot), root.rotation * Quaternion.FromToRotation(Vector3.right, cradleM.Axis.normalized));
 			Transform Carrier(string g) => g == drumM.Group ? frame : g == cradleM.Group ? cradleT : null;
 
+			// The model has the Kord pitched 1.17 deg nose down with the turret, GHPC lays the cradle level on the aim.
 			float pitch = rig.HasAxes ? rig.PitchDeg : 0f;
 			void Level(Transform t) => t.RotateAround(cradleT.position, cradleT.right, -pitch);
 			var visOf = new Dictionary<string, Transform>();
@@ -160,6 +161,7 @@ namespace T90M
 			var gun = RemoteMg.CloneGun(d, holder.transform, new RemoteMg.GunSettings { Name = KordName, DamageName = "6P49MT Kord", BeltRounds = BeltRounds, Belts = Belts, RoundsPerMinute = RateHigh, B32PerTracer = B32PerTracer }, Tag);
 			if (gun == null) { Object.Destroy(holder); return; }
 			int removed = gun.Removed, scrubbed = gun.Scrubbed;
+			// Ends up last under the root, GetComponentInChildren<FireControlSystem>() elsewhere has to find the gunner's.
 			var (fcsGo, fcs, tvGo, r2, s2) = RemoteMg.CloneFcs(d, holder.transform, "T90M Kord fire control");
 			removed += r2; scrubbed += s2;
 			var head = new GameObject("T90M PK PAN head").transform;
@@ -175,6 +177,7 @@ namespace T90M
 			scripts.transform.SetParent(root, false);
 			var drum = RemoteMg.Platform(scripts.transform, "RWS drive", d.CupolaDrive, drumT, EnumHelpers.Axis3.Y, Vector2.zero, DrumSpeed, null);
 			var cradle = RemoteMg.Platform(scripts.transform, "RWS elevation drive", d.ElevationDrive, cradleT, EnumHelpers.Axis3.X, Elevation, CradleSpeed, null);
+			// GHPC ignores a goal more than 90 deg off, the drum froze on a quick slew behind.
 			drum.ProtectFromBadProjection = false;
 			cradle.ProtectFromBadProjection = false;
 			drum.Stabilized = cradle.Stabilized = true;
@@ -185,6 +188,8 @@ namespace T90M
 			var th = RemoteMg.CloneOptic(d, d.CommanderOptic, holder.transform, ref removed, ref scrubbed);
 			var dtv = RemoteMg.CloneOptic(d, d.CommanderOptic, holder.transform, ref removed, ref scrubbed);
 			var dth = RemoteMg.CloneOptic(d, d.CommanderOptic, holder.transform, ref removed, ref scrubbed);
+			// Onto the head while inactive. ThermalSight adds a post volume beside the optic's post, and left in the holder it
+			// dies with it and EnablePost throws on it.
 			foreach (var o in new[] { tv, th, dtv, dth })
 			{
 				o.gameObject.SetActive(false);
@@ -205,6 +210,7 @@ namespace T90M
 			gun.Go.SetActive(true);
 			fcsGo.transform.SetParent(scripts.transform, false);
 			fcsGo.SetActive(true);
+			// Night channels first, a day slot marks its linked night sight when it wakes.
 			foreach (var o in new[] { th, dth, tv, dtv })
 			{
 				if (o.postAdditional != null && o.postAdditional.Any(v => v == null || v.transform.IsChildOf(holder.transform)))
@@ -400,6 +406,7 @@ Prefix = "T90M_", MeshName = "T90M Kord", BeltMaterial = "t90m_mg_6p49_kord_ammo
 			var day = GuidanceBeam.DayOptic(st.MainFcs);
 			var slots = new[] { day?.slot, day?.slot.LinkedNightSight, st.Pdt?.slot }.Where(s => s != null).ToArray();
 			foreach (var s in slots) s.ExclusiveWeapons = gunner;
+			// The T-64B's NSVT starts unstabilised, and BoresightStabilized only follows the aim with the stabiliser on.
 			st.Fcs.SetStabsActive(true);
 			RemoteMg.LateSetup(vehicle);
 		}
@@ -429,6 +436,7 @@ Prefix = "T90M_", MeshName = "T90M Kord", BeltMaterial = "t90m_mg_6p49_kord_ammo
 				{
 					var from = _st.Fcs.ReferenceTransform.position;
 					var aim = _st.Fcs.AimWorldVector;
+					// A range lased on another line puts the gun on the wrong point, the sights stand 2 m apart.
 					bool lasedHere = _st.Fcs.CurrentRange > 0f && !_st.Fcs.RangeInvalid && _lasedLine != Vector3.zero && Vector3.Angle(aim, _lasedLine) < 0.5f;
 					if (lasedHere) _st.MainFcs.SetAimWorldPosition(from + aim.normalized * _st.Fcs.CurrentRange);
 					else _st.MainFcs.SetAimVector(aim, true);
@@ -451,6 +459,7 @@ Prefix = "T90M_", MeshName = "T90M Kord", BeltMaterial = "t90m_mg_6p49_kord_ammo
 
 		static bool IsPlayers(Fitted st) => PlayerInput.Instance != null && (object)PlayerInput.Instance.CurrentPlayerUnit == st.GetComponentInParent<Vehicle>();
 
+		// GHPC's Aim Override swings the active weapon at the AI's target. In the panorama that key hands the line to the gunner instead.
 		[HarmonyPatch(typeof(CrewBrainWeaponsModule), nameof(CrewBrainWeaponsModule.SetAimVector))]
 		static class AimOverridePatch
 		{

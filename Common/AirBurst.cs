@@ -102,6 +102,7 @@ namespace T90M.Common
 			var f = new Fuse { Mode = st.Mode, Range = range };
 			if (st.Mode != Mode.Impact && range >= S.MinRange)
 			{
+				// The range runs from the laser, the round starts at the muzzle about 6 m ahead of it.
 				float to = st.Mode == Mode.Short ? range - S.ShortOf : range;
 				var dir = st.Fcs.AimWorldVector.sqrMagnitude > 1e-6f ? st.Fcs.AimWorldVector.normalized : st.Gun.MuzzleIdentity.forward;
 				var from = st.Fcs.LaserOrigin != null ? st.Fcs.LaserOrigin : st.Fcs.ReferenceTransform;
@@ -111,6 +112,7 @@ namespace T90M.Common
 			st.Breech = f;
 		}
 
+		// Not GHPC's ballistic computer, its flight times come out one 0.02 s step short.
 		static float FlightTime(AmmoType a, Vector3 dir, float distance)
 		{
 			if (distance <= 0f) return 0f;
@@ -162,6 +164,7 @@ namespace T90M.Common
 				catch (Exception e) { Flights.Remove(__instance); PatchGuard.Failed($"{S?.Tag} {S?.RoundName} fuse", e); }
 			}
 
+			// GHPC picks a burst's effect by the surface it hit, in thin air it finds none and draws nothing.
 			static void Postfix(LiveRound __instance)
 			{
 				if (_drawn == null || _drawn != __instance) return;
@@ -189,11 +192,12 @@ namespace T90M.Common
 			{
 				return;
 			}
+			// GHPC bursts a timed round where it was at the frame's start, so it goes onto the burst point first.
 			r.transform.position = s1.position;
 			Motion(r) = s1;
 			FuseActive(r) = true;
 			FuseLeft(r) = 0f;
-			Armed(r) = true;
+			Armed(r) = true;   // rounds only arm on a hit, unarmed it bursts as a dud
 			_drawn = r;
 			_drawnAt = s1.position;
 			f.Point = s1.position;
@@ -236,6 +240,7 @@ namespace T90M.Common
 			var info = Element();
 			for (int i = 0; i < S.Elements; i++)
 			{
+				// sqrt spreads them evenly over the cone's cross-section, not bunched in the middle
 				float rr = tan * Mathf.Sqrt(UnityEngine.Random.value), phi = 2f * Mathf.PI * UnityEngine.Random.value;
 				var dir = (fwd + rr * (Mathf.Cos(phi) * right + Mathf.Sin(phi) * up)).normalized;
 				var e = marshaller.GetRoundOfVisualType(LiveRoundMarshaller.LiveRoundVisualType.Invisible);
@@ -288,6 +293,7 @@ namespace T90M.Common
 			}
 		}
 
+		// GetSuperelevation doesn't know which fire control asked, the Update prefix tells it.
 		static FireControlSystem _gate;
 
 		[HarmonyPatch(typeof(FireControlSystem), "Update")]

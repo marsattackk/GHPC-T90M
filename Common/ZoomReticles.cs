@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace T90M.Common
 {
+	// GHPC draws every reticle in the first focal plane, so a mark that keeps its size on screen needs one per zoom step.
 	internal sealed class ZoomReticles : MonoBehaviour
 	{
 		static readonly FieldInfo Smr = Reflect.Field(typeof(ReticleMesh), "SMR");
