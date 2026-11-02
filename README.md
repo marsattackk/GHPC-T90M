@@ -1,5 +1,10 @@
 # T-90M for Gunner, HEAT, PC!
 
+> [!WARNING]
+> **This mod is still in development.** It's an early release, it's not finished, and there are probably a few bugs
+> in it I haven't found yet. It plays, but things can still change from one version to the next. If something looks
+> or behaves wrong, it probably is, so tell me (see [Bugs and suggestions](#bugs-and-suggestions)).
+
 A Russian **T-90M "Proryv"** you can drive and fight in GHPC, as its own unit. Relikt ERA, the Sosna-U gunner's sight,
 the commander's PK PAN panorama with the remote Kord on top of it, the TShU-1-2M screen system, 3BM60 and the Invar-M
 missile, and the 3OF82 Telnik air-burst round.
@@ -248,7 +253,7 @@ GHPC, from Russian sources.
 
 ## Bugs and suggestions
 
-This is the first release, so there's a fair chance a few bugs got through. Suggestions, fixes, better sources, pull
+The mod is still in development, so there's a fair chance a few bugs got through. Suggestions, fixes, better sources, pull
 requests, whatever you've got, and if you know something about the real T-90M that the mod gets wrong, tell me.
 
 Found a bug? Open an [issue](../../issues) and attach `MelonLoader\Latest.log` from the game folder. The mod writes a
