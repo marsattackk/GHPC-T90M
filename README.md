@@ -270,6 +270,9 @@ warning there whenever something didn't load right, a game update has renamed so
 into the game failed (the game carries on without it). If the smoke key ever fires nothing, it writes one line there
 saying why.
 
+I only make and test the mod on the current Steam version of GHPC. A cracked copy or an old build might not load it at
+all, and I can't help with those, so make sure you're on the latest Steam version before opening an issue.
+
 ---
 
 ## More details
