@@ -44,6 +44,7 @@
     <EmbeddedResource Include="Resources\pk_pan_tv_wide.jsonc" LogicalName="pk_pan_tv_wide.jsonc" />
     <EmbeddedResource Include="Resources\pk_pan_tv_narrow.jsonc" LogicalName="pk_pan_tv_narrow.jsonc" />
     <EmbeddedResource Include="Resources\pdt.jsonc" LogicalName="pdt.jsonc" />
+    <EmbeddedResource Include="Resources\asc_marks.jsonc" LogicalName="asc_marks.jsonc" />
     <EmbeddedResource Include="Resources\modules_built.json" LogicalName="modules_built.json" />
     <EmbeddedResource Include="Resources\interior_map.txt" LogicalName="interior_map.txt" />
     <EmbeddedResource Include="Resources\gun_depression.txt" LogicalName="gun_depression.txt" />

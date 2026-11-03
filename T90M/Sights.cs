@@ -30,6 +30,7 @@ namespace T90M
 			RangeStep = 100,
 			DisplayRangeIncrement = 10,
 			FireGateAngle = 0.1f,
+			FireWhenLaid = () => T90MMod.FireWhenLaid == null || T90MMod.FireWhenLaid.Value,
 			ManualMode = false,
 		};
 
@@ -79,7 +80,10 @@ namespace T90M
 			slot.DirectAttachOnly = true;   // Unit skips these in Cycle View, the slot stays for anything attached to it
 		}
 
-		internal class Marker : MonoBehaviour { }
+		internal class Marker : MonoBehaviour
+		{
+			internal ReticleBuild.Overlay DayReadout;
+		}
 
 		static void ApplyDay(UsableOptic day, List<string> problems)
 		{
@@ -98,6 +102,8 @@ namespace T90M
 			day.slot.ZoomOutAudioEvent = "event:/Effects/Optic/Optic_Zoom_Out";
 			SightMotion.Stabilised(day.slot);
 			var overlay = ReticleBuild.BuildOverlay(spec, day.transform, (float)spec.Fov, problems);
+			var marker = day.GetComponent<Marker>();
+			if (marker != null) marker.DayReadout = overlay;
 			string mono = Mono(spec, "Mono"), digits = Mono(spec, "MonoDigits");
 			SightReadout.Attach(day, overlay, new SightReadout.Settings
 			{

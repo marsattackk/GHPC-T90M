@@ -7,6 +7,7 @@ using GHPC.Equipment;
 using GHPC.Equipment.Optics;
 using GHPC.Weapons;
 using HarmonyLib;
+using MelonLoader;
 using Reticle;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace T90M.Common
 			public int RangeStep = 100;
 			public int DisplayRangeIncrement = 50;
 			public float FireGateAngle = 0.1f;
+			public Func<bool> FireWhenLaid;
 			public bool ManualMode = true;
 		}
 
@@ -147,7 +149,16 @@ namespace T90M.Common
 			if (s.FireGateAngle >= 0f) fcs.FireGateAngle = s.FireGateAngle;
 			fcs.SuperelevateFireGating = true;
 			fcs.IgnoreHorizontalForFireGating = true;
-			OwnLayGate(fcs);
+			if (s.FireWhenLaid == null || s.FireWhenLaid())
+			{
+				OwnLayGate(fcs);
+				LaidGate.Register(fcs);
+			}
+			else
+			{
+				OwnLay.Remove(fcs);
+				LaidGate.Fcs.Remove(fcs);
+			}
 
 			fcs.HasManualMode = s.ManualMode;
 			fcs.ManualModeTriggers = s.ManualMode ? new[] { FcsManualModeStartTrigger.SetRangeManually } : new FcsManualModeStartTrigger[0];
@@ -182,6 +193,77 @@ namespace T90M.Common
 			fcs.FireGateOverrideTransform = null;
 		}
 
+		// GHPC's DegreesOffset gate reads 0 outside the drive's stabilised mode and when the goal is clipped to the barrel:
+		// the gun fires wherever it is. Measure the lay yourself.
+		internal static class LaidGate
+		{
+			internal static readonly HashSet<FireControlSystem> Fcs = new HashSet<FireControlSystem>();
+			const float DefaultAngle = 0.1f;
+			const int EpisodesLogged = 5;
+			static readonly Dictionary<FireControlSystem, Frame> _frames = new Dictionary<FireControlSystem, Frame>();
+			sealed class Frame { public bool Shut; public float Off; public bool Holding; public int Episodes, Held; }
+
+			internal static void Register(FireControlSystem fcs)
+			{
+				Fcs.RemoveWhere(k => k == null);
+				foreach (var k in _frames.Keys.Where(k => k == null).ToList()) _frames.Remove(k);
+				if (fcs != null) Fcs.Add(fcs);
+			}
+
+			internal static float Off(FireControlSystem fcs)
+			{
+				if (fcs == null || !fcs.StabsActive || fcs.CurrentRange <= 0f || !fcs.SuperelevateWeapon) return 0f;
+				var gated = fcs.GatedAimablePlatforms;
+				if (gated == null || gated.Length == 0) return 0f;
+				Vector3 lay = fcs.CompensatedWeaponVector(fcs.SuperleadWeapon);
+				if (lay == Vector3.zero) return 0f;
+				float worst = 0f;
+				foreach (var p in gated)
+				{
+					if (p == null || p.Transform == null) continue;
+					Vector3 right = p.Transform.right;
+					float a = Vector3.Angle(Vector3.ProjectOnPlane(lay, right), Vector3.ProjectOnPlane(p.Transform.forward, right));
+					if (a > worst) worst = a;
+				}
+				return worst;
+			}
+
+			internal static bool Shut(FireControlSystem fcs)
+			{
+				if (!_frames.TryGetValue(fcs, out var f)) _frames[fcs] = f = new Frame();
+				f.Off = Off(fcs);
+				float gate = fcs.FireGateAngle > 0f ? fcs.FireGateAngle : DefaultAngle;
+				f.Shut = f.Off > gate;
+				return f.Shut;
+			}
+
+			[HarmonyPatch(typeof(FireControlSystem), nameof(FireControlSystem.FiringBlocked), MethodType.Getter)]
+			static class Patch
+			{
+				static void Postfix(FireControlSystem __instance, ref bool __result)
+				{
+					try
+					{
+						if (Fcs.Count == 0 || !Fcs.Contains(__instance)) return;
+						bool shut = Shut(__instance);
+						var f = _frames[__instance];
+						if (shut && !__result)
+						{
+							if (!f.Holding) { f.Holding = true; f.Held = 0; }
+							f.Held++;
+						}
+						else if (f.Holding)
+						{
+							f.Holding = false;
+							if (f.Held > 0 && f.Episodes < EpisodesLogged) f.Episodes++;
+						}
+						if (shut) __result = true;
+					}
+					catch (Exception e) { PatchGuard.Failed("Fire only when laid", e); }
+				}
+			}
+		}
+
 		// DoLase doesn't skip the unit's own colliders, but a ray starting inside one misses it.
 		internal static Transform LaserWindow(Transform root, FireControlSystem fcs, Transform turret, Vector3 window, string name)
 		{
@@ -195,7 +277,7 @@ namespace T90M.Common
 
 		internal static void HeadView(string tag, Transform window, params Transform[] parts)
 		{
-			if (window == null || window.parent == null) { MelonLoader.MelonLogger.Warning($"{tag}: no laser window; the sight's view stays on the base sight."); return; }
+			if (window == null || window.parent == null) { MelonLogger.Warning($"{tag}: no laser window; the sight's view stays on the base sight."); return; }
 			foreach (var p in parts.Where(x => x != null).Distinct())
 			{
 				var h = p.GetComponent<HeadPoint>() ?? p.gameObject.AddComponent<HeadPoint>();
@@ -294,9 +376,32 @@ namespace T90M.Common
 			}
 
 			void OnDisable() => Live.Remove(this);
-			static void PreCull(Camera _)
+			static void PreCull(Camera _) => PutAll();
+			static void PutAll()
 			{
 				foreach (var h in Live) if (h != null) h.Put();
+			}
+
+			// GHPC's instancer draws grass and trees only for a camera that hasn't moved since its LateUpdate, so the head goes in first.
+			[HarmonyPatch]
+			static class BeforeVegetation
+			{
+				static bool _warned;
+				static MethodBase Target() => AccessTools.Method(AccessTools.TypeByName("GHPC.Rendering.Instancing.InstancedMeshRenderer"), "LateUpdate");
+				static bool Prepare()
+				{
+					bool ok = Target() != null;
+					if (!ok && !_warned) _warned = true; else return ok;
+					MelonLogger.Warning("Gunner's sight head view: GHPC's vegetation renderer not found; grass and trees may drop out in the sight while the gun moves.");
+					return ok;
+				}
+
+				static MethodBase TargetMethod() => Target();
+				static void Prefix()
+				{
+					try { if (Live.Count > 0) PutAll(); }
+					catch (Exception e) { PatchGuard.Failed("Head view before vegetation", e); }
+				}
 			}
 		}
 
@@ -318,9 +423,35 @@ namespace T90M.Common
 				catch (Exception e) { PatchGuard.Failed("Laser on the sight head", e); }
 			}
 
+			// A sight with its own rangefinder lases from its own window while it's the view, else the spot sits off its centre.
+			internal static void FromWhile(FireControlSystem fcs, CameraSlot slot, Transform window, float maxRange)
+			{
+				foreach (var dead in Others.Keys.Where(k => k == null).ToList()) { Others.Remove(dead); Home.Remove(dead); }
+				if (fcs == null || slot == null || window == null) return;
+				if (!Others.TryGetValue(fcs, out var l)) Others[fcs] = l = new List<(CameraSlot, Transform, float)>();
+				l.Add((slot, window, maxRange));
+			}
+
+			static readonly Dictionary<FireControlSystem, List<(CameraSlot slot, Transform window, float max)>> Others = new Dictionary<FireControlSystem, List<(CameraSlot, Transform, float)>>();
+			static readonly Dictionary<FireControlSystem, (Transform origin, float max)> Home = new Dictionary<FireControlSystem, (Transform, float)>();
+
 			static void HoldNow(FireControlSystem fcs)
 			{
 				if (Sights.Count == 0 || !Sights.ContainsKey(fcs) || fcs.LaserOrigin == null) return;
+				if (Others.Count > 0 && Others.TryGetValue(fcs, out var others))
+				{
+					if (!others.Any(o => o.window == fcs.LaserOrigin)) Home[fcs] = (fcs.LaserOrigin, fcs.MaxLaserRange);
+					var home = Home[fcs];
+					var want = others.FirstOrDefault(o => o.slot != null && o.slot.IsActive && o.window != null);
+					if (want.window != null)
+					{
+						fcs.LaserOrigin = want.window;
+						fcs.MaxLaserRange = want.max > 0f ? want.max : home.max;
+						if (fcs.LaserAim == LaserAimMode.ImpactPoint) want.window.forward = fcs.AimWorldVector;
+						return;
+					}
+					if (fcs.LaserOrigin != home.origin && home.origin != null) { fcs.LaserOrigin = home.origin; fcs.MaxLaserRange = home.max; }
+				}
 				var w = Limit(fcs, fcs.LaserAim == LaserAimMode.ImpactPoint ? fcs.AimWorldVector : fcs.LaserOrigin.forward, out bool held);
 				if (!held) return;
 				fcs.LaserOrigin.forward = w;

@@ -48,6 +48,7 @@ namespace T90M
 			RangeStep = 100,
 			DisplayRangeIncrement = 5,
 			FireGateAngle = -1f,
+			FireWhenLaid = () => T90MMod.FireWhenLaid == null || T90MMod.FireWhenLaid.Value,
 			ManualMode = false,
 		};
 		static readonly Vector3 Eye = new Vector3(0.499f, 2.597f, -1.606f);
@@ -204,6 +205,13 @@ namespace T90M
 			SetupThermal(tv, th, "PK PAN thermal channel", fcs, head, new[] { gun.Weapon }, new[] { gun.B32 }, cmdHead, problems);
 			SetupThermal(dtv, dth, "PK PAN Dubl thermal", mainFcs, head, gunnerWeapons, mainRounds, cmdHead, problems);
 			dtv.gameObject.AddComponent<ThermalSight.GateFollowsSight>().Init(mainFcs, dtv.slot);
+			// In Дубль the gun's laser leaves from the panorama's window, else the spot sits off its centre close in.
+			var panLaser = new GameObject("T90M PK PAN laser window (Dubl)").transform;
+			panLaser.SetParent(head, false);
+			panLaser.localPosition = Vector3.zero;
+			panLaser.localRotation = Quaternion.identity;
+			GunnerFcs.LaserAim.FromWhile(mainFcs, dtv.slot, panLaser, PanFcs.LaserMax);
+			GunnerFcs.LaserAim.FromWhile(mainFcs, dth.slot, panLaser, PanFcs.LaserMax);
 
 			gun.Go.transform.SetParent(cradleT, false);
 			gun.Go.transform.SetPositionAndRotation(W(MuzzlePoint), cradleT.rotation);
@@ -431,6 +439,11 @@ Prefix = "T90M_", MeshName = "T90M Kord", BeltMaterial = "t90m_mg_6p49_kord_ammo
 			void Update()
 			{
 				if (_st == null || _st.Fcs == null || _st.MainFcs == null) return;
+				bool held = _st.PanoramaView && HandOverHeld() && IsPlayers(_st);
+				var panTracker = TargetTracker.For(_st.Fcs);
+				if (_heldLast && !held && panTracker != null && panTracker.State == TargetTracker.Mode.Auto)
+					TargetTracker.For(_st.MainFcs)?.HandOver(panTracker.Target, panTracker.TrackedPoint, panTracker.ImageHalf);
+				_heldLast = held;
 				if (_st.DublView) _st.Fcs.SetAimVector(_st.MainFcs.AimWorldVector, true);
 				else if (_st.PanoramaView && HandOverHeld() && IsPlayers(_st))
 				{
@@ -441,7 +454,7 @@ Prefix = "T90M_", MeshName = "T90M Kord", BeltMaterial = "t90m_mg_6p49_kord_ammo
 					if (lasedHere) _st.MainFcs.SetAimWorldPosition(from + aim.normalized * _st.Fcs.CurrentRange);
 					else _st.MainFcs.SetAimVector(aim, true);
 				}
-				else if (!_st.PanoramaView && IsPlayers(_st) && _st.Turret != null)
+				else if (!_st.PanoramaView && IsPlayers(_st) && _st.Turret != null && (panTracker == null || panTracker.State == TargetTracker.Mode.Manual))
 				{
 					var aim = _st.Fcs.AimWorldVector;
 					if (!_follow || Vector3.Angle(aim, _setLast) > 0.01f) { _onTurret = _st.Turret.InverseTransformDirection(aim); _follow = true; }
@@ -452,7 +465,7 @@ Prefix = "T90M_", MeshName = "T90M Kord", BeltMaterial = "t90m_mg_6p49_kord_ammo
 				_follow = false;
 			}
 
-			bool _follow;
+			bool _follow, _heldLast;
 			Vector3 _onTurret;
 			Vector3 _setLast;
 		}

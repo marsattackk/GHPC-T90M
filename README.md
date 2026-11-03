@@ -17,7 +17,7 @@ two work fine installed together.
   <img src="docs/images/t90m_firing.jpg" width="49%" alt="The T-90M firing">
 </p>
 
-This README describes **version 0.1.3**. No other mod needed, just MelonLoader.
+This README describes **version 0.2.0**. No other mod needed, just MelonLoader.
 
 ## Installing it
 
@@ -199,6 +199,15 @@ From that live fire, straight from the front:
 - **Dubl:** the commander can lay the main gun and the coax from the panorama.
 - **Hunter-killer:** hold the game's Aim Override key in the panorama and the turret and gun slew onto what you're
   looking at, so the gunner can take it from there.
+- **Target tracker:** the Kalina's auto-lock, in the gunner's sight and the panorama, each on its own. Hold the cross on
+  a tank in the narrow thermal field (in the panorama the narrow TV field works too) until the ready frame comes up,
+  then lase (the gunner with APFSDS, HEAT or a missile, the panorama with anything) or press the tracker key, the
+  middle mouse button by default. The sight then stays on the target and the computer gets the lead from it, and you can
+  still nudge the aim inside the frame. It holds the target's path, so a tank rocking over rough ground doesn't shake
+  the sight. Lose sight of it behind a wall or smoke and it carries on where the target was heading for 6 seconds. The
+  key again, a shot from the gun, a zoom change or aiming away past the frame drops it. Hand a target over from the panorama with Aim
+  Override and the gunner's tracker takes it. The real one only locks in the thermal picture, there's a setting to let
+  the day sight do it as well.
 - **PDT back-up sight:** left of the gun, laid along the bore, with a stadiametric scale and the range set by hand. For
   when the Sosna-U's been knocked out.
 
@@ -258,7 +267,8 @@ requests, whatever you've got, and if you know something about the real T-90M th
 
 Found a bug? Open an [issue](../../issues) and attach `MelonLoader\Latest.log` from the game folder. The mod writes a
 warning there whenever something didn't load right, a game update has renamed something it uses, or one of its hooks
-into the game failed (the game carries on without it).
+into the game failed (the game carries on without it). If the smoke key ever fires nothing, it writes one line there
+saying why.
 
 ---
 
@@ -281,12 +291,16 @@ before editing it):
 | `APFSDS` | `"3BM60"` / `"3BM42"` (where the game doesn't pick one itself) | 3BM60 |
 | `Armour preset` | `"game-scale"` / `"source-only"` | game-scale |
 | `Weathered paint` | true (dirt, wear and rust) / false (clean factory paint) | true |
+| `Fire only when the gun is laid` | false (fires any time, like the game's own tanks; a shot while it's still climbing after a lase falls short) / true (after a lase the gun won't fire until it has climbed to the elevation the computer set, like the real firing-permission circuit; from the sight and the panorama alike) | false |
 | `ERA destruction effects` | false (a set-off Relikt box looks as before) / true (it's gone with a blast, soot round it, the nets over it cut; for T-90Ms spawned after the change) | true |
 | `TShU-1-2M` | true (laser warning and automatic aerosol screens) / false (none of it: the game's ordinary smoke salvo) | true |
 | `TShU-1-2M automatic screens` | true (a laser from the front fires a screen by itself) / false (semi-automatic: the warning only, you fire the screen from the vehicle menu or with the smoke key) | true |
 | `TShU-1-2M alarm tone` | true (the laser warning sounds a tone) / false (the page only) | true |
 | `TShU-1-2M warning page` | true (the warning page shows bottom right) / false (the tone only) | true |
 | `TShU-1-2M page always on screen` | false (the page comes up on a warning and goes away after) / true (always on screen while you're in the T-90M) | false |
+| `Target tracker` | true (the auto-lock in the gunner's sight and the panorama) / false (no tracker; takes effect at once) | true |
+| `Target tracker key` | a Unity key name: `Mouse2` is the middle mouse button, or `Y`, `H`, `U`, `Mouse3`, `Mouse4`, or `None` to lock by lasing only. Pick one the game doesn't use | Mouse2 |
+| `Target tracker from the day sight` | false (locks only in the narrow thermal field, as the real sight) / true (the day sight too) | false |
 | `Kord spent cases` | true (the Kord throws out its spent cases, they lie on the tank) / false (no cases, the belt still feeds) | true |
 | `Check for updates` | true (asks GitHub once per game start, one line in the MelonLoader console if there's a newer release) / false (no check) | true |
 

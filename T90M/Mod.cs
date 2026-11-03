@@ -9,7 +9,7 @@ using MelonLoader.Utils;
 using T90M.Common;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.1.3", "marsattackk")]
+[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.2.0", "marsattackk")]
 [assembly: MelonGame("Radian Simulations LLC", "GHPC")]
 
 namespace T90M
@@ -40,6 +40,10 @@ namespace T90M
 		internal static MelonPreferences_Entry<bool> ScreensOn, ScreensAutomatic, ScreensTone, ScreensPage, ScreensPageAlways;
 		internal static MelonPreferences_Entry<bool> KordCases;
 		internal static MelonPreferences_Entry<bool> EraEffects;
+		internal static MelonPreferences_Entry<bool> FireWhenLaid;
+		internal static MelonPreferences_Entry<bool> TrackerOn;
+		internal static MelonPreferences_Entry<string> TrackerKey;
+		internal static MelonPreferences_Entry<bool> TrackerDayLock;
 
 		const string Repo = "marsattackk/GHPC-T90M";
 		static readonly SettingsMigration[] Migrations = { };
@@ -63,6 +67,10 @@ namespace T90M
 			ScreensPageAlways = cfg.CreateEntry("TShU-1-2M page always on screen", false, description: "false (default): the screen page comes up on a laser warning and goes away a few seconds after. true = it stays on screen the whole time you're in the T-90M, showing the grenades left and the mode between warnings. Either way, in the thermal sight, the PDT and the panorama it sits larger in the black bar right of the picture (on a widescreen), and in the day sight smaller, under the picture. For T-90Ms spawned after the change.");
 			KordCases = cfg.CreateEntry("Kord spent cases", true, description: "true (default): the station's Kord MT throws its spent cases out of the chute, and they lie on the tank until it tilts or brakes hard. false = no cases (the belt still feeds). For T-90Ms spawned after the change.");
 			EraEffects = cfg.CreateEntry("ERA destruction effects", true, description: "true (default): a set-off ERA container is gone with a blast, the plate round it sooted, nets over it cut. false = it looks as before (it still works as armour, once). For T-90Ms spawned after the change.");
+			FireWhenLaid = cfg.CreateEntry("Fire only when the gun is laid", false, description: "false (default): the gun fires at any time, as the game's own tanks do; a shot while it is still climbing after a lase falls short. true = after a lase the trigger does nothing until the gun has climbed to the elevation the computer set for that range, as the real firing-permission circuit has it (the ready mark comes on when it is there); from the gunner's sight and the commander's panorama alike. For T-90Ms spawned after the change.");
+			TrackerOn = cfg.CreateEntry("Target tracker", true, description: "true (default): the automatic target tracker of the gunner's sight and the commander's panorama. Hold the cross on a target in the narrow thermal field (the panorama: also its narrow TV field) until the ready frame shows, then lase (APFSDS, HEAT or missile; in the panorama any) or press the tracker key: the sight stays on the target; small aiming inputs move the cross within the frame. The key again, a shot from the gun, a field change or aiming away past the frame drops it. false = no tracker. Takes effect at once.");
+			TrackerKey = cfg.CreateEntry("Target tracker key", Tracker.DefaultKey.ToString(), description: $"The tracker's capture / release key, a Unity key name: Mouse2 (default) is the middle mouse button; e.g. Y, H, U, Mouse3, Mouse4, or None for lasing only. Pick a key the game doesn't use (T is the night sight, G smoke).");
+			TrackerDayLock = cfg.CreateEntry("Target tracker from the day sight", false, description: "false (default): as on the real sight, a target is picked and locked only in the narrow thermal field. true = also in the day sight (a convenience: the real tracker works on the thermal picture). For T-90Ms spawned after the change.");
 			UpdateCheck.Config(cfg, FriendlyName, Info.Version, Repo);
 			PortSettings.Finish(cfg, Info.Version, Migrations);
 			if (!Enabled.Value) return;
@@ -314,6 +322,8 @@ namespace T90M
 			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} ПДТ failed: " + e); }
 			try { Station.LateSetup(vehicle); }
 			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} commander's station late setup failed: " + e); }
+			try { Tracker.Apply(vehicle); }
+			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} target tracker failed: " + e); }
 			if (atSpawn) try { Modules.Wire(vehicle); }
 			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} module wiring failed: " + e); }
 			try { ThermalHeat.Apply(vehicle.transform, ThermalHeat.PortParts(vehicle.transform, "T90M_")); }
