@@ -157,7 +157,7 @@ namespace T90M.Common
 			float dt = Time.deltaTime;
 			if (dt <= 0f || _holder == null) return;
 			var vel = _body != null ? _body.velocity : Vector3.zero;
-			bool jolt = (vel - _lastVel).magnitude / dt > WakeAccel;
+			bool jolt = (vel - _lastVel).magnitude / Mathf.Max(dt, Time.fixedDeltaTime) > WakeAccel;
 			_lastVel = vel;
 			_terrains = null;
 			int steps = Mathf.Max(1, Mathf.CeilToInt(dt / MaxStep));

@@ -26,6 +26,7 @@ namespace T90M.Common
 			public int DisplayRangeIncrement = 50;
 			public float FireGateAngle = 0.1f;
 			public Func<bool> FireWhenLaid;
+			public bool GateStaysOnGun;
 			public bool ManualMode = true;
 		}
 
@@ -149,7 +150,8 @@ namespace T90M.Common
 			if (s.FireGateAngle >= 0f) fcs.FireGateAngle = s.FireGateAngle;
 			fcs.SuperelevateFireGating = true;
 			fcs.IgnoreHorizontalForFireGating = true;
-			if (s.FireWhenLaid == null || s.FireWhenLaid())
+			bool laid = s.FireWhenLaid == null || s.FireWhenLaid();
+			if (laid)
 			{
 				OwnLayGate(fcs);
 				LaidGate.Register(fcs);
@@ -158,6 +160,8 @@ namespace T90M.Common
 			{
 				OwnLay.Remove(fcs);
 				LaidGate.Fcs.Remove(fcs);
+				GateOnGun.RemoveWhere(k => k == null);
+				if (s.GateStaysOnGun) GateOnGun.Add(fcs); else GateOnGun.Remove(fcs);
 			}
 
 			fcs.HasManualMode = s.ManualMode;
@@ -185,6 +189,9 @@ namespace T90M.Common
 		// With an override GHPC opens the gate within superelevation + FireGateAngle of the sight line, sign ignored, so a
 		// shot before the gun has climbed goes low by up to the whole drop (3BK18M at 1500 m: 17 m).
 		internal static readonly HashSet<FireControlSystem> OwnLay = new HashSet<FireControlSystem>();
+
+		// In the thermal view the gate went onto the old TPN-1-49-23 slot, off the gun: no shot until the range was zeroed.
+		internal static readonly HashSet<FireControlSystem> GateOnGun = new HashSet<FireControlSystem>();
 
 		static void OwnLayGate(FireControlSystem fcs)
 		{

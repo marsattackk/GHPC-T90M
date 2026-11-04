@@ -17,7 +17,7 @@ two work fine installed together.
   <img src="docs/images/t90m_firing.jpg" width="49%" alt="The T-90M firing">
 </p>
 
-This README describes **version 0.2.0**. No other mod needed, just MelonLoader.
+This README describes **version 0.2.1**. No other mod needed, just MelonLoader.
 
 ## Installing it
 
@@ -294,7 +294,7 @@ before editing it):
 | `APFSDS` | `"3BM60"` / `"3BM42"` (where the game doesn't pick one itself) | 3BM60 |
 | `Armour preset` | `"game-scale"` / `"source-only"` | game-scale |
 | `Weathered paint` | true (dirt, wear and rust) / false (clean factory paint) | true |
-| `Fire only when the gun is laid` | false (fires any time, like the game's own tanks; a shot while it's still climbing after a lase falls short) / true (after a lase the gun won't fire until it has climbed to the elevation the computer set, like the real firing-permission circuit; from the sight and the panorama alike) | false |
+| `Fire only when the gun is laid` | true (after a lase the gun won't fire until it has climbed to the elevation the computer set, like the real firing-permission circuit; from the sight and the panorama alike) / false (fires any time, like the game's own tanks; a shot while it's still climbing after a lase falls short) | true |
 | `ERA destruction effects` | false (a set-off Relikt box looks as before) / true (it's gone with a blast, soot round it, the nets over it cut; for T-90Ms spawned after the change) | true |
 | `TShU-1-2M` | true (laser warning and automatic aerosol screens) / false (none of it: the game's ordinary smoke salvo) | true |
 | `TShU-1-2M automatic screens` | true (a laser from the front fires a screen by itself) / false (semi-automatic: the warning only, you fire the screen from the vehicle menu or with the smoke key) | true |

@@ -280,6 +280,7 @@ namespace T90M.Common
 			{
 				if (_fcs == null) return;
 				if (GunnerFcs.OwnLay.Contains(_fcs)) return;
+				if (GunnerFcs.GateOnGun.Contains(_fcs)) return;
 				if (active) _fcs.FireGateOverrideTransform = _line;
 				else if (_fcs.FireGateOverrideTransform == _line) _fcs.FireGateOverrideTransform = Original;
 			}

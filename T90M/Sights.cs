@@ -31,6 +31,7 @@ namespace T90M
 			DisplayRangeIncrement = 10,
 			FireGateAngle = 0.1f,
 			FireWhenLaid = () => T90MMod.FireWhenLaid == null || T90MMod.FireWhenLaid.Value,
+			GateStaysOnGun = true,
 			ManualMode = false,
 		};
 
