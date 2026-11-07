@@ -208,13 +208,16 @@ namespace T90M.Common
 
 		internal static void LateSetup(Vehicle vehicle)
 		{
-			var st = vehicle.GetComponentInChildren<Station>(true);
-			if (st == null) return;
+			foreach (var st in vehicle.GetComponentsInChildren<Station>(true)) LateSetup(vehicle, st);
+		}
+
+		static void LateSetup(Vehicle vehicle, Station st)
+		{
 			var slots = vehicle.DesignatedCameraSlots;
 			var missing = st.Sights.Where(s => s != null && (slots == null || !slots.Contains(s))).ToArray();
 			if (slots != null && slots.Length > 0 && missing.Length > 0) UnitSlots.SetValue(vehicle, slots.Concat(missing).ToArray());
 			var crew = vehicle.GetComponent<CrewManager>();
-			if (crew?.CrewMembers == null) return;
+			if (crew?.CrewMembers == null || st.Info == null) return;
 			foreach (var m in crew.CrewMembers)
 			{
 				var module = m?.Brain?.WeaponsModule;
@@ -240,10 +243,10 @@ namespace T90M.Common
 			{
 				if (cameraSlots == null || cameraSlots.Length == 0) return cameraSlots;
 				var unit = cameraSlots.FirstOrDefault(s => s != null)?.GetComponentInParent<Vehicle>();
-				var st = unit != null ? unit.GetComponentInChildren<Station>(true) : null;
-				if (st == null) return cameraSlots;
+				var stations = unit != null ? unit.GetComponentsInChildren<Station>(true) : new Station[0];
+				if (stations.Length == 0) return cameraSlots;
 				var given = cameraSlots;
-				var missing = st.Sights.Where(s => s != null && !given.Contains(s)).ToArray();
+				var missing = stations.SelectMany(st => st.Sights).Where(s => s != null && !given.Contains(s)).Distinct().ToArray();
 				if (missing.Length == 0) return cameraSlots;
 				return cameraSlots.Concat(missing).ToArray();
 			}

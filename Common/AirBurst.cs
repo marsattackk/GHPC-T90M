@@ -208,54 +208,16 @@ namespace T90M.Common
 
 		static AmmoType _element;
 
-		static AmmoType Element()
-		{
-			if (_element != null) return _element;
-			var a = new AmmoType();
-			foreach (var fi in typeof(AmmoType).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-				if (!fi.IsLiteral && !fi.IsInitOnly) fi.SetValue(a, fi.GetValue(LiveRound.SpallAmmoType));
-			a.Name = S.RoundName + " element";
-			a.IsSpallType = true;
-			a.Mass = S.ElementMass;
-			a.SectionalArea = S.ElementArea;
-			a.Coeff = S.ElementCoeff;
-			a.Caliber = S.ElementCaliber;
-			a.RhaPenetration = S.ElementPen;
-			a.MuzzleVelocity = S.ElementPenSpeed;
-			a.VisualType = LiveRoundMarshaller.LiveRoundVisualType.Invisible;
-			return _element = a;
-		}
+		static AmmoType Element() => _element ?? (_element = FragmentCone.Type(S.RoundName + " element", S.ElementMass, S.ElementArea, S.ElementCoeff, S.ElementCaliber, S.ElementPen, S.ElementPenSpeed));
 
 		static void Elements(LiveRound shell, Flight f)
 		{
-			var marshaller = LiveRoundMarshaller.Instance;
-			if (marshaller == null || S.Elements <= 0) return;
-			var fwd = f.Dir;
-			var right = Vector3.Cross(Vector3.up, fwd);
-			right = right.sqrMagnitude > 1e-6f ? right.normalized : shell.transform.right;
-			var up = Vector3.Cross(fwd, right);
-			float tan = Mathf.Tan(S.HalfAngle * Mathf.Deg2Rad);
+			if (S.Elements <= 0) return;
 			float v = f.Speed + S.BlockSpeed;
 			float pen = S.ElementPen * (v / S.ElementPenSpeed) * (v / S.ElementPenSpeed);
-			var info = Element();
-			for (int i = 0; i < S.Elements; i++)
-			{
-				// sqrt spreads them evenly over the cone's cross-section, not bunched in the middle
-				float rr = tan * Mathf.Sqrt(UnityEngine.Random.value), phi = 2f * Mathf.PI * UnityEngine.Random.value;
-				var dir = (fwd + rr * (Mathf.Cos(phi) * right + Mathf.Sin(phi) * up)).normalized;
-				var e = marshaller.GetRoundOfVisualType(LiveRoundMarshaller.LiveRoundVisualType.Invisible);
-				e.Info = info;
-				e.RhaPenetrationOverride = pen;
-				e.CurrentSpeed = v;
-				e.MaxSpeed = v;
-				e.NpcRound = shell.NpcRound;
-				e.IsSpall = true;
-				e.Shooter = shell.Shooter;
-				e.transform.position = f.Point;
-				e.transform.forward = dir;
-				e.Init(shell);
-				e.gameObject.name = $"{S.RoundName} element {e.ID}";
-			}
+			FragmentCone.Spawn(Element(), f.Point, f.Dir, S.HalfAngle, S.Elements, v, pen, shell.Shooter, shell.NpcRound, shell, $"{S.RoundName} element",
+				() => UnityEngine.Random.value, penAfterInit: true, fallbackRight: shell.transform.right
+				);
 		}
 
 		static float OverHeight(FireControlSystem fcs)

@@ -32,6 +32,7 @@ namespace T90M.Common
 		internal sealed class Settings
 		{
 			public string Tag;
+			public bool Heads = true;
 			public float PreciseHalfAz = 45f;
 			public float PreciseStep = 3.75f;
 			public Look Display = Look.ControlPanel;
@@ -148,7 +149,7 @@ namespace T90M.Common
 
 			internal void Lased(Vector3 from)
 			{
-				if (Vehicle == null || Vehicle.Neutralized || _turret == null) return;
+				if (Vehicle == null || Vehicle.Neutralized || _turret == null || !S.Heads) return;
 				var b = Bearing(from);
 				if (b.y < S.HeadEl.x || b.y > S.HeadEl.y) return;
 				bool precise = Mathf.Abs(b.x) <= S.PreciseHalfAz;
@@ -289,8 +290,8 @@ namespace T90M.Common
 		internal static void Apply(Vehicle v, Settings s)
 		{
 			var st = v.gameObject.GetComponent<Station>() ?? v.gameObject.AddComponent<Station>();
-			if (s.PanelShown) Hud.Ensure();
-			if (s.Display == Look.ScreenPage && s.PanelAlways) ShtoraPage.Ensure(s);
+			if (s.Heads && s.PanelShown) Hud.Ensure();
+			if (s.Heads && s.Display == Look.ScreenPage && s.PanelAlways) ShtoraPage.Ensure(s);
 			st.Setup(v, s);
 		}
 
@@ -657,7 +658,7 @@ namespace T90M.Common
 			static void Postfix(PlayerInput __instance)
 			{
 				var st = Of(__instance.CurrentPlayerUnit);
-				if (st == null || Add == null || st.Slots == null) return;
+				if (st == null || Add == null || st.Slots == null || !st.S.Heads) return;
 				Add.Invoke(__instance, new object[] { $"{st.S.MenuName}/Aerosol Screen ({st.Slots.Sum(x => x.Rounds)})", (UnityAction)(() =>
 				{
 					var fcs = st.Vehicle.GetComponent<WeaponsManager>()?.Weapons?.FirstOrDefault()?.Weapon;
@@ -682,7 +683,7 @@ namespace T90M.Common
 
 			static void Postfix(WeaponHud __instance)
 			{
-				if (Stations.Count == 0 && Shtora.Stations.Count == 0 && Lifted.Count == 0) return;
+				if (Stations.Count == 0 && Shtora.Stations.Count == 0 && Aps.Stations.Count == 0 && Lifted.Count == 0) return;
 				if (HudText == null) return;
 				try { AddLines(__instance); }
 				catch (Exception e) { PatchGuard.Failed("Screen lines in the weapon text", e); }
@@ -693,12 +694,15 @@ namespace T90M.Common
 				var t = HudText(__instance);
 				if (t != null && _ours != null && ReferenceEquals(t.text, _ours)) return;
 				Settle(t);
-				if (Stations.Count == 0 && Shtora.Stations.Count == 0) return;
+				if (Stations.Count == 0 && Shtora.Stations.Count == 0 && Aps.Stations.Count == 0) return;
 				var unit = PlayerInput.Instance != null ? PlayerInput.Instance.CurrentPlayerUnit : null;
 				var sc = Of(unit); var jam = Shtora.Of(unit);
-				if (sc == null && jam == null) return;
+				if (sc != null && !sc.S.Heads) sc = null;
+				string aps = Aps.HudLine(unit), apsName = Aps.HudName(unit);
+				if (sc == null && jam == null && aps == null) return;
 				string name = sc?.S.MenuName ?? "Shtora-1";
-				if (t == null || string.IsNullOrEmpty(t.text) || t.text.Contains(name + ":")) return;
+				bool shtora = sc != null || jam != null;
+				if (t == null || string.IsNullOrEmpty(t.text) || (shtora && t.text.Contains(name + ":")) || (aps != null && t.text.Contains(apsName + ":"))) return;
 				float before = Height(t, t.text);
 				var parts = new List<string>();
 				if (jam != null)
@@ -707,8 +711,12 @@ namespace T90M.Common
 				var lines = t.text.Split('\n').ToList();
 				int at = lines.FindLastIndex(l => l.StartsWith("Stabilizers") || l.StartsWith("Delta-D"));
 				if (at < 0) at = Math.Min(2, lines.Count - 1);
-				lines.Insert(at + 1, $"{name}: {string.Join(", ", parts)}");
-				if (sc != null) lines.Insert(at + 2, $"{name} screen: {sc.ScreenState()}");
+				if (shtora)
+				{
+					lines.Insert(at + 1, $"{name}: {string.Join(", ", parts)}");
+					if (sc != null) lines.Insert(at + 2, $"{name} screen: {sc.ScreenState()}");
+				}
+				if (aps != null) lines.Insert(at + 1 + (shtora ? (sc != null ? 2 : 1) : 0), aps);
 				t.text = string.Join("\n", lines);
 				_ours = t.text;
 				Lift(t, Height(t, t.text) - before);

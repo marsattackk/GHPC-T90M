@@ -65,7 +65,7 @@ namespace T90M.Common
 				+ (TubesLost > 0 ? $"Smoke grenade launchers destroyed: {TubesLost} of {Tubes.Count}\n" : "");
 		}
 
-		internal static void Build(Vehicle vehicle, ModuleSpec spec, string label, List<string> problems)
+		internal static void Build(Vehicle vehicle, ModuleSpec spec, string label, List<string> problems, Func<ModuleSpec.Module, bool> take = null)
 		{
 			var root = vehicle.transform;
 			var set = vehicle.gameObject.GetComponent<ModuleSet>() ?? vehicle.gameObject.AddComponent<ModuleSet>();
@@ -73,7 +73,7 @@ namespace T90M.Common
 			var look = Look(root);
 			foreach (var m in spec.Modules)
 			{
-				if (m.Existing) continue;
+				if (m.Existing || (take != null && !take(m)) || set.Built.Any(x => x.m == m)) continue;
 				try
 				{
 					var (group, bone) = Group(root, m.Group);

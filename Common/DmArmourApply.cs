@@ -20,13 +20,23 @@ namespace T90M.Common
 			("GUN", "---MESH---/HULL/TURRET/GUN", "GUN COLLIDERS"),
 		};
 
+		internal static readonly (string group, string bone, string colliders)[] T80BGroups =
+		{
+			("HULL", BaseRigT80B.HullPath, "T-80 HULL COLLIDERS"),
+			("TURRET", BaseRigT80B.TurretPath, "T-80 TURRET COLLIDERS"),
+			("GUN", BaseRigT80B.GunPath, "T-80 GUN COLLIDERS"),
+		};
+
+		internal static (string group, string bone, string colliders)[] GroupsFor(Transform root) =>
+			root.Find(T72Groups[0].bone) != null || root.Find(BaseRigT80B.HullPath) == null ? T72Groups : T80BGroups;
+
 		internal static void Apply(Vehicle vehicle, GameObject prefab, DmArmour values, string tag, List<string> problems, StringBuilder table = null,
 			(string group, string bone, string colliders)[] groups = null)
 		{
 			if (prefab == null || values == null) { problems.Add("no damage-model pieces or values in the bundle"); return; }
 			var root = vehicle.transform;
 			var inst = Object.Instantiate(prefab);
-			foreach (var (group, bonePath, token) in groups ?? T72Groups)
+			foreach (var (group, bonePath, token) in groups ?? GroupsFor(root))
 			{
 				var g = inst.transform.Find(group);
 				if (g == null) continue;

@@ -16,7 +16,7 @@ two work fine installed together.
   <img src="docs/images/t90m_firing.jpg" width="49%" alt="The T-90M firing">
 </p>
 
-This README describes **version 0.2.1**. No other mod needed, just MelonLoader.
+This README describes **version 0.2.2**. No other mod needed, just MelonLoader.
 
 ## Installing it
 

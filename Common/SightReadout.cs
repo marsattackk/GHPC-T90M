@@ -20,7 +20,10 @@ namespace T90M.Common
 			public Func<AmmoType, string> AmmoText;
 			public string LaserLamp;
 			public float LaserRecharge = 2f;
+			public (string name, Func<bool> lit)[] Lit = new (string, Func<bool>)[0];
 		}
+
+		readonly List<(GameObject lamp, Func<bool> lit)> _lit = new List<(GameObject, Func<bool>)>();
 
 		FireControlSystem _fcs;
 		TextMeshProUGUI _ammo;
@@ -77,6 +80,14 @@ namespace T90M.Common
 				if (r._fcs != null) r._fcs.LaserFired += r.OnLase;
 				bound.Add($"laser lamp '{s.LaserLamp}' ({s.LaserRecharge:0.#} s)");
 			}
+			foreach (var (name, lit) in s.Lit ?? new (string, Func<bool>)[0])
+			{
+				var lamp = Item(name);
+				if (lamp == null || lit == null) continue;
+				lamp.SetActive(false);
+				r._lit.Add((lamp, lit));
+				bound.Add($"lamp '{name}'");
+			}
 			return string.Join(", ", bound);
 		}
 
@@ -99,6 +110,12 @@ namespace T90M.Common
 			{
 				bool lit = Time.time >= _laserDarkUntil;
 				if (_laser.activeSelf != lit) _laser.SetActive(lit);
+			}
+			foreach (var (lamp, test) in _lit)
+			{
+				bool on = false;
+				try { on = test(); } catch { }
+				if (lamp != null && lamp.activeSelf != on) lamp.SetActive(on);
 			}
 		}
 	}

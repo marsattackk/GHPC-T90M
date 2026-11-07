@@ -40,7 +40,7 @@ namespace T90M.Common
 		{
 			if (tubes == null || tubes.Length == 0) return;
 			var mgr = vehicle.GetComponentInChildren<VehicleSmokeManager>(true);
-			var turret = vehicle.transform.Find("---MESH---/HULL/TURRET");
+			var turret = RigBones.Turret(vehicle.transform);
 			if (mgr == null || turret == null) return;
 			var slots = (VehicleSmokeManager.SmokeSlot[])Reflect.Field(typeof(VehicleSmokeManager), "_smokeSlots").GetValue(mgr);
 			if (slots == null) return;

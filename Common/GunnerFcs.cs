@@ -127,6 +127,7 @@ namespace T90M.Common
 			{
 				fcs.UseDeltaD = true;
 				fcs.ImperfectDeltaD = true;
+				NoRangeDeltaD.Fcs.Add(fcs);
 			}
 
 			fcs.CurrentStabMode = StabilizationMode.Vector;
@@ -202,6 +203,33 @@ namespace T90M.Common
 
 		// GHPC's DegreesOffset gate reads 0 outside the drive's stabilised mode and when the goal is clipped to the barrel:
 		// the gun fires wherever it is. Measure the lay yourself.
+		// Range 0 crept up by hull jitter froze the gun: the goal became range x aim, a vector Unity takes for zero.
+		internal static class NoRangeDeltaD
+		{
+			internal static readonly HashSet<FireControlSystem> Fcs = new HashSet<FireControlSystem>();
+			internal const float NoRange = 1f;
+
+			[HarmonyPatch(typeof(FireControlSystem), "Update")]
+			static class Patch
+			{
+				static void Prefix(FireControlSystem __instance, out float __state) => __state = __instance.TargetRange;
+
+				static void Postfix(FireControlSystem __instance, float __state)
+				{
+					try
+					{
+						if (__state != 0f || !Fcs.Contains(__instance) || !__instance.ActiveDeltaD) return;
+						float r = __instance.TargetRange;
+						if (r > 0f && r < NoRange)
+						{
+							__instance.TargetRange = 0f;
+						}
+					}
+					catch (Exception e) { PatchGuard.Failed("No-range delta-D", e); }
+				}
+			}
+		}
+
 		internal static class LaidGate
 		{
 			internal static readonly HashSet<FireControlSystem> Fcs = new HashSet<FireControlSystem>();

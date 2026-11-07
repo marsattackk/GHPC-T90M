@@ -129,19 +129,7 @@ namespace T90M
 				if (to == cradleT) Level(vis);
 			}
 
-			Transform Group(string name, Transform follow)
-			{
-				var g = new GameObject(name) { layer = 8 };
-				g.SetActive(false);
-				g.transform.SetParent(root, false);
-				g.transform.SetPositionAndRotation(follow.position, follow.rotation);
-				var f = g.AddComponent<LateFollow>();
-				f.FollowTarget = follow;
-				f.ForceToRoot = true;
-				foreach (var c in new[] { "ARMOR", "AAR" }) { var t = new GameObject(c) { layer = 8 }.transform; t.SetParent(g.transform, false); }
-				g.SetActive(true);
-				return g.transform;
-			}
+			Transform Group(string name, Transform follow) => Followers.ColliderGroup(root, name, follow, "ARMOR", "AAR");
 			var drumGroup = Group("T90M RWS COLLIDERS", frame);
 			var cradleGroup = Group("T90M RWS_CRADLE COLLIDERS", cradleT);
 			if (T90MMod.Armor != null && T90MMod.ArmourValues != null)
@@ -375,9 +363,9 @@ Prefix = "T90M_", MeshName = "T90M Kord", BeltMaterial = "t90m_mg_6p49_kord_ammo
 			string mono = spec.Num("Mono").ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
 			SightReadout.Attach(o, row, new SightReadout.Settings
 			{
-				Range = "range", RangePrefix = $"<b><mspace={mono}em>", RangeSuffix = "</mspace></b>", RangeQuantize = 5,
+				Range = "range", RangePrefix = $"<mspace={mono}em>", RangeSuffix = "</mspace>", RangeQuantize = 5,
 				Ready = "ready",
-				Ammo = "ammo", AmmoText = a => $"<b>{Sights.ThermalLetter(a)}</b>",
+				Ammo = "ammo", AmmoText = a => Sights.ThermalLetter(a),
 			}, problems);
 			return row;
 		}

@@ -1,15 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using GHPC.State;
 using GHPC.Vehicle;
 using MelonLoader;
 using MelonLoader.Utils;
 using T90M.Common;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.2.1", "marsattackk")]
+[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.2.2", "marsattackk")]
 [assembly: MelonGame("Radian Simulations LLC", "GHPC")]
 
 namespace T90M
@@ -58,8 +58,8 @@ namespace T90M
 			Enabled = cfg.CreateEntry("Enabled", true, description: "Adds the T-90M as its own unit (Instant Action, campaign roster, ATAC key \"T90M\").");
 			Campaign = CampaignConfig.Create(cfg, FriendlyName, 0.25f, 2);
 			Apfsds = cfg.CreateEntry("APFSDS", "3BM60", description: "Default APFSDS where the game does not choose one (the mission customizer's ammo dropdown and the campaign's ammo supply override it): 3BM60 Svinets-2 (default; the round the T-90M's autoloader was made for) or 3BM42 Mango.");
-			WeatheredPaint = cfg.CreateEntry("Weathered paint", true, description: "Dirt, wear and rust on the paint (default); false = clean factory paint. For T-90Ms spawned after the change.");
-			ArmourPreset = cfg.CreateEntry("Armour preset", "game-scale", description: "game-scale (default: matched to GHPC's other tanks; turret 690/820, glacis 550/750 without ERA) or source-only (open-source figures; turret 575/750, glacis 500/650). For T-90Ms spawned after the change.");
+			WeatheredPaint = PaintFinish.Create(cfg, "T-90M");
+			ArmourPreset = ArmourPresets.Create(cfg, "game-scale (default: matched to GHPC's other tanks; turret 690/820, glacis 550/750 without ERA) or source-only (open-source figures; turret 575/750, glacis 500/650). For T-90Ms spawned after the change.");
 			ScreensOn = cfg.CreateEntry("TShU-1-2M", true, description: "The TShU-1-2M screen system (default): laser warning heads all round, the warning on the commander's screen with a tone, and automatic 3D17 aerosol screens toward a laser from the front. false = none of it: the smoke launchers fire the game's ordinary smoke salvo. For T-90Ms spawned after the change.");
 			ScreensAutomatic = cfg.CreateEntry("TShU-1-2M automatic screens", true, description: "true (default): a laser from the front fires an aerosol screen toward it by itself (automatic mode). false = semi-automatic mode: the warning only, the screen is fired by hand (vehicle menu: TShU-1-2M, or the smoke key). For T-90Ms spawned after the change.");
 			ScreensTone = cfg.CreateEntry("TShU-1-2M alarm tone", true, description: "true (default): the laser warning sounds a tone. false = the screen page only, no sound. For T-90Ms spawned after the change.");
@@ -135,17 +135,8 @@ namespace T90M
 					() => VanillaMaterials.Warm(Roles),
 					() => ShtoraScreen.WarmDonors(ScreenSystem.Defaults));
 			if (!MenuScenes.Contains(sceneName))
-				StateController.RunOrDefer(GameState.PlayerReady, ConvertAll, GameStatePriority.Low);
+				ConvertSweep.AtPlayerReady(UnitKey, v => Convert(v));
 		}
-
-		static IEnumerator ConvertAll(GameState _)
-		{
-			foreach (var v in Object.FindObjectsByType<Vehicle>(FindObjectsSortMode.None))
-				if (v.UniqueName == UnitKey) Convert(v);
-			yield break;
-		}
-
-		class Converted : MonoBehaviour { }
 
 		const string PaintedPrefix = "t90m_t_90m_";
 
@@ -167,8 +158,7 @@ namespace T90M
 
 		static void Convert(Vehicle vehicle, bool atSpawn = false)
 		{
-			if (Visual == null || vehicle == null || vehicle.GetComponent<Converted>() != null) return;
-			vehicle.gameObject.AddComponent<Converted>();
+			if (Visual == null || !ConvertSweep.Mark(vehicle)) return;
 			if (!atSpawn) MelonLogger.Warning($"{FriendlyName}: {vehicle.name} was converted after it spawned; it keeps the T-72M1's ammunition, and has no commander's station, modules or TShU-1-2M.");
 			BaseRigT72M1.HideBaseVisuals(vehicle.transform, TrimmedSkin());
 			if (BaseRigT72M1.TrimFailure != null) MelonLogger.Warning($"{FriendlyName}: {BaseRigT72M1.TrimFailure}; the T-72 side skirts may show through the hull.");
@@ -179,7 +169,7 @@ namespace T90M
 			var cover = gun != null ? gun.Find("T90M_MANTLET_COVER") : null;
 			if (cover != null) MantletCover.Skin(root, turret, gun, cover);
 			else MelonLogger.Warning($"{FriendlyName}: bundle has no MANTLET_COVER; the mantlet cover stays on the turret.");
-			VehiclePaint.Clean = !WeatheredPaint.Value;
+			PaintFinish.Apply(WeatheredPaint);
 			var template = BaseRigT72M1.FindTemplate(root);
 			var flir = Shader.Find("Standard (FLIR)");
 			foreach (var part in root.GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("T90M_")).ToArray())
@@ -191,12 +181,12 @@ namespace T90M
 			{
 				HatchUndersides.Paint(root, "t90m_hatch_inner", "t90m_t_90m_turret", new RectInt(1312, 3856, 230, 110), new Vector2Int(4096, 4096));
 			}
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} hatch undersides failed (left plain): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} hatch undersides failed (left plain): " + e); }
 			try
 			{
 				if (turret != null) TacticalNumbers.Apply(root, turret, Numbers);
 			}
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} tactical numbers failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} tactical numbers failed: " + e); }
 			BaseRigT72M1.HideLeftovers(root, "T90M_");
 			if (turret != null)
 			{
@@ -205,13 +195,13 @@ namespace T90M
 			// Before PortAxes moves the pivots, the pieces are placed in prefab space with the rig at rest.
 			var volumes = Armour(vehicle);
 			try { Interior.Apply(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} interior failed (left as the T-72M1's): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} interior failed (left as the T-72M1's): " + e); }
 			Firepower.Apply(vehicle, volumes, atSpawn);
 			try
 			{
 				Mobility.Apply(vehicle, Drive.Settings);
 			}
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} mobility setup failed (left as the T-72M1's): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} mobility setup failed (left as the T-72M1's): " + e); }
 			SmokeLaunchers.Seat(vehicle, SmokePoints);
 			SmokeCaps.Apply(root);
 			HatchRig.Apply(root, Rig, "T90M_", FriendlyName);
@@ -220,17 +210,17 @@ namespace T90M
 			else MelonLogger.Warning($"{FriendlyName}: bundle's rig map has no axes; the turret turns on the T-72M1's pivots.");
 			// Spawn only: Unit builds its weapon and camera lists straight after, a late station never makes it in.
 			if (atSpawn) try { Station.Apply(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} commander's station failed (the station stays fixed): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} commander's station failed (the station stays fixed): " + e); }
 			if (atSpawn) try { Modules.Build(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} modules failed (the T-72M1's kept): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} modules failed (the T-72M1's kept): " + e); }
 			// Left at the T-72M1's sight the laser starts inside the turret front and ranges our own ERA.
 			if (atSpawn) try { Sights.PlaceLaser(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} laser placement failed (the T-72M1's kept): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} laser placement failed (the T-72M1's kept): " + e); }
 			if (atSpawn) try { Sights.PlacePeriscope(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} periscope placement failed (the T-72M1's place kept): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} periscope placement failed (the T-72M1's place kept): " + e); }
 			if (atSpawn) ScreenSystem.Apply(vehicle);
 			try { VisualLods.Sync(root); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} LOD materials failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} LOD materials failed: " + e); }
 			MelonCoroutines.Start(LateSetup(vehicle, atSpawn));
 		}
 
@@ -256,8 +246,8 @@ namespace T90M
 			var missing = new List<string>();
 			if (Edits != null) VanillaEditsApply.Apply(root, Edits, reshape, missing);
 			var left = new List<string>();
-			string preset = ArmourPreset.Value;
-			var values = preset == "source-only" ? SourceOnlyValues() : ArmourValues;
+			string preset = ArmourPresets.Pick(ArmourPreset);
+			var values = Presets.For(ArmourValues, preset);
 			DmArmourApply.Apply(vehicle, Armor, values, FriendlyName, left, null);
 			if (!_armourWarned && (missing.Count > 0 || left.Count > 0))
 			{
@@ -268,7 +258,7 @@ namespace T90M
 			if (!_netsChecked)
 			{
 				_netsChecked = true;
-				if (!ArmourValues.Entries.Any(e => e.Slat && e.Name != null && e.Name.StartsWith(NetScreens.NamePrefix, System.StringComparison.OrdinalIgnoreCase)))
+				if (!ArmourValues.Entries.Any(e => e.Slat && e.Name != null && e.Name.StartsWith(NetScreens.NamePrefix, StringComparison.OrdinalIgnoreCase)))
 					MelonLogger.Warning($"{FriendlyName} armour: no slat piece named \"{NetScreens.NamePrefix}...\"; the net screens act as plain slat armour.");
 			}
 			return volumes;
@@ -277,25 +267,10 @@ namespace T90M
 		static readonly string[] GlacisFilling = { "composite_armor_hull_01_dm", "turret_05_front_dm", "turret_04_front_dm" };
 		const float PackageKe = 0.7967f / 1.1652f, PackageCe = 1.4182f / 1.6508f;
 		const float GlacisKe = 1.0414f / 1.3170f, GlacisCe = 1.9487f / 2.4995f;
-		static DmArmour _sourceOnly;
-
-		static DmArmour SourceOnlyValues()
-		{
-			if (_sourceOnly != null) return _sourceOnly;
-			var d = new DmArmour();
-			foreach (var e in ArmourValues.Entries)
-			{
-				var c = new DmArmour.Entry
-				{
-					Piece = e.Piece, Mode = e.Mode, Name = e.Name, Material = e.Material, Xray = e.Xray, Source = e.Source,
-					Ke = e.Ke, Ce = e.Ce, KeAfter = e.KeAfter, CeAfter = e.CeAfter, AngleMatters = e.AngleMatters, Slat = e.Slat,
-				};
-				if (c.Variable && c.Piece.Contains("_pkg")) { c.Ke *= PackageKe; c.Ce *= PackageCe; }
-				else if (c.Variable && System.Array.IndexOf(GlacisFilling, c.Piece) >= 0) { c.Ke *= GlacisKe; c.Ce *= GlacisCe; }
-				d.Add(c);
-			}
-			return _sourceOnly = d;
-		}
+		static readonly ArmourPresets.Pair Presets = new ArmourPresets.Pair(ArmourPresets.GameScale, c =>
+			c.Variable && c.Piece.Contains("_pkg") ? (PackageKe, PackageCe)
+			: c.Variable && Array.IndexOf(GlacisFilling, c.Piece) >= 0 ? (GlacisKe, GlacisCe)
+			: ((float, float)?)null);
 
 		static readonly InteriorMap.Embedded Interior = new InteriorMap.Embedded(typeof(T90MMod).Assembly, FriendlyName, "T90M", "T-72M1");
 		static readonly PortModules Modules = new PortModules(typeof(T90MMod).Assembly, FriendlyName, "T-72M1", "T90M");
@@ -315,21 +290,21 @@ namespace T90M
 			yield return SmokeLaunchers.RefreshCrewLater(vehicle, FriendlyName);
 			if (vehicle == null) yield break;
 			try { CrewVoices.Apply(vehicle, FriendlyName); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} voices failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} voices failed: " + e); }
 			try { Sights.Apply(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} sight setup failed (the T-72M1's sights kept): " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} sight setup failed (the T-72M1's sights kept): " + e); }
 			try { Pdt.Apply(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} ПДТ failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} ПДТ failed: " + e); }
 			try { Station.LateSetup(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} commander's station late setup failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} commander's station late setup failed: " + e); }
 			try { Tracker.Apply(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} target tracker failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} target tracker failed: " + e); }
 			if (atSpawn) try { Modules.Wire(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} module wiring failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} module wiring failed: " + e); }
 			try { ThermalHeat.Apply(vehicle.transform, ThermalHeat.PortParts(vehicle.transform, "T90M_")); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} thermal heat failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} thermal heat failed: " + e); }
 			if (atSpawn) try { PortAmmo.SelfCheck(vehicle); }
-			catch (System.Exception e) { MelonLogger.Error($"{FriendlyName} ammunition self-check failed: " + e); }
+			catch (Exception e) { MelonLogger.Error($"{FriendlyName} ammunition self-check failed: " + e); }
 		}
 	}
 }

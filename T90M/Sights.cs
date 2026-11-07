@@ -155,9 +155,9 @@ namespace T90M
 			string mono = Mono(rowSpec, "Mono");
 			string bound = SightReadout.Attach(o, row, new SightReadout.Settings
 			{
-				Range = "range", RangePrefix = $"<b><mspace={mono}em>", RangeSuffix = "</mspace></b>",
+				Range = "range", RangePrefix = $"<mspace={mono}em>", RangeSuffix = "</mspace>",
 				Ready = "ready",
-				Ammo = "ammo", AmmoText = a => $"<b>{ThermalLetter(a)}</b>",
+				Ammo = "ammo", AmmoText = a => ThermalLetter(a),
 			}, problems);
 			string lacks = ReticleBuild.Missing(row.Readouts.TryGetValue("ammo", out var t) ? t.font : null, "БОКУП");
 			if (lacks.Length > 0) problems.Add($"thermal readout font lacks '{lacks}'");

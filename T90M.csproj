@@ -69,5 +69,7 @@
     <StampAskGit>false</StampAskGit>
   </PropertyGroup>
   <Import Project="BuildStamp.targets" Condition="Exists('BuildStamp.targets')" />
+  <!-- A mod with a native half: its build and embedding (Native.targets, beside this file, when the mod has one). -->
+  <Import Project="Native.targets" Condition="Exists('Native.targets')" />
 
 </Project>
