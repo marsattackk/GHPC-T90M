@@ -1,9 +1,8 @@
 # T-90M for Gunner, HEAT, PC!
 
-> [!WARNING]
-> **This mod is still in development.** It's an early release, it's not finished, and there are probably a few bugs
-> in it I haven't found yet. It plays, but things can still change from one version to the next. If something looks
-> or behaves wrong, it probably is, so tell me (see [Bugs and suggestions](#bugs-and-suggestions)).
+> [!NOTE]
+> The T-90M is still being worked on, so a few things can change between versions. If something looks or behaves
+> wrong, tell me (see [Bugs and suggestions](#bugs-and-suggestions)).
 
 A Russian **T-90M "Proryv"** you can drive and fight in GHPC, as its own unit. Relikt ERA, the Sosna-U gunner's sight,
 the commander's PK PAN panorama with the remote Kord on top of it, the TShU-1-2M screen system, 3BM60 and the Invar-M
@@ -31,24 +30,27 @@ This README describes **version 0.2.1**. No other mod needed, just MelonLoader.
    ```
 4. Start the game. The T-90M is in **Instant Action** (unit "T-90M"), in the **Soviet campaign** roster, and in the
    "Showcase of most playable vehicles" mission. In the campaign it's rarer than the T-90A, about half as common, and
-   turns up after you've done 2 missions. You can turn that off or change it in the settings below.
+   turns up after you've done 2 missions. You can turn that off or change it in the settings.
 
-Once per game start the mod asks GitHub whether there's a newer release, and if there is, it puts one line in the
-MelonLoader console with a link to the releases page. Nothing in game, nothing gets downloaded or installed, and if
-you're offline it just doesn't say anything. Set `Check for updates` to false (Settings, below) to turn it off.
+Once per game start the mod asks GitHub whether there's a newer release, and if there is, it puts one line with a link
+in the MelonLoader console. Nothing in game, nothing gets downloaded, and offline it just stays quiet. `Check for
+updates` in the settings turns it off.
 
-To remove it, delete `Mods\T90M.dll` and the `Mods\T90M` folder. That's safe mid-campaign too, the game's campaign
-save doesn't keep a list of units, so nothing in it points at the T-90M.
+To remove it, delete `Mods\T90M.dll` and the `Mods\T90M` folder. That's safe mid-campaign too, the campaign save doesn't
+keep a list of units, so nothing in it points at the T-90M.
+
+## What's in it
+
+- **Armour built for GHPC** from Russian sources, with Relikt, nets and slats on top.
+- **The real sights**: the Sosna-U and Kalina for the gunner, the PK PAN panorama for the commander.
+- **The remote Kord, TShU-1-2M, the Telnik and the Invar-M**, all working.
+- **Weathered paint** made for its own shape, or clean factory paint if you'd rather.
 
 ## From the T-90A to the T-90M
 
-The T-90M "Proryv" (Object 188M) is what the T-90A turned into. Uralvagonzavod's design bureau started on it in the
-early 2010s as "Proryv-3", taking what worked on the T-90AM and its export version the T-90MS ("Proryv-2") and fixing
-what the army had found wrong with the older tanks. It was first shown at Army-2018 and the first ones reached the army
-in spring 2020. A lot of them aren't new builds at all, most are T-90As taken out of storage and rebuilt, so underneath
-it's basically the same tank. Same hull, running gear, autoloader and gearbox, still the T-72's 4.2 km/h reverse.
-
-What changed, and what that means in game:
+The T-90M "Proryv" (Object 188M) is what the T-90A turned into, and a lot of them are rebuilt T-90As, so underneath
+it's basically the same tank. Same hull, running gear, autoloader and gearbox, still the T-72's 4.2 km/h reverse. What
+changed, and what that means in game:
 
 | | T-90A (my other mod) | T-90M (this one) |
 |---|---|---|
@@ -64,37 +66,41 @@ What changed, and what that means in game:
 | Main gun ammo | 42 rounds | 40: 22 in the carousel, 8 in the hull, 10 in the bustle box |
 | Rounds | 3BM42 / 3BM60, 3BK18M, 3OF26, 9M119M Invar (700 mm) | the same shells plus the 3OF82 Telnik air-burst, and the 9M119M1 Invar-M (850 mm) |
 
-What's flat out better on the T-90M:
+So it's better protected where the ERA, the screens and the bustle box come in, quicker onto a target off to the side,
+and the commander can actually hunt with the panorama. What isn't better: the front armour under the ERA hasn't
+changed, it has no IR jammer, its Kord fires a lot slower, it carries 2 rounds fewer, and from the side and above it's
+still a T-72.
 
-- **ERA:** Relikt adds about 250 / 650 where Kontakt-5 adds 140 / 550, and it's in the rubber side screens too.
-- **Screens:** nets on the turret and slats at the back. The T-90A has neither.
-- **Ammo out of the crew's way:** 10 of the 40 rounds sit in the bustle box behind blow-off lids, so a hit there
-  burns out the box and not the crew. On the T-90A all 42 are in the hull with the crew.
-- **Turret traverse:** 40°/s against 24°/s, so you get onto a target off to the side a lot quicker.
-- **Commander:** the PK PAN has a thermal channel and its own laser, and the commander can lay the gun or slew it
-  onto a target for the gunner. The T-90A's TKN-4S has day and night channels, no thermal, and can't do either.
-- **Missile:** the Invar-M goes through 850 mm against the Invar's 700.
-- **Telnik:** an air-burst round the T-90A doesn't have at all.
-- **Engine:** 1130 hp against 1000.
+<details>
+<summary><b>A bit of history</b></summary>
 
-What isn't better: the front armour under the ERA (below), it has no IR jammer, its Kord fires a lot slower, and it carries 2 rounds fewer.
+Uralvagonzavod's design bureau started on it in the early 2010s as "Proryv-3", taking what worked on the T-90AM and its
+export version the T-90MS ("Proryv-2") and fixing what the army had found wrong with the older tanks. It was first shown
+at Army-2018 and the first ones reached the army in spring 2020. A lot of them aren't new builds at all, most are
+T-90As taken out of storage and rebuilt.
 
-Under the ERA the front armour hasn't changed. The T-90M kept the T-90A's welded turret with the same cheek filling and
-the same glacis, which is why the numbers further down are pretty much the T-90A's (690 / 820 against 690 / 819 on the
-cheeks). Where it's actually better protected is the ERA, the screens and getting 10 rounds out of the crew's way.
-From the side and above it's still a T-72.
+</details>
 
-On the mod side, I built the T-90M after the T-90A, on the same groundwork. Everything I worked out on the T-90A
-carries over: how the armour's put together, the ERA that doesn't go off for a PKT round, the Invar's tandem
-precursor, the Kord's belt feed and spent cases, the paint, the T-80B's crew voices, and a fix on one goes into the
-other. What's new is what's new on the real tank: the bustle box as its own compartment, the panorama with the Kord on
-it, Relikt and the nets, TShU-1-2M and the Telnik round. It's still its own mod, neither needs the other.
+<details>
+<summary><b>What it shares with my T-90A</b></summary>
+
+I built the T-90M after the T-90A, on the same groundwork. Everything I worked out on the T-90A carries over: how the
+armour's put together, the ERA that doesn't go off for a PKT round, the Invar's tandem precursor, the Kord's belt feed
+and spent cases, the paint, the T-80B's crew voices, and a fix on one goes into the other. What's new is what's new on
+the real tank: the bustle box as its own compartment, the panorama with the Kord on it, Relikt and the nets, TShU-1-2M
+and the Telnik round. It's still its own mod, neither needs the other.
+
+</details>
 
 ## "It's a War Thunder model, does it even work in GHPC?"
 
 Yes. The looks come from War Thunder, and so do the **shapes** of the armour plates, because War Thunder's damage model
 is a pretty good map of where every plate, ERA box and screen sits on the real tank. What those plates are worth, and
-everything else that decides what happens when a round hits, was built for GHPC with GHPC's own rules:
+everything else that decides what happens when a round hits, was built for GHPC with GHPC's own rules, and it's been
+shot at 552 times next to a vanilla T-72M1 getting the same.
+
+<details>
+<summary><b>How it's built for GHPC</b></summary>
 
 - **The armour values are mine, not War Thunder's.** Every plate got its thickness and strength from Russian sources
   (or, where nothing was published, the closest real equivalent, marked as a guess in my notes). War Thunder's numbers
@@ -103,9 +109,17 @@ everything else that decides what happens when a round hits, was built for GHPC 
   The crew compartments are cut to the T-90M's own walls, so a round has to get through the armour before it counts as
   "inside". Drives, sights, the fire control computer, radio, the remote station and so on are damageable modules wired
   into the game's own systems, 25 of them, so knocking one out does what it does on a vanilla tank.
-- **The turret bustle box is its own compartment.** 10 rounds live in the armoured box on the turret rear, behind
-  blow-off lids. If it gets hit and cooks off, the lids go, the fire vents upwards and the crew and the rest of the tank
-  carry on.
+- **The bustle box is its own compartment.** If it gets hit and cooks off, the lids go, the fire vents upwards and the
+  crew and the rest of the tank carry on.
+- **It's been shot at properly.** 552 rounds in game at 47 spots all over the tank, next to a vanilla T-72M1 getting the
+  same, checking where every round stopped.
+- **The AI handles it like a vanilla tank.** AI T-90Ms pick their ammo, use the missile at range and fight at the same
+  pace as the vanilla tanks, and it burns and cooks off like the T-72M1 next to it.
+- **It fits in.** The game's own glass, the vanilla paint finish, smoke tube caps that pop off on a salvo, turret nets
+  and an antenna that sway when you drive and fire, and a lighter model at range so it doesn't cost more to draw than it
+  should.
+
+</details>
 
 <p align="center">
   <img src="docs/images/xray_stowage.jpg" width="36%" alt="Hit x-ray from above: the carousel, the hull racks and the bustle box">
@@ -113,13 +127,8 @@ everything else that decides what happens when a round hits, was built for GHPC 
 </p>
 
 *Left: the x-ray from above, crew, the carousel under the turret and the racks. Right: the bustle box with its slat cage.*
-- **The AI handles it like a vanilla tank.** AI T-90Ms pick their ammo, use the missile at range and fight at the same
-  pace as the vanilla tanks, and it burns and cooks off like the T-72M1 next to it.
-- **It fits in visually.** Glass and lenses use the game's own glass, the paint has the same finish as the vanilla
-  tanks, the smoke tube caps pop off when a salvo fires, the turret nets and the antenna sway when you drive and fire,
-  and at range it switches to a lighter model so it doesn't cost more to draw than it should.
 
-## The armour, in numbers
+## The armour
 
 Line-of-sight protection straight from the front, in mm of steel, **without ERA**, measured in game:
 
@@ -130,16 +139,61 @@ Line-of-sight protection straight from the front, in mm of steel, **without ERA*
 | T-80B (vanilla) | 595 / 669 | 485 / 602 |
 | M1IP (vanilla) | 516 / 999 | 348 / 361 |
 
-*Median over a grid of straight-on shots. Both T-90s measured in game on the cheek block and glacis, the vanilla tanks
-from their armour in the game's files over the whole cheek face, so their thin edges pull their median down a bit.*
-
 Relikt adds about **250** against APFSDS and **650** against HEAT on the turret (**600** on the hull) wherever a box is
-hit. A box that's gone off is gone, a second hit on the same spot only meets the armour behind it.
+hit, and a box only goes off for something that's worth it, not a PKT round.
+
+Under the ERA it's the T-90A's welded turret with the same cheek filling and the same glacis, hence the near-identical
+numbers. With their Relikt, the cheeks and the upper glacis stopped everything I fired at them, the trouble is the
+strip down the middle of the glacis and the mantlet next to the gun.
+
+<details>
+<summary><b>How it was measured</b></summary>
+
+Median over a grid of straight-on shots, from the game's own armour probe. Both T-90s measured in game on the cheek
+block and glacis, the vanilla tanks from their armour in the game's files over the whole cheek face, so their thin
+edges pull their median down a bit.
+
+</details>
+
+<details>
+<summary><b>Relikt</b></summary>
+
+A box that's gone off is gone, a second hit on the same spot only meets the armour behind it.
 
 A Relikt box only goes off for something that's worth it. Machine-gun and autocannon rounds up to 30 mm, and fragments
 and spall, leave it whole, the same rule as on my T-90A. GHPC on its own sets ERA off on any hit, a PKT round included.
 By default a box that has gone off is gone with a blast, the plate round it sooted and the nets over it cut. Set
 `ERA destruction effects` to false and it still looks the same instead, it just doesn't protect anything any more.
+
+</details>
+
+<p align="center">
+  <img src="docs/images/xray_inside.jpg" width="49%" alt="Hit x-ray from the side: Relikt, crew, ammo and modules">
+  <img src="docs/images/t90m_turret_closeup.jpg" width="49%" alt="Turret close-up: Relikt, the net screens and the sight heads">
+</p>
+
+*Left: the hit x-ray from the side, Relikt in pink, the crew light blue, the modules grey. Right: the turret front with
+its Relikt and the net screens.*
+
+<details>
+<summary><b>Weak spots</b></summary>
+
+From my test firing (3BM42, 3BK18M and the Invar-M, turret straight and turned 17°), straight from the front:
+
+- **Turret cheeks** with their Relikt stop 3BM42 in the filling and 3BK18M in the Relikt. The Invar-M's precursor sets
+  the Relikt off and its main charge gets through the filling, but the inner wall stops it about 50 mm short.
+- **Upper glacis** with its Relikt stops everything I fired. The strip down its middle has no Relikt boxes on it, and
+  there a 3BM42 gets through the glacis and stops at the hull floor, and the Invar-M reaches the cooling fan.
+- **The gun mask** round the barrel: the barrel itself stops what hits it. The mantlet next to it is the usual weak
+  spot, an Invar-M coming in at an angle can get through it into the turret.
+- **The bustle box** on the turret rear is its own compartment. A round through its sides hits the stowed ammo in there
+  and nothing else, the crew and the rest of the tank don't count it as inside.
+- **From the side and above it's a T-72**, same as my T-90A.
+
+</details>
+
+<details>
+<summary><b>What it's made of</b></summary>
 
 - **Turret:** welded rolled steel at the model's own thickness, with the cheek filling set to match Russian estimates
   for the T-90M's turret front.
@@ -151,31 +205,7 @@ By default a box that has gone off is gone with a blast, the plate round it soot
   rest through untouched, which is how the people who make them describe it. Tandem rounds pass both.
 - **Spall liners** inside the turret and hull, on the game's own liner material.
 
-The numbers above are from the game's own armour probe. It's also been shot at properly: 552 rounds in game at 47 spots
-all over the tank (3BM42, 3BK18M and the Invar-M, turret straight and turned 17°), next to a vanilla T-72M1 getting the
-same, checking where every round stopped.
-
-<p align="center">
-  <img src="docs/images/xray_inside.jpg" width="49%" alt="Hit x-ray from the side: Relikt, crew, ammo and modules">
-  <img src="docs/images/t90m_turret_closeup.jpg" width="49%" alt="Turret close-up: Relikt, the net screens and the sight heads">
-</p>
-
-*Left: the hit x-ray from the side, Relikt in pink, the crew light blue, the modules grey. Right: the turret front with
-its Relikt and the net screens.*
-
-### Weak spots
-
-From that live fire, straight from the front:
-
-- **Turret cheeks** with their Relikt stop 3BM42 in the filling and 3BK18M in the Relikt. The Invar-M's precursor sets
-  the Relikt off and its main charge gets through the filling, but the inner wall stops it about 50 mm short.
-- **Upper glacis** with its Relikt stops everything I fired. The strip down its middle has no Relikt boxes on it, and
-  there a 3BM42 gets through the glacis and stops at the hull floor, and the Invar-M reaches the cooling fan.
-- **The gun mask** round the barrel: the barrel itself stops what hits it. The mantlet next to it is the usual weak
-  spot, an Invar-M coming in at an angle can get through it into the turret.
-- **The bustle box** on the turret rear is its own compartment. A round through its sides hits the stowed ammo in there
-  and nothing else, the crew and the rest of the tank don't count it as inside.
-- **From the side and above it's a T-72**, same as my T-90A.
+</details>
 
 ## The sights
 
@@ -190,80 +220,120 @@ From that live fire, straight from the front:
 
 *Top: the gunner's Sosna-U by day and its thermal channel. Bottom: the commander's PK PAN, TV and thermal.*
 
-- **Sosna-U gunner's sight + Kalina fire control:** day channel at 4x and 12x with the reticle from the manual's
-  figure, thermal channel in three fields (9 × 6.75°, 3 × 2.25° and 1.5 × 1.12°) on the monitor at 768 x 575 with the
-  scan lines of its CRT, laser rangefinder from 300 m to 10 km. Line of sight -10° / +30°, stabilised on its own. The
-  readout under the picture shows the range, the round and the ready lamps.
-- **Commander's PK PAN panorama:** TV channel (7.4° and 2.5° wide, black and white) and thermal (the same three fields),
-  its own laser rangefinder, on a flat monitor. It turns all round on the turret roof, and the Kord turns with it.
+- **Sosna-U + Kalina fire control** for the gunner: day and thermal channels in one stabilised head, laser rangefinder.
+- **PK PAN panorama** for the commander: TV and thermal, its own laser, turns all round with the Kord on top.
+- **Dubl and hunter-killer:** the commander can lay the gun from the panorama, or slew it onto a target for the gunner.
+- **Target tracker:** lock a tank in the thermal picture and the sight stays on it and works out the lead.
+- **PDT back-up sight** left of the gun, for when the Sosna-U's been knocked out.
+
+<details>
+<summary><b>Sight details</b></summary>
+
+- **Sosna-U:** day channel at 4x and 12x with the reticle from the manual's figure. Thermal channel in three fields
+  (9 × 6.75°, 3 × 2.25° and 1.5 × 1.12°) on the monitor at 768 x 575 with the scan lines of its CRT. Laser rangefinder
+  from 300 m to 10 km. Line of sight -10° / +30°, stabilised on its own. The readout under the picture shows the range,
+  the round and the ready lamps.
+- **PK PAN:** TV channel 7.4° and 2.5° wide, black and white, thermal in the same three fields as the Sosna-U, on a flat
+  monitor. It turns all round on the turret roof, and the Kord turns with it.
 - **Dubl:** the commander can lay the main gun and the coax from the panorama.
 - **Hunter-killer:** hold the game's Aim Override key in the panorama and the turret and gun slew onto what you're
   looking at, so the gunner can take it from there.
-- **Target tracker:** the Kalina's auto-lock, in the gunner's sight and the panorama, each on its own. Hold the cross on
-  a tank in the narrow thermal field (in the panorama the narrow TV field works too) until the ready frame comes up,
-  then lase (the gunner with APFSDS, HEAT or a missile, the panorama with anything) or press the tracker key, the
-  middle mouse button by default. The sight then stays on the target and the computer gets the lead from it, and you can
-  still nudge the aim inside the frame. It holds the target's path, so a tank rocking over rough ground doesn't shake
-  the sight. Lose sight of it behind a wall or smoke and it carries on where the target was heading for 6 seconds. The
-  key again, a shot from the gun, a zoom change or aiming away past the frame drops it. Hand a target over from the panorama with Aim
-  Override and the gunner's tracker takes it. The real one only locks in the thermal picture, there's a setting to let
-  the day sight do it as well.
-- **PDT back-up sight:** left of the gun, laid along the bore, with a stadiametric scale and the range set by hand. For
-  when the Sosna-U's been knocked out.
+- **PDT:** laid along the bore, with a stadiametric scale and the range set by hand.
+
+</details>
+
+<details>
+<summary><b>How the target tracker works</b></summary>
+
+The gunner's sight and the panorama each have their own. Hold the cross on a tank in the narrow thermal field (in the
+panorama the narrow TV field works too) until the ready frame comes up, then lase (the gunner with APFSDS, HEAT or a
+missile, the panorama with anything) or press the tracker key, the middle mouse button by default.
+
+- The sight then stays on the target and the computer gets the lead from it, and you can still nudge the aim inside the
+  frame.
+- It holds the target's path, so a tank rocking over rough ground doesn't shake the sight. Lose sight of it behind a
+  wall or smoke and it carries on where the target was heading for 6 seconds.
+- The key again, a shot from the gun, a zoom change or aiming away past the frame drops it.
+- Hand a target over from the panorama with Aim Override and the gunner's tracker takes it.
+- The real one only locks in the thermal picture, there's a setting to let the day sight do it as well.
+
+</details>
 
 ## The remote Kord
 
-- 12.7 mm Kord MT, **300 rounds** in one belt, reloaded under armour. 200 rounds a minute, or 100 on the switch (vehicle
-  menu > Kord MT > Rate of fire).
-- Aimed only through the panorama, hatch closed. 316° of traverse, -10° / +45°. The 44° it can't fire through is over
-  the gunner's sight head.
-- Drives, panorama and gun can be knocked out separately.
-- You don't get the Kord from the commander's head view (the one with the binoculars), only through the panorama.
-- Firing, the belt feeds into the gun round by round and the spent cases go out forward on the right. They land on the
-  tank and stay there until it tilts or brakes hard enough to shake them off. Don't want them? Set `Kord spent cases`
-  to false.
-
 ![The remote Kord station on the turret roof](docs/images/t90m_kord.jpg)
 
-## TShU-1-2M screen system
+A 12.7 mm Kord MT on top of the panorama, fired from under armour, hatch closed, one belt of 300 at 200 or 100 rounds
+a minute. The belt feeds round by round and the spent cases land on the tank.
+
+<details>
+<summary><b>Kord details</b></summary>
+
+- The belt's reloaded under armour. The rate of fire is in the vehicle menu (Kord MT > Rate of fire).
+- Aimed only through the panorama, not from the commander's head view (the one with the binoculars). 316° of
+  traverse, -10° / +45°. The 44° it can't fire through is over the gunner's sight head.
+- Drives, panorama and gun can be knocked out separately.
+- The spent cases go out forward on the right. They lie on the tank until it tilts or brakes hard enough to shake them
+  off. `Kord spent cases` turns them off.
+
+</details>
+
+## TShU-1-2M
 
 The T-90M has the screen half of the old Shtora and no IR jammer (the jammer lamps are gone on the real tank too):
 
-- **Laser warning** all round: two precise heads on the turret front (45° either side) and two coarse ones on the sides.
-  Get lased and a warning page comes up bottom right with a tone, showing which way it came from and what the system
-  did. The page is my take on the commander's touch screen, the real one's layout isn't published. In the thermal
-  sight, the PDT and the panorama it goes bigger in the black bar to the right of the picture.
-- **Automatic 3D17 aerosol screens** from the smoke tubes towards a laser in the front sector. An AI tank whose laser is
-  blocked by the screen has to judge the range by eye.
+- **Get lased** and a warning page comes up bottom right with a tone, showing which way it came from.
+- **Lased from the front**, a 3D17 aerosol screen goes up towards the laser by itself, and an AI tank lasing through it
+  has to judge the range by eye.
+
+All of it can be switched off or toned down in the settings.
+
+<details>
+<summary><b>How it works</b></summary>
+
+- **Laser warning** all round: two precise heads on the turret front (45° either side) and two coarse ones on the
+  sides. The page shows which way the laser came from and what the system did. It's my take on the commander's touch
+  screen, the real one's layout isn't published. In the thermal sight, the PDT and the panorama it goes bigger in the
+  black bar to the right of the picture.
+- **Automatic 3D17 aerosol screens** from the smoke tubes towards a laser in the front sector.
 - **From the vehicle menu** (TShU-1-2M): fire a screen where the gun points, or turn the turret to a laser that came from
   the side or rear.
 
-Everything can be switched off or toned down in the settings.
+</details>
 
-## 3OF82 Telnik air-burst
+## The ammo
 
-A fifth round beside the HE: the Kalina sets its fuse from the lased range as the round goes into the breech. Three
-settings in the vehicle menu (3OF82 Telnik fuse): **short of the target** (bursts about 10 m in front, the default),
-**over the target** (about 3 m above it) or **impact**. It throws 450 fragments forward in a 20° cone, which is pretty
-nasty against infantry in the open. Lase first, then load, like the real drill: a round already in the breech keeps the
-range it was set to.
+40 rounds where the real tank keeps them: 22 in the carousel, 8 in the hull and 10 in the bustle box. On top of the
+T-90A's shells there's the **9M119M1 Invar-M** (850 mm against the old Invar's 700) and the **3OF82 Telnik**
+air-burst round, which is pretty nasty against infantry in the open.
+
+<details>
+<summary><b>The bustle box</b></summary>
+
+The 10 rounds on the turret rear sit behind blow-off lids. The box is refilled only outside combat, like on the real
+tank: rounds come out of it (slowly, 20 s each) but nothing restocks it in a fight.
+
+</details>
+
+<details>
+<summary><b>The Telnik</b></summary>
+
+A fifth round beside the HE. The Kalina sets its fuse from the lased range as the round goes
+into the breech. Three settings in the vehicle menu (3OF82 Telnik fuse): **short of the target** (bursts about 10 m in
+front, the default), **over the target** (about 3 m above it) or **impact**. It throws 450 fragments forward in a 20°
+cone. Lase first, then load, like the real drill: a round already in the breech keeps the range it was set to.
+
+</details>
 
 ## The paint
 
-The weathering is baked for the T-90M's own shape: dust and mud heavier toward the ground, grime in the crevices,
+The weathering is made for the T-90M's own shape: dust and mud heavier toward the ground, grime in the crevices,
 streaks, rust and chipped edges. Set `Weathered paint` to false for a factory-fresh tank.
-
-## Where the model comes from
-
-The 3D model, its textures and the shapes of its armour plates are War Thunder's T-90M, taken from War Thunder's game
-files. They belong to Gaijin Entertainment, and they're not covered by this repository's license. Everything else (the
-armour values, the sights and their reticles, the fire control, the ammo, the screen system, the interior) was built for
-GHPC, from Russian sources.
 
 ## Bugs and suggestions
 
-The mod is still in development, so there's a fair chance a few bugs got through. Suggestions, fixes, better sources, pull
-requests, whatever you've got, and if you know something about the real T-90M that the mod gets wrong, tell me.
+I'm open to suggestions, fixes, better sources, pull requests, whatever you've got. If you know something about the real
+T-90M that the mod gets wrong, tell me.
 
 Found a bug? Open an [issue](../../issues) and attach `MelonLoader\Latest.log` from the game folder. The mod writes a
 warning there whenever something didn't load right, a game update has renamed something it uses, or one of its hooks
@@ -272,6 +342,10 @@ saying why.
 
 I only make and test the mod on the current Steam version of GHPC. A cracked copy or an old build might not load it at
 all, and I can't help with those, so make sure you're on the latest Steam version before opening an issue.
+
+## More GHPC mods
+
+I've made a few other mods for GHPC too, check out my [other repos](https://github.com/marsattackk?tab=repositories).
 
 ---
 
@@ -294,14 +368,14 @@ before editing it):
 | `APFSDS` | `"3BM60"` / `"3BM42"` (where the game doesn't pick one itself) | 3BM60 |
 | `Armour preset` | `"game-scale"` / `"source-only"` | game-scale |
 | `Weathered paint` | true (dirt, wear and rust) / false (clean factory paint) | true |
-| `Fire only when the gun is laid` | true (after a lase the gun won't fire until it has climbed to the elevation the computer set, like the real firing-permission circuit; from the sight and the panorama alike) / false (fires any time, like the game's own tanks; a shot while it's still climbing after a lase falls short) | true |
-| `ERA destruction effects` | false (a set-off Relikt box looks as before) / true (it's gone with a blast, soot round it, the nets over it cut; for T-90Ms spawned after the change) | true |
+| `Fire only when the gun is laid` | true (after a lase the gun won't fire until it has climbed to the elevation the computer set, like the real firing-permission circuit, from the sight and the panorama alike) / false (fires any time, like the game's own tanks, but a shot while it's still climbing after a lase falls short) | true |
+| `ERA destruction effects` | false (a set-off Relikt box looks as before) / true (it's gone with a blast, soot round it, the nets over it cut, for T-90Ms spawned after the change) | true |
 | `TShU-1-2M` | true (laser warning and automatic aerosol screens) / false (none of it: the game's ordinary smoke salvo) | true |
 | `TShU-1-2M automatic screens` | true (a laser from the front fires a screen by itself) / false (semi-automatic: the warning only, you fire the screen from the vehicle menu or with the smoke key) | true |
 | `TShU-1-2M alarm tone` | true (the laser warning sounds a tone) / false (the page only) | true |
 | `TShU-1-2M warning page` | true (the warning page shows bottom right) / false (the tone only) | true |
 | `TShU-1-2M page always on screen` | false (the page comes up on a warning and goes away after) / true (always on screen while you're in the T-90M) | false |
-| `Target tracker` | true (the auto-lock in the gunner's sight and the panorama) / false (no tracker; takes effect at once) | true |
+| `Target tracker` | true (the auto-lock in the gunner's sight and the panorama) / false (no tracker, takes effect at once) | true |
 | `Target tracker key` | a Unity key name: `Mouse2` is the middle mouse button, or `Y`, `H`, `U`, `Mouse3`, `Mouse4`, or `None` to lock by lasing only. Pick one the game doesn't use | Mouse2 |
 | `Target tracker from the day sight` | false (locks only in the narrow thermal field, as the real sight) / true (the day sight too) | false |
 | `Kord spent cases` | true (the Kord throws out its spent cases, they lie on the tank) / false (no cases, the belt still feeds) | true |
@@ -348,9 +422,6 @@ vanilla assets later doesn't break it.
 | 3OF82 "Telnik" | the 3OF26's shell with an air-burst fuse, 450 fragments in a 20° cone |
 | 3BK18M HEAT, 3OF26 HE-Frag | the game's own rounds |
 
-The bustle box is refilled only outside combat, like on the real tank: rounds come out of it (slowly, 20 s each)
-but nothing restocks it in a fight.
-
 </details>
 
 <details>
@@ -386,7 +457,11 @@ Layout: `T90M\` the mod, `Common\` the helpers it's built with, `Resources\` dat
 
 </details>
 
-## License
+## Where the model comes from, and the license
 
-The source code in this repository is under the [GNU General Public License v3.0](LICENSE). The 3D model, textures and
-armour shapes in the release zip are War Thunder's (Gaijin Entertainment) and are not covered by it.
+The 3D model, its textures and the shapes of its armour plates are War Thunder's T-90M, taken from War Thunder's game
+files. They belong to Gaijin Entertainment and they're not covered by this repository's license. Everything else (the
+armour values, the sights and their reticles, the fire control, the ammo, the screen system, the interior) was built for
+GHPC, from Russian sources.
+
+The source code in this repository is under the [GNU General Public License v3.0](LICENSE).
