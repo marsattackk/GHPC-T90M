@@ -8,6 +8,8 @@ A Russian **T-90M "Proryv"** you can drive and fight in GHPC, as its own unit. R
 the commander's PK PAN panorama with the remote Kord on top of it, the TShU-1-2M screen system, 3BM60 and the Invar-M
 missile, and the 3OF82 Telnik air-burst round.
 
+I made this mod for myself first, but you're welcome to use it too.
+
 It's a separate mod from my [T-90A](https://github.com/marsattackk/GHPC-T90A). You don't need the T-90A for it, and the
 two work fine installed together.
 
@@ -44,7 +46,9 @@ keep a list of units, so nothing in it points at the T-90M.
 - **Armour built for GHPC** from Russian sources, with Relikt, nets and slats on top.
 - **The real sights**: the Sosna-U and Kalina for the gunner, the PK PAN panorama for the commander.
 - **The remote Kord, TShU-1-2M, the Telnik and the Invar-M**, all working.
-- **Weathered paint** made for its own shape, or clean factory paint if you'd rather.
+- **40 rounds** in the real tank's places, 10 of them in the bustle box, and **weathered paint** made for its own shape.
+
+AI T-90Ms use the sights, TShU-1-2M and the ammo the same way you do.
 
 ## From the T-90A to the T-90M
 
@@ -176,16 +180,31 @@ By default a box that has gone off is gone with a blast, the plate round it soot
 its Relikt and the net screens.*
 
 <details>
+<summary><b>Test firing</b></summary>
+
+Fired in game straight at the front (ERA on, turret straight and turned 17°):
+
+| | T-90M |
+|---|---|
+| 3BM42 at the upper glacis | stopped in the glacis and its Relikt |
+| 3BM42 at the turret cheek | stopped in the cheek filling |
+| 3BK18M HEAT at the turret cheek | stopped by the Relikt |
+| 9M119M1 Invar-M at the turret cheek | precursor sets the Relikt off, main charge stopped by the inner wall about 50 mm short |
+
+</details>
+
+<details>
 <summary><b>Weak spots</b></summary>
 
-From my test firing (3BM42, 3BK18M and the Invar-M, turret straight and turned 17°), straight from the front:
+If you're fighting one, or trying to keep one alive, this is where it goes wrong. Straight from the front, from my test
+firing (turret straight and turned 17°):
 
-- **Turret cheeks** with their Relikt stop 3BM42 in the filling and 3BK18M in the Relikt. The Invar-M's precursor sets
-  the Relikt off and its main charge gets through the filling, but the inner wall stops it about 50 mm short.
-- **Upper glacis** with its Relikt stops everything I fired. The strip down its middle has no Relikt boxes on it, and
-  there a 3BM42 gets through the glacis and stops at the hull floor, and the Invar-M reaches the cooling fan.
-- **The gun mask** round the barrel: the barrel itself stops what hits it. The mantlet next to it is the usual weak
-  spot, an Invar-M coming in at an angle can get through it into the turret.
+| Spot | What happens |
+|---|---|
+| Strip down the middle of the glacis (no Relikt on it) | a 3BM42 gets through and stops at the hull floor, an Invar-M reaches the cooling fan |
+| Mantlet, next to the gun | an Invar-M coming in at an angle can get through into the turret |
+| Gun mask round the barrel | the barrel itself stops what hits it |
+
 - **The bustle box** on the turret rear is its own compartment. A round through its sides hits the stowed ammo in there
   and nothing else, the crew and the rest of the tank don't count it as inside.
 - **From the side and above it's a T-72**, same as my T-90A.
@@ -193,17 +212,27 @@ From my test firing (3BM42, 3BK18M and the Invar-M, turret straight and turned 1
 </details>
 
 <details>
-<summary><b>What it's made of</b></summary>
+<summary><b>Where the armour design comes from</b></summary>
 
-- **Turret:** welded rolled steel at the model's own thickness, with the cheek filling set to match Russian estimates
-  for the T-90M's turret front.
+It's based on **real Russian documents I found online**, not on War Thunder's armour values:
+
+- **Turret:** welded from rolled plates, as the T-90M's own technical description has it (posted on the "Одетые в броню"
+  forum), with spall liners on the sides, roof and front plates. The cheek filling is the T-72B obr. 1989 / T-90
+  package of reflecting plates, which andrei_bt's research on T-72 / T-90 filler packages says is still used on the
+  T-90M, set to match Russian estimates for the T-90M's turret front.
 - **Upper glacis:** the T-72B obr. 1989 / T-90 stack, layer by layer: 60 mm steel, rubber and steel with an air gap,
-  60 mm steel, a kevlar layer, 50 mm steel at 68°.
+  60 mm steel, a 10 mm kevlar layer instead of the old anti-neutron lining, 50 mm steel at 68°. From Russian Wikipedia's
+  «Т-90М» article and andrei_bt.
 - **Hull:** 80 mm sides, 85 mm lower front plate, 40 mm rear, 20 mm belly, from Russian Wikipedia and Tankograd.
+- **Relikt:** the maker's own protection figures (NII Stali), turned into GHPC armour the same way as the Kontakt-5
+  on my T-90A.
 - **Screens:** the rubber side screens work like the game's own rubber skirts. The slat screens at the back work like
   the game's slat armour, and the net screens on the turret spoil a non-tandem HEAT grenade 55 % of the time and let the
   rest through untouched, which is how the people who make them describe it. Tandem rounds pass both.
-- **Spall liners** inside the turret and hull, on the game's own liner material.
+- **Where nothing could be found** (turret sides, roof and rear wall), the value comes from the closest real
+  equivalent, the T-90A or the T-72 family, and it says so in my notes.
+
+There's also a "source-only" armour setting if you'd rather have the lower open-source figures.
 
 </details>
 
@@ -276,36 +305,87 @@ a minute. The belt feeds round by round and the spent cases land on the tank.
 - The spent cases go out forward on the right. They lie on the tank until it tilts or brakes hard enough to shake them
   off. `Kord spent cases` turns them off.
 
+![The Kord's belt feeding up into the gun](docs/images/kord_belt.jpg)
+
 </details>
 
 ## TShU-1-2M
 
-The T-90M has the screen half of the old Shtora and no IR jammer (the jammer lamps are gone on the real tank too):
+<p align="center">
+  <img src="docs/images/tshu_screen.jpg" width="49%" alt="3D17 aerosol screen going up between the T-90M and the laser">
+  <img src="docs/images/tshu_page.jpg" width="49%" alt="The TShU-1-2M warning page on a laser warning">
+</p>
 
-- **Get lased** and a warning page comes up bottom right with a tone, showing which way it came from.
-- **Lased from the front**, a 3D17 aerosol screen goes up towards the laser by itself, and an AI tank lasing through it
-  has to judge the range by eye.
+*Left: a laser from the front, and the T-90M puts a 3D17 screen between itself and the shooter. Right: the warning page,
+showing where the laser came from.*
 
-All of it can be switched off or toned down in the settings.
+The T-90M's soft-kill system, the screen half of the old Shtora with no IR jammer (the jammer lamps are gone on the real
+tank too). It doesn't shoot anything down, it messes with how the other guy aims:
+
+- **Get lased** and a warning page comes up bottom right with a tone, showing which way it came from, taken from where
+  the turret points, not the hull.
+- **Lased from in front of the turret**, a white cloud goes up between you and the shooter by itself, and a tank lasing
+  through it has to judge the range by eye.
+
+AI T-90Ms have it too: lase one from the front and it screens itself, lase it from the side and it turns its turret
+towards you. All of it can be switched off or toned down in the settings.
 
 <details>
-<summary><b>How it works</b></summary>
+<summary><b>The laser warning and the screens</b></summary>
 
-- **Laser warning** all round: two precise heads on the turret front (45° either side) and two coarse ones on the
-  sides. The page shows which way the laser came from and what the system did. It's my take on the commander's touch
+Four heads on the turret watch for lasers, and they turn with it: two precise ones covering 45° either side of where the
+turret points, two coarse ones on the sides for the rest of the circle.
+
+- **The page** shows which way the laser came from and what the system did. It's my take on the commander's touch
   screen, the real one's layout isn't published. In the thermal sight, the PDT and the panorama it goes bigger in the
   black bar to the right of the picture.
-- **Automatic 3D17 aerosol screens** from the smoke tubes towards a laser in the front sector.
-- **From the vehicle menu** (TShU-1-2M): fire a screen where the gun points, or turn the turret to a laser that came from
-  the side or rear.
+- **From the front, in automatic mode**, it fires a 3D17 grenade from the tube pointing closest to the laser. The cloud
+  blocks lasers and eyes, not thermal sights (the real one is made for visible light and near infrared).
+- **From the side or rear** you only get the warning, because a coarse head can't tell where to aim a screen. The
+  vehicle menu then has **Turn to Laser**, which swings the turret round until a precise head sees it, and if they're
+  still lasing you the screen goes up from there.
+- **What it does to the shooter:** an AI tank whose laser is blocked loses its rangefinder and judges the range by eye,
+  give or take 10 %. Honestly against APFSDS at 1600 m that barely matters, the round's flat enough to hit anyway. It
+  matters more for slower rounds like HEAT, and the cloud hides you while it stands.
+
+The screen won't go up when a hatch is open, when you fired the main gun in the last 15 s, when there's already a cloud
+on that line, or when you're out of grenades or the tubes are knocked out.
+
+</details>
+
+<details>
+<summary><b>Using it: the vehicle menu and the weapon info</b></summary>
+
+- **Vehicle menu > TShU-1-2M:** Aerosol Screen (fires one where the gun points, grenades left in brackets), Screen Mode
+  (AUTO, or SEMI where you get the warning and fire the screen yourself), and Turn to Laser after a side or rear warning.
+- **Weapon info, bottom left:** a `TShU-1-2M:` line with the screen mode, and a `TShU-1-2M screen:` line under it:
+  "ready" with the grenades left, or why it's held (hatch open, own shot with the seconds left, no grenades).
+- **Settings:** `TShU-1-2M` and the four after it (see Settings below).
 
 </details>
 
 ## The ammo
 
+![The T-90M's ammo in the game's X-ray view](docs/images/ammo_xray.jpg)
+
+*Pressing O: the carousel's ring under the turret, the hull rounds just behind it and the 10 in the bustle box.*
+
 40 rounds where the real tank keeps them: 22 in the carousel, 8 in the hull and 10 in the bustle box. On top of the
 T-90A's shells there's the **9M119M1 Invar-M** (850 mm against the old Invar's 700) and the **3OF82 Telnik**
-air-burst round, which is pretty nasty against infantry in the open.
+air-burst round, which is pretty nasty against infantry in the open. You pick the APFSDS (3BM60 or 3BM42) in the game's
+normal ammo menu.
+
+<details>
+<summary><b>Where they go</b></summary>
+
+- **22 in the autoloader's carousel** under the turret floor.
+- **8 in the hull**, against the engine bulkhead, as the T-90M's manual has it: the charges in a rack on the floor, the
+  shells in racks under the hull roof behind spall screens. Only six shells fit under the roof, so two lie in the floor
+  rack, and how they're arranged is my best guess.
+- **10 in the bustle box** on the turret rear (below).
+- The T-72's middle fuel tank rack is gone on the real T-90M, so there's nothing stowed there.
+
+</details>
 
 <details>
 <summary><b>The bustle box</b></summary>
@@ -327,8 +407,15 @@ cone. Lase first, then load, like the real drill: a round already in the breech 
 
 ## The paint
 
-The weathering is made for the T-90M's own shape: dust and mud heavier toward the ground, grime in the crevices,
-streaks, rust and chipped edges. Set `Weathered paint` to false for a factory-fresh tank.
+<p align="center">
+  <img src="docs/images/paint_weathered.jpg" width="49%" alt="Weathered paint (default)">
+  <img src="docs/images/paint_clean.jpg" width="49%" alt="Clean factory paint">
+</p>
+
+*Left: the default weathered paint. Right: `Weathered paint` set to false.*
+
+Dust and mud heavier toward the ground, grime in the crevices, streaks down the sides, rust running from bolts and edges
+at the back, chipped edges, all made for the T-90M's own shape.
 
 ## Bugs and suggestions
 
@@ -345,7 +432,8 @@ all, and I can't help with those, so make sure you're on the latest Steam versio
 
 ## More GHPC mods
 
-I've made a few other mods for GHPC too, check out my [other repos](https://github.com/marsattackk?tab=repositories).
+If you like this one, there's also my [T-80UM2](https://github.com/marsattackk/GHPC-T80UM2), a T-80U with the Drozd
+active protection system on the turret front. I've made a few other mods for GHPC too, check out my [other repos](https://github.com/marsattackk?tab=repositories).
 
 ---
 
@@ -388,7 +476,8 @@ If your Windows uses a decimal comma and a settings editor saved a number as tex
 the mod reads it anyway, with a comma or a point, and says so in the log. MelonLoader on its own would quietly use the
 default instead.
 
-The three campaign settings take effect at the next mission load, no restart needed.
+The three campaign settings take effect at the next mission load, no restart needed: switch `Add to campaign roster`
+off and the T-90M comes out of the roster, change the prevalence or unlock and the roster follows.
 
 In the vehicle menu: the Kord MT's rate of fire and the 3OF82 Telnik's fuse setting.
 
@@ -429,7 +518,7 @@ vanilla assets later doesn't break it.
 
 | What | In the mod | Why |
 |---|---|---|
-| Base vehicle | Built on the game's T-72M1 (running gear, hull internals, autoloader, diesel) | The T-90 *is* a T-72 development. GHPC has no Russian T-72B, so the army, voices, sight sounds and HUD come from the T-80B. |
+| Base vehicle | Built on the game's T-72M1 (running gear, hull internals, autoloader, diesel) | The T-90 *is* a T-72 development. GHPC has no T-72B, so the army, voices, sight sounds and HUD come from the T-80B. |
 | Armour plate shapes | War Thunder's damage model | It's the best public map of where the plates are. Only the shapes, not the values. |
 | Autoloader, gun elevation speed | 6.5 s, 28°/s | Not published for the T-90M. 6.5 s is the T-90A's, 28°/s is worked out from the elevation cylinder. |
 | Warning page | My own layout | The real touch screen's page isn't published. |
