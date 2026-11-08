@@ -10,8 +10,9 @@ missile, and the 3OF82 Telnik air-burst round.
 
 I made this mod for myself first, but you're welcome to use it too.
 
-It's a separate mod from my [T-90A](https://github.com/marsattackk/GHPC-T90A). You don't need the T-90A for it, and the
-two work fine installed together.
+It's a separate mod from my [T-90A](https://github.com/marsattackk/GHPC-T90A) and
+[T-80UM2](https://github.com/marsattackk/GHPC-T80UM2). You don't need either for it, and they all work fine installed
+together.
 
 <p align="center">
   <img src="docs/images/t90m_hero.jpg" width="49%" alt="The T-90M in GHPC">
@@ -94,6 +95,9 @@ and spent cases, the paint, the T-80B's crew voices, and a fix on one goes into 
 the real tank: the bustle box as its own compartment, the panorama with the Kord on it, Relikt and the nets, TShU-1-2M
 and the Telnik round. It's still its own mod, neither needs the other.
 
+My [T-80UM2](https://github.com/marsattackk/GHPC-T80UM2) came after both, on the same groundwork: a T-80U with
+Kontakt-5 and the Drozd active protection, the T-90A's rival from the T-80 side rather than a step towards the T-90M.
+
 </details>
 
 ## "It's a War Thunder model, does it even work in GHPC?"
@@ -140,6 +144,7 @@ Line-of-sight protection straight from the front, in mm of steel, **without ERA*
 |---|---|---|
 | **T-90M (this mod)** | **690 / 820** | **552 / 752** |
 | [T-90A](https://github.com/marsattackk/GHPC-T90A) (my other mod) | 690 / 819 | 549 / 748 |
+| [T-80UM2](https://github.com/marsattackk/GHPC-T80UM2) (my other mod) | 744 / 984 | 473 / 653 |
 | T-80B (vanilla) | 595 / 669 | 485 / 602 |
 | M1IP (vanilla) | 516 / 999 | 348 / 361 |
 
@@ -153,8 +158,8 @@ strip down the middle of the glacis and the mantlet next to the gun.
 <details>
 <summary><b>How it was measured</b></summary>
 
-Median over a grid of straight-on shots, from the game's own armour probe. Both T-90s measured in game on the cheek
-block and glacis, the vanilla tanks from their armour in the game's files over the whole cheek face, so their thin
+Median over a grid of straight-on shots, from the game's own armour probe. Both T-90s and the T-80UM2 measured in game on
+the cheek block and glacis, the vanilla tanks from their armour in the game's files over the whole cheek face, so their thin
 edges pull their median down a bit.
 
 </details>
