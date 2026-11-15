@@ -1,0 +1,24 @@
+Sosna-U day (T-90M)|6.7500|first|True
+G|Boresight|Boresight||0.0000|0.0000|0.0000
+ L|0.3142|-0.3142|-45.0000|0.8886|0.2618|painted|NightIllumination
+ L|0.0000|-0.6283|180.0000|1.2566|0.2618|painted|NightIllumination
+ L|-0.3142|-0.3142|45.0000|0.8886|0.2618|painted|NightIllumination
+ L|0.0000|-2.0944|-90.0000|2.9322|0.2618|painted|NightIllumination
+ L|-2.3038|0.3665|0.0000|3.3510|0.2618|painted|NightIllumination
+ L|2.3038|0.3665|0.0000|3.3510|0.2618|painted|NightIllumination
+ L|-16.7552|0.0000|90.0000|2.3038|0.2618|painted|NightIllumination
+ L|-33.5103|0.0524|90.0000|5.3407|0.3351|painted|NightIllumination
+ L|16.7552|0.0000|90.0000|2.3038|0.2618|painted|NightIllumination
+ L|33.5103|0.0524|90.0000|5.3407|0.3351|painted|NightIllumination
+ L|0.0000|16.5457|0.0000|2.0944|0.2618|painted|NightIllumination
+ L|0.0000|33.4056|0.0000|5.0265|0.2618|painted|NightIllumination
+ L|0.0000|-33.5103|0.0000|5.0265|0.2618|painted|NightIllumination
+screen|Sosna-U day readout
+S|rect|block|bottom|0.0000|8.0896|35.9712|16.1792|0.0000|0.0000|0|||center|0.0000,0.0000,0.0000,1.0000
+S|readout|mode|bottom|-14.8440|12.4580|9.8960|5.7177|6.3928|0.0000|0||Reticle LiberationSans SDF|center|1.0000,0.1600,0.1000,1.0000
+S|readout|ammo|bottom|9.8960|12.4580|19.7920|5.7177|6.3928|0.0000|0|<mspace=1.548em>AP</mspace>|Reticle LiberationSans SDF|center|1.0000,0.1600,0.1000,1.0000
+S|readout|lock left|bottom|-2.4740|12.4580|4.9480|5.7177|6.3928|0.0000|0||Reticle LiberationSans SDF|right|1.0000,0.1600,0.1000,1.0000
+S|readout|lock right|bottom|22.2660|12.4580|4.9480|5.7177|6.3928|0.0000|0||Reticle LiberationSans SDF|left|1.0000,0.1600,0.1000,1.0000
+S|readout|range|bottom|0.0000|4.0448|39.5841|5.7177|3.5758|0.0000|0|<mspace=2.7675em>0000</mspace>|Soviet7SegmentFont SDF|center|1.0000,0.1600,0.1000,1.0000
+S|lamp|ready|bottom|-22.6195|8.0896|0.0000|0.0000|2.5133|0.0000|0|||center|0.1570,1.0000,0.0000,1.0000
+S|lamp|laser|bottom|22.6195|8.0896|0.0000|0.0000|2.5133|0.0000|0|||center|1.0000,0.1100,0.1700,1.0000

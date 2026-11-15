@@ -1,0 +1,21 @@
+PDT back-up sight (T-90M)|3.0000|first|True
+G|Mark|Impact||0.0000|0.0000|0.0000
+ L|0.0000|0.0000|0.0000|18.4830|0.1833|painted|NightIllumination
+ L|0.0000|-0.1702|90.0000|10.5505|0.1833|painted|NightIllumination
+ L|0.0000|6.9665|90.0000|1.9321|0.1833|painted|NightIllumination
+ L|0.0000|-7.3304|-90.0000|2.0316|0.1833|painted|NightIllumination
+ L|-12.2365|0.0000|180.0000|3.8956|0.1833|painted|NightIllumination
+ L|12.2365|0.0000|0.0000|3.8956|0.1833|painted|NightIllumination
+G|Stadia|Boresight||0.0000|0.0000|0.0000
+ L|20.4204|-4.1888|0.0000|3.1416|0.2000|painted|NightIllumination
+ L|18.8496|-1.8188|90.0000|4.7400|0.1200|painted|NightIllumination
+ L|19.5041|0.5512|0.0000|1.3090|0.1200|painted|NightIllumination
+ L|19.8968|-1.8188|0.0000|2.0944|0.1200|painted|NightIllumination
+ L|19.5041|-2.6088|0.0000|1.3090|0.1200|painted|NightIllumination
+ L|19.8968|-3.0038|0.0000|2.0944|0.1200|painted|NightIllumination
+ L|19.8968|-3.3988|0.0000|2.0944|0.1200|painted|NightIllumination
+screen|PDT monitor
+S|rect|monitor edge|centre|-87.2665|0.0000|104.7198|53.4071|0.0000|0.0000|0|||center|0.0000,0.0000,0.0000,1.0000
+S|rect|monitor edge|centre|87.2665|0.0000|104.7198|53.4071|0.0000|0.0000|0|||center|0.0000,0.0000,0.0000,1.0000
+S|rect|picture band|centre|0.0000|48.4329|104.7198|52.3599|0.0000|0.0000|0|||center|0.0000,0.0000,0.0000,1.0000
+S|rect|picture band|centre|0.0000|-48.4329|104.7198|52.3599|0.0000|0.0000|0|||center|0.0000,0.0000,0.0000,1.0000

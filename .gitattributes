@@ -1,0 +1,9 @@
+# Text files are LF in the repo and in every checkout, so a file looks the same on every machine.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.wav binary
+*.bin binary
+*.mesh binary
+*.dll binary

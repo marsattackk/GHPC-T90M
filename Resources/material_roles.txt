@@ -1,0 +1,30 @@
+t90m_glass	optic_glass	fake glass	T62,T55A,LEO2A3
+t90m_glass_backing	glass_backing	-	
+t90m_glass_lamp	lamp_reflector	fake glass	T62,T55A,LEO2A3
+t90m_hatch_inner	plain_underside	-	
+t90m_headlight_cover	clear_cover	fake glass	T62,T55A,LEO2A3
+t90m_headlight_glass	lamp_lens	glass semi matte	T80B
+t90m_headlight_glass_under	lens_under	-	
+t90m_interior	back_faces	-	
+t90m_lamp_backing	lamp_backing	-	
+t90m_lamp_cover	lamp_cover	-	
+t90m_lens_barrel	lens_barrel	-	
+t90m_lens_laser	lens_laser	-	
+t90m_lens_thermal	lens_thermal	-	
+t90m_lens_trim	lens_trim	-	
+t90m_lens_tv	lens_tv	-	
+t90m_mg_6p49_kord	small_arms	-	
+t90m_mg_6p49_kord_ammo	small_arms	-	
+t90m_mg_pkt	small_arms	-	
+t90m_net_f	net	-	
+t90m_net_h	net	-	
+t90m_optic_wall	optic_wall	-	
+t90m_pan_thermal_window	camera_glass	fake glass	T62,T55A,LEO2A3
+t90m_pan_tv_window	camera_glass	fake glass	T62,T55A,LEO2A3
+t90m_smooth_barrel_a	barrel	-	
+t90m_t_90m_add_body	paint	-	
+t90m_t_90m_body	paint	-	
+t90m_t_90m_gun	paint	-	
+t90m_t_90m_turret	paint	-	
+t90m_us_turret_glass	optic_glass	fake glass	T62,T55A,LEO2A3
+t90m_ussr_t_90m_phys_track	tracks	-	
