@@ -58,7 +58,7 @@ Line-of-sight protection straight from the front, in mm of steel, **without ERA*
 |---|---|---|
 | **T-90M (this mod)** | **690 / 820** | **552 / 752** |
 | [T-90A](https://github.com/marsattackk/GHPC-T90A) (my other mod) | 690 / 819 | 549 / 748 |
-| [T-80UM2](https://github.com/marsattackk/GHPC-T80UM2) (my other mod) | 744 / 984 | 473 / 653 |
+| [T-80UM2](https://github.com/marsattackk/GHPC-T80UM2) (my other mod) | 744 / 984 | 485 / 653 |
 | T-80B (vanilla) | 595 / 669 | 485 / 602 |
 | M1IP (vanilla) | 516 / 999 | 348 / 361 |
 

@@ -213,6 +213,11 @@ namespace T90M.Common
 
 		static void Step(LiveRound r, Flight f, float dt)
 		{
+			if (Motion == null || FuseActive == null || FuseLeft == null || Armed == null)
+			{
+				Flights.Remove(r);
+				return;
+			}
 			if (r.IsDestroyed || r.ID != f.Id)
 			{
 				Flights.Remove(r);

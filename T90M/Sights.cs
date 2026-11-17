@@ -13,6 +13,7 @@ namespace T90M
 	// The gunner's Sosna-U, day and thermal.
 	internal static class Sights
 	{
+		// The «Сосна-У»'s figures here are its 2014 manual's, for the sight in the T-72B3.
 		// The day channel's fields: 4 deg at 12x and 12 deg at 4x.
 		const float DayWide = 12f, DayNarrow = 4f;
 
@@ -32,12 +33,14 @@ namespace T90M
 			RangeStep = 100,
 			// The range display counts in 10 m.
 			DisplayRangeIncrement = 10,
-			FireGateAngle = 0.1f,
+			FireGateAngle = 0.1f,   // the Kalina's isn't published: GHPC's T-80B (1A33) value, as on the T-90A
 			FireWhenLaid = () => T90MMod.FireWhenLaid == null || T90MMod.FireWhenLaid.Value,
 			GateStaysOnGun = true,
 			ManualMode = false,
 		};
 
+		// The thermal fields' heights: 9 x 6.75°, 3 x 2.25° and 1.5 x 1.12° with the electronic zoom (the «Сосна-У»
+		// manual; Thales gives the Catherine-XP's own 9 x 6.75° and 3 x 2.25° with a 2 x 2 zoom).
 		internal const float ThermalWide = 6.75f;
 		internal const float ThermalNarrow = 2.25f;
 		internal const float ThermalZoom = 1.125f;

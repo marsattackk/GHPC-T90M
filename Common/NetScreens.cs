@@ -22,10 +22,13 @@ namespace T90M.Common
 
 		static readonly AccessTools.FieldRef<LiveRound, bool> IsHeat = Reflect.FieldRefAccess<LiveRound, bool>("_isHeat");
 		static readonly AccessTools.FieldRef<LiveRound, bool> JetActive = Reflect.FieldRefAccess<LiveRound, bool>("_jetActive");
-		static readonly Action<LiveRound, string> AddEvent = AccessTools.MethodDelegate<Action<LiveRound, string>>(Reflect.Method(
+		static readonly MethodInfo AddEventMethod = Reflect.Method(
 			typeof(LiveRound),
 			"AddEvent",
-			new[] { typeof(string) }));
+			new[] { typeof(string) });
+		static readonly Action<LiveRound, string> AddEvent = AddEventMethod == null
+			? null
+			: AccessTools.MethodDelegate<Action<LiveRound, string>>(AddEventMethod);
 
 		internal static bool IsNet(Collider c) => c != null && c.TryGetComponent<IArmor>(out var armor) && armor.IsSlatArmor
 			&& armor.Name != null && armor.Name.StartsWith(NamePrefix, StringComparison.OrdinalIgnoreCase);
@@ -40,7 +43,7 @@ namespace T90M.Common
 			if (_applied) return;
 			_applied = true;
 			var target = Reflect.Method(typeof(LiveRound), "penCheck");
-			if (target == null || IsHeat == null || JetActive == null) return;
+			if (target == null || IsHeat == null || JetActive == null || AddEvent == null) return;
 			harmony.Patch(
 				target,
 				prefix: new HarmonyMethod(typeof(PenCheckPatch), "Prefix"),

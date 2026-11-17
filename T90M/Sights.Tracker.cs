@@ -36,7 +36,7 @@ namespace T90M
 				|| a.Category == AmmoType.AmmoCategory.ShapedCharge);
 		static bool AnyLase(AmmoType a) => a != null;
 
-		// 575 is the Catherine-XP's picture, 768 x 575; 576 is the render height and the TV standard.
+		// 575 is the Catherine-XP's picture, 768 x 575 (Thales); the panorama's TV camera isn't published, so a TV standard's 576.
 		const int ThermalLines = 575;
 		const int TvLines = 576;
 		const float ReadyPixels = 8f;   // made up (no published figure). A T-72 to about 4 km in the narrow thermal
@@ -87,7 +87,7 @@ namespace T90M
 					Name = "Sosna-U thermal",
 					Optic = night,
 					Slot = day.slot.LinkedNightSight,
-					CaptureSteps = new[] { 1, 2 },
+					CaptureSteps = new[] { 1, 2 },   // the narrow field and its zoom, «в УПЗ или УПЗ*2» (Т-72Б3 description)
 					Lines = ThermalLines,
 					Thermal = true,
 					LaseCaptures = GunnerLase,
@@ -131,7 +131,7 @@ namespace T90M
 					Name = "Dubl thermal",
 					Optic = station.DublThermal,
 					Slot = station.DublThermal?.slot,
-					CaptureSteps = new[] { 1, 2 },
+					CaptureSteps = new[] { 1, 2 },   // as the «Сосна-У»'s: no source names the panorama's (my choice)
 					Lines = ThermalLines,
 					Thermal = true,
 					Group = "dubl",
@@ -188,7 +188,7 @@ namespace T90M
 					Name = "PK PAN thermal",
 					Optic = station.Thermal,
 					Slot = station.Thermal.slot,
-					CaptureSteps = new[] { 1, 2 },
+					CaptureSteps = new[] { 1, 2 },   // as the «Сосна-У»'s: no source names the panorama's (my choice)
 					Lines = ThermalLines,
 					Thermal = true,
 					Group = "pan",

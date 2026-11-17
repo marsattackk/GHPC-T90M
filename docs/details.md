@@ -126,23 +126,124 @@ gives the clean factory finish on the right.
 
 ## Where it isn't the real tank
 
+Some of these are my choices against what the sources would give, and the rest are places where the sources ran out.
+
+**Firepower**
+
+- The round mix is mine, because nobody publishes one: 20 APFSDS, 8 HEAT, 4 HE, 4 Telnik and 4 Invar-M. The carousel
+  holds 12 / 4 / 2 / 2 and two missiles, the hull 4 / 1 / 1 and two missiles, the bustle box 4 / 3 / 1 / 2 and no missile.
+  Only the 40 = 22 + 8 + 10 is sourced.
+- In the campaign the T-90M turns up half as often as my T-90A (0.25 against 0.5), after 2 missions, and the 3BM42 half as
+  often as the 3BM60. Those are my settings.
+- The 3BM60's 693 mm and the 3BM42's 578 mm are the maker's 300 and 230 mm at 60° at 2 km, doubled for the line of sight
+  and carried back to the muzzle through the game's drag. The 3BM60's 4.5 kg is its core's, because the flight mass isn't
+  published, and the 3BM42 flies on the game's 3BM32 drag.
+- The Invar-M's 17.2 kg is Russian Wikipedia's figure. The exporter gives it only for the older 9M119M. It flies at one
+  steady 294 m/s, 5 km in 17 s, because GHPC flies missiles at a constant speed, and it self-destructs just past 5 km, since
+  the real time isn't published.
+- The Telnik's burst 10 m short is the distance its table gives the fragment circle for, the 3 m over the target is my own
+  number, and so are the fragments' drag and their 6 mm of penetration at 1200 m/s. Its charge is the game's 3OF26 cut to
+  the Telnik's 3.0 kg of A-IX-2 against 3.4.
+- The gun's elevation speed isn't published for the T-90M: 28°/s is worked out from a patent whose electric drive is 1.6
+  times faster than the hydraulic one, at 45°/s. The autoloader keeps the game's T-72M1 timing, because no cycle time is
+  published for the T-90M's either.
+- The gun's depression at each turret angle is my own table, with the barrel kept clear of the hull. No source gives it.
+- The turret's 40°/s is the T-90MS's, from the maker's table and brochure, as the T-90M's own isn't published.
+- Restocking the carousel from the hull rack keeps the game's T-72M1 pace, 20 to 30 s a round. The T-72A manual loads
+  the carousel at 11 to 14 s a round.
+- The bustle box's lids blow off like the M1's; the manual describes hinged, bolted lids. The lids' thickness, the size
+  of the fire and the restock time are my own.
+- How the eight hull rounds sit and the tracker's lock distance are my guesses too.
+
+**Sights**
+
+- The Sosna-U's laser reaches 10 km and its line of sight +30°, its 2014 manual's figures for the sight in the T-72B3.
+  The maker's T-90MS table gives 7500 m, and an older table +20°.
+- The Sosna-U head's 7.5° of travel in traverse I read as 7.5° either side.
+- Every PK PAN figure, the fields, laser, limits and speeds, comes from one 2011 table posted on a forum without its
+  origin. It agrees with the Sosna-U's manual and a VOMZ patent where they overlap, but I couldn't trace it.
+- The thermal pictures are clean, as on a flat monitor. The T-90M's own monitor isn't published, and the Sosna-U's
+  manual describes a CRT on the T-72B3. The panorama's TV in black and white is my guess too.
+- In Dubl the commander lays the main gun through the panorama's picture and lases with the panorama's own rangefinder.
+  The sources say he can lay and fire the gun, not through which picture or with which laser.
+- The gun is laid onto the point under the cross at the lased range, allowing for the sight head standing off the bore.
+  The manual names no such correction, so that's my reading.
+- The ПДТ shows 4 × 3°, its datasheet's 4° width on a 4:3 picture. The datasheet gives 2.55° for the height.
+- The panorama's tracker works in its TV and thermal narrow fields, follows at 10°/s and keeps its lock while the Kord
+  fires. None of that is published. `Target tracker from the day sight` goes past the real tracker, which works off the
+  thermal picture only, so it's off by default.
+- The gunner's laser window and periscope, and the ПДТ's eye in the roof block I take for it, sit where I placed them on
+  the model.
+- The warning page is my own layout, because the real one isn't published. The panorama's and the back-up sight's marks
+  are borrowed from the Sosna-U or inferred.
+
+**The Kord and TShU-1-2M**
+
+- The Kord's belt reloads under armour, though the real box sits outside on the mount. The station's speeds are the
+  panorama's, and its blind sector and the mouth of its case chute are guesses.
+- TShU-1-2M has War Thunder's 5 tubes on the left and 7 on the right; the manual says 6 a side. What the T-90M's sources
+  leave out is copied from the T-90A's Shtora-1: no automatic screen with a hatch open or for 15 s after your own shot, the
+  tubes at 12° and the 3D17 cloud.
+
+**Armour**
+
 - The armour presets are the T-90A's figures (game-scale: turret 690 / 820, glacis 550 / 750; source-only: 575 / 750 and
   500 / 650, without ERA), because I found no figures for the T-90M I could trust. Relikt's bonus on top is worked out
   from the maker's factor.
 - The plate shapes are War Thunder's. None of its armour ratings is used, but where no source gives a thickness (the
   turret shell, the cupola ring, the driver's hatch, the bustle box) the plate is as thick as the model draws it.
-- The gun's elevation speed isn't published for the T-90M: 28°/s comes from a patent for the hydraulic elevation drive.
-  The autoloader keeps the game's T-72M1 timing, because no cycle time is published for the T-90M's either.
-- The gun's depression at each turret angle is my own table, with the barrel kept clear of the hull. No source gives it.
-- The bustle box's lids blow off like the M1's; the manual describes hinged, bolted lids. The lids' thickness, the size
-  of the fire and the restock time are my own.
-- The Kord's belt reloads under armour, though the real box sits outside on the mount. The station's speeds are the
-  panorama's, and its blind sector and the mouth of its case chute are guesses.
-- The warning page is my own layout, because the real one isn't published. The panorama's and the back-up sight's marks
-  are borrowed from the Sosna-U or inferred.
+- The cheek packages stand square to the cheek wall, as on my T-90A and in the section drawings of the T-72B / T-90
+  turrets. No drawing of the T-90M's own turret is published.
+- Relikt takes Kontakt-5's rule for what sets a box off, because nobody publishes Relikt's own.
 - A set-off Relikt container is simply gone, because there's no model of a spent one, and the nets being cut over it is
   my guess.
-- How the eight hull rounds sit and the tracker's lock distance are my guesses too.
+- The nets spoil a HEAT grenade 55 % of the time, the middle of NII Stali's 0.5 to 0.6 for its own net of the same kind
+  against a PG-7. That isn't named as the T-90M's net, and it says nothing about tank shells or missiles.
+- The three internal fuel tanks are in the hit report only and start no fire of their own, like the game's own tanks'
+  fuel tanks, and the periscopes aren't hit zones.
+
+**Sources**
+
+These are the ones the numbers on this page and in the code lean on.
+
+- «Описание танка Т-90М», the T-90M's technical description, posted on the «Одетые в броню» forum:
+  [odetievbrony.ru](https://odetievbrony.ru/viewtopic.php?id=1649). The stowage, the coax and the Kord, the Kord's firing
+  angles, TShU-1-2M's heads, the bustle box and the mass.
+- Russian Wikipedia, [Т-90М](https://ru.wikipedia.org/wiki/%D0%A2-90%D0%9C) (the history) and
+  [2А46](https://ru.wikipedia.org/wiki/2А46) (the Invar-M's mass).
+- Uralvagonzavod's T-90MS table, from the
+  [Internet Archive](https://web.archive.org/web/20170127204849/http://uralvagonzavod.ru/product/70/57), and its brochure
+  pages on Gur Khan's blog, [«Т-90МС «ТАГИЛ»: Система управления огнем»](http://gurkhan.blogspot.com/2011/09/90_23.html).
+- В. Калмыков, А. Мирошниченко, «Многоканальный прицел наводчика «Сосна-У»» (ВУНЦ, 2014):
+  [PDF](https://suveren.com.ua/attachments/article/163/SOSNA_U.pdf).
+- «ТТХ комбинированного прицела наводчика ПН «Сосна-У» и панорамного прицела командира ПК ПАН «Соколиный глаз»», a 2011
+  table on the [otvaga2004 forum](http://otvaga2004.mybb.ru/viewtopic.php?id=140&p=8) (every PK PAN figure).
+- andrei_bt, [«Прицел дублер телевизионный ПДТ»](https://andrei-bt.livejournal.com/601336.html) (Пеленг's datasheet) and
+  [«Танковый осколочно-пучковый снаряд "Тельник"»](https://andrei-bt.livejournal.com/63588.html) (the Telnik's exhibition
+  data).
+- [«Автомат сопровождения цели в танке Т-72Б3»](https://vk.com/@ovbron-avtomat-soprovozhdeniya-celi-v-tanke-t-72b3), from
+  the T-72B3's technical description (the tracker).
+- «Танк Т-72А. Техническое описание и инструкция по эксплуатации», book 1, 1986:
+  [PDF](https://www.military-references.com/wp-content/uploads/books/tanks/ussr/t-72/%D0%A2%D0%B0%D0%BD%D0%BA_%D0%A2-72%D0%90_%D0%A2%D0%B5%D1%85%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5_%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5_%D0%B8_%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F_%D0%BF%D0%BE_%D1%8D%D0%BA%D1%81%D0%BF%D0%BB%D1%83%D0%B0%D1%82%D0%B0%D1%86%D0%B8%D0%B8_%D0%9A%D0%BD%D0%B8%D0%B3%D0%B0_1_1986.pdf)
+  (the gun's angles, the gearing and reverse, the carousel's loading pace).
+- Patent [RU 2421679](https://patents.google.com/patent/RU2421679C1/ru) (the gun's elevation speed).
+- vpk.name, [«Основной боевой танк Т-90 "Владимир"»](https://vpk.name/library/f/tank-t-90.html) (the engine's 2000 rpm,
+  the 3BM60's core).
+- NIMI's Army-2019 figures for the 3VBM23 and the 3BM42 on the Glavcom blog,
+  [«Технологии в танкостроении. БПС»](https://glavcom.blogspot.com/2020/04/apfsdsbps3bm42mango3bm60svinec.html), and the
+  [3VBM17 spec sheet](https://lugansk-ukraine.livejournal.com/68280.html).
+- btvt.info, [«Комплекс управляемого вооружения 9К119М «Рефлекс-М»»](https://btvt.info/3attackdefensemobility/tyr125.htm)
+  (the Invar-M).
+- НВО, [«Антиквариату место не в танке, а в музее»](https://nvo.ng.ru/armament/2011-05-20/12_anikvariat.html) (the
+  3OF26's filler).
+- [«12,7 мм пулемет "КОРД"»](https://vimpel-v.com/small_arms/kkp/4098-127-mm-pulemet-kord.html) (the Kord's belt and its
+  spent cases).
+- NII Stali's [Relikt page](https://web.archive.org/web/20150402101852/http://www.niistali.ru/products/military/relict/relikt_t72m_t90sm_bmpt/)
+  (archived 2015) and Союзмаш,
+  [«НИИ стали» разработал невидимую защиту от гранат](https://soyuzmash.ru/news/companies-news/nii-stali-razrabotal-nevidimuyu-zashchitu-ot-granat/)
+  (the nets).
+- In English: Coclé and others, «QWIP compact thermal imager: Catherine-XP and its evolutions» (Thales, SPIE 2007):
+  [PDF](https://www.thermoview.ru/pdf/QWIP_paper_Orlando.pdf).
 
 ## What it shares with my T-90A
 

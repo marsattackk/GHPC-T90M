@@ -19,8 +19,8 @@ and they all work fine installed together.
 1. Get [MelonLoader](https://github.com/LavaGang/MelonLoader/releases) (0.7.3 or newer) into GHPC if you don't have it
    already. No other mod is needed.
 2. Download `T90M_<version>.zip` from [Releases](../../releases/latest).
-3. Copy the `Mods` folder from the zip into the game folder, the one with `GHPC.exe` in it (Steam: right-click GHPC >
-   Manage > Browse local files). You should end up with:
+3. Copy the `Mods` folder from the zip into the game's `Bin` folder, the one with `GHPC.exe` in it (Steam: right-click GHPC >
+   Manage > Browse local files, then open `Bin`). `MelonLoader` and `UserData` are in there too. You should end up with:
    ```
    Mods\T90M.dll
    Mods\T90M\t90m
@@ -234,6 +234,7 @@ before editing it.
 | `Campaign prevalence` | how common it is (1 = as common as a typical tank) | 0.25 |
 | `Campaign unlock after missions` | number | 2 |
 | `APFSDS` | `"3BM60"` / `"3BM42"`, where the game doesn't pick one itself | 3BM60 |
+| `Force APFSDS` | true: the campaign gives every T-90M the `APFSDS` round instead of drawing one from its ammo supply | false |
 | `Fire only when the gun is laid` | true: after a lase the gun waits until it's at the elevation the computer set, from the sight and the panorama alike. false: fires any time, but a shot while it's still climbing falls short | true |
 | `Target tracker` | false: no tracker in the sight or the panorama. Takes effect at once | true |
 | `Target tracker key` | a Unity key name: `Mouse2` is the middle mouse button, or `Y`, `H`, `U`, `Mouse3`, `Mouse4`, or `None` to lock by lasing only. Pick one the game doesn't use | Mouse2 |

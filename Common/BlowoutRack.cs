@@ -62,6 +62,7 @@ namespace T90M.Common
 			// The drawn flames only, the height that throws the lids and heats the box stays GHPC's.
 			static void Prefix(CompartmentExit __instance, ref float __0)
 			{
+				if (ExitCompartment == null) return;
 				ref float height = ref __0;
 				var compartment = __instance != null ? ExitCompartment(__instance) : null;
 				var iso = compartment != null ? compartment.GetComponent<Isolated>() : null;
@@ -109,7 +110,8 @@ namespace T90M.Common
 			static bool Prefix(Compartment __instance, float __0)
 			{
 				float ratio = __0;
-				if (__instance == null || __instance.Parent != null || __instance.GetComponent<Isolated>() == null) return true;
+				if (CompartmentManager == null || __instance == null || __instance.Parent != null) return true;
+				if (__instance.GetComponent<Isolated>() == null) return true;
 				foreach (var exit in __instance.Exits) exit.MakeFireBurst(ratio);
 				var manager = CompartmentManager(__instance);
 				if (manager != null) (DidBurstField?.GetValue(manager) as System.Action<float>)?.Invoke(ratio);
@@ -175,6 +177,12 @@ namespace T90M.Common
 				return null;
 			}
 
+			if (ClusterMarker == null || RackCompartment == null || RackRetrieval == null || RackStorage == null)
+			{
+				problems.Add("the game's rack and fire-marker fields have changed");
+				return null;
+			}
+
 			// Built inactive, Compartment.Awake has to see every field set.
 			var volumeObject = new GameObject(s.VolumeName);
 			volumeObject.SetActive(false);
@@ -205,14 +213,14 @@ namespace T90M.Common
 			fireSource.transform.localPosition = volume.bounds.center;
 			fireSource.layer = volumeObject.layer;
 			var item = fireSource.AddComponent<FlammableItem>();
-			Traverse.Create(item).Field("_explosive").SetValue(false);
-			Traverse.Create(item).Field("_tntEquivalent").SetValue(s.ResidualTnt);
-			Traverse.Create(item).Field("_selfOxidizing").SetValue(false);
-			Traverse.Create(item).Field("_flameHeightMeters").SetValue(s.ResidualFlame);
-			Traverse.Create(item).Field("_ignitionTempMin").SetValue(s.ResidualIgniteMin);
-			Traverse.Create(item).Field("_ignitionTempMax").SetValue(s.ResidualIgniteMax);
-			Traverse.Create(item).Field("_shortestBurnTime").SetValue(s.ResidualBurn);
-			Traverse.Create(item).Field("_burnTemperature").SetValue(s.ResidualTemp);
+			Reflect.Field(typeof(FlammableItem), "_explosive")?.SetValue(item, false);
+			Reflect.Field(typeof(FlammableItem), "_tntEquivalent")?.SetValue(item, s.ResidualTnt);
+			Reflect.Field(typeof(FlammableItem), "_selfOxidizing")?.SetValue(item, false);
+			Reflect.Field(typeof(FlammableItem), "_flameHeightMeters")?.SetValue(item, s.ResidualFlame);
+			Reflect.Field(typeof(FlammableItem), "_ignitionTempMin")?.SetValue(item, s.ResidualIgniteMin);
+			Reflect.Field(typeof(FlammableItem), "_ignitionTempMax")?.SetValue(item, s.ResidualIgniteMax);
+			Reflect.Field(typeof(FlammableItem), "_shortestBurnTime")?.SetValue(item, s.ResidualBurn);
+			Reflect.Field(typeof(FlammableItem), "_burnTemperature")?.SetValue(item, s.ResidualTemp);
 			item.HeatTransferRatio = 1f;
 			fireSource.SetActive(true);
 			var residual = new FlammablesCluster { Name = "residual burn", MaxTempC = 1000f };

@@ -18,6 +18,9 @@ namespace T90M
 	{
 		static string Tag => T90MMod.FriendlyName;
 		internal const string SightName = "PDT back-up sight";
+		// The ПДТ's datasheet (Пеленг, posted by andrei_bt): a field of 2.55 x 4° and a line of sight from -9° to +17°.
+		// I show its 4° width on a 4:3 picture, so 3° high. The eye is my placement, in the roof block left of the
+		// gun on War Thunder's model that I take for the ПДТ.
 		const float Fov = 3.0f;
 		static readonly Vector2 LineOfSight = new Vector2(-9f, 17f);
 		static readonly Vector3 Eye = new Vector3(-0.448f, 2.083f, -0.194f);
@@ -30,6 +33,11 @@ namespace T90M
 			var turret = root.Find("---MESH---/HULL/TURRET");
 			var weapons = vehicle.GetComponent<WeaponsManager>();
 			var donor = RemoteMg.Donor.Get(Tag);
+			if (SlotReparent == null)
+			{
+				MelonLogger.Warning($"{Tag}: no ПДТ (the game's camera slots could not be set up).");
+				return;
+			}
 			if (turret == null || weapons?.Weapons == null || weapons.Weapons.Length < 2 || donor?.CommanderOptic == null)
 			{
 				MelonLogger.Warning($"{Tag}: no ПДТ (turret, gun rows or the T-64B optic donor missing).");

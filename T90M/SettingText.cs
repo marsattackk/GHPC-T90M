@@ -15,6 +15,12 @@ namespace T90M
 			+ " campaign's ammo supply override it): 3BM60 Svinets-2 (default; the round the T-90M's autoloader was"
 			+ " made for) or 3BM42 Mango.";
 
+		internal static readonly string ForceApfsds =
+			"false (default): the campaign picks each T-90M's APFSDS from the army's ammo supply (3BM60 Svinets-2 two times in three, 3BM42"
+			+ " Mango the rest). true = every T-90M carries the APFSDS setting's round in the campaign too. In Instant Action the mission"
+			+ " customizer's ammo dropdown still decides."
+			+ AfterChange;
+
 		internal static readonly string FireWhenLaid =
 			"true (default): after a lase the trigger does nothing until the gun has climbed to the elevation the"
 			+ " computer set for that range, as the real firing-permission circuit has it (the ready lamp comes on when"

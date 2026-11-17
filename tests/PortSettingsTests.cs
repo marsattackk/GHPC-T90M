@@ -98,9 +98,9 @@ namespace T90M.Tests
 			Assert.Equal("drei", t90m["Campaign unlock after missions"]);
 			Assert.Equal("3BM42", t90m["APFSDS"]);
 			Assert.False(t90m.ContainsKey("Enabled"));
-			var t90a = PortSettings.QuotedValues(lines, "T-90A");
-			Assert.Equal("0,35", t90a["Campaign prevalence"]);
-			Assert.Equal(2, t90a.Count);
+			var other = PortSettings.QuotedValues(lines, "T-72M1");
+			Assert.Equal("0,35", other["Campaign prevalence"]);
+			Assert.Equal(2, other.Count);
 			Assert.Empty(PortSettings.QuotedValues(lines, "T-80B"));
 		}
 
@@ -190,6 +190,22 @@ namespace T90M.Tests
 				SettingsMigration.Default("b", "0.4.0-beta", 1));
 			Assert.Equal(1, Value<int>(category, "a"));
 			Assert.Equal(2, Value<int>(category, "b"));
+			Assert.Single(category.Entries, entry => entry.Identifier == PortSettings.VersionEntry);
+		}
+
+		// Finish with no migrations at all: the numbers saved as text and the version entry, once.
+		[Fact]
+		public void Finish_reads_text_numbers_and_writes_the_version()
+		{
+			UseFile(DecimalComma);
+			MelonLogger.Lines.Clear();
+			var category = T90M(("APFSDS", "3BM42"));
+			PortSettings.Finish(category, "0.4.4");
+			Assert.Equal(0.3f, Value<float>(category, "Campaign prevalence"));
+			Assert.Equal(2, Value<int>(category, "Campaign unlock after missions"));
+			Assert.Contains(MelonLogger.Lines, line => line.StartsWith("warning:") && line.Contains("drei"));
+			Assert.Equal("3BM42", Value<string>(category, "APFSDS"));
+			Assert.Equal("0.4.4", Value<string>(category, PortSettings.VersionEntry));
 			Assert.Single(category.Entries, entry => entry.Identifier == PortSettings.VersionEntry);
 		}
 	}

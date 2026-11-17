@@ -24,19 +24,20 @@ namespace T90M
 		internal const string Name = "12.7mm Machine Gun 6P49MT Kord";
 		internal const int BeltRounds = 300;   // one box on the mount, no spare inside (inferred from the box's place)
 		internal const int Belts = 1;
-		// The 6P49MT has a variable rate of fire; 200 and 100 are the two rates the tank's description gives (the T-90A's plain
-		// 6P49 fires at its cyclic 600-650).
+		// The 6P49MT has a variable rate of fire; 200 and 100 are the two rates the T-90M's technical description gives
+		// («Описание танка Т-90М»; the T-90A's plain 6P49 fires at its cyclic 600-650).
 		internal const float RoundsPerMinute = 200f;
 		internal const float LowRoundsPerMinute = 100f;
-		const int BeltB32PerTracer = 3;
+		const int BeltB32PerTracer = 3;   // three B-32 to one BZT-44 («12,7 мм пулемет "КОРД"», vimpel-v.com)
 
-		// The manual's firing angles for the remote station: -10 / +45 deg.
+		// The T-90M manual's figure «Угол обстрела ДПУ»: -10 / +45 deg.
 		static readonly Vector2 Elevation = new Vector2(-10f, 45f);
 		// The same figure: 316 deg of traverse.
 		internal const float FireSector = 316f;
 		// The middle of the blind sector, over the gunner's Sosna-U head and hatch: my own choice, the manual gives
 		// only the size of the gap.
 		internal const float BlindCentre = -45f;
+		// The panorama's figures here (fields, laser, limits, speeds) come from one 2011 table of the «Калина» sights.
 		// The station follows the panorama's line of sight, so its slew speeds are the panorama's: at least 45 deg/s in
 		// traverse and 10 in elevation. The station's own aren't published.
 		const float DrumSpeed = 45f;
@@ -160,6 +161,11 @@ namespace T90M
 		// The rig mounts, the donor and the turret the station needs; null (and a warning) when one is missing.
 		static Fit Begin(Vehicle vehicle)
 		{
+			if (SlotReparent == null)
+			{
+				MelonLogger.Warning($"{Tag}: remote Kord not fitted, the game's camera slots could not be set up.");
+				return null;
+			}
 			var root = vehicle.transform;
 			var rig = T90MMod.Rig;
 			RigMap.Mount M(string group) => rig?.Mounts?.FirstOrDefault(m => m.Group == group);
@@ -472,7 +478,7 @@ namespace T90M
 				Weapon = gun.Weapon,
 				FCS = fit.Fcs,
 				PreAimWeapon = WeaponSystemRole.MainGun,
-				PreAimAngleThreshold = 3f
+				PreAimAngleThreshold = 3f   // GHPC's own default
 			};
 			var station = fit.Scripts.AddComponent<Station>();
 			station.Info = info;
@@ -527,6 +533,9 @@ namespace T90M
 			return cradleMount.Pivot + Quaternion.AngleAxis(-pitch, Vector3.right) * (wt - cradleMount.Pivot);
 		}
 
+		// The Kord throws its cases forward on the right («12,7 мм пулемет "КОРД"», vimpel-v.com). Where they leave the
+		// station is my guess, on War Thunder's model just ahead of the cradle's box under the barrel, and so is their
+		// direction, the T-90A's: forward, a little out to the right and down.
 		static readonly Vector3 WtCaseChute = new Vector3(0.300f, 2.800f, -1.455f);
 		static Vector3 CaseChute => Levelled(WtCaseChute);
 		static readonly Vector3 CaseChuteDir = new Vector3(0.10f, -0.08f, 1f);

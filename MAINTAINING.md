@@ -31,7 +31,10 @@ player's log tells you which build they ran. The version comes from `MelonInfo` 
 `tests\` covers the bits that don't need the game: the reticle files' expression language, the reticle JSON, MiniJson,
 `dm_armour` parsing, the bundle text numbers, version comparison, the settings file read, the fire gate, the aim clamp
 and the target tracker's laying loop. It compiles those files straight out of `Common\` with stand-ins for
-MelonLoader, so it runs without GHPC and GitHub Actions runs it on every push. CI never builds the mod itself, because
+MelonLoader, so it runs without GHPC and GitHub Actions runs it on every push. It also reads what ships in `Resources\`:
+`ShippedTextTests.cs` takes `dm_armour.txt` and fails on a line that doesn't read, a mode or material the damage model
+doesn't know, or a piece count other than the one at its top (change `Pieces` there when you add or remove a piece on
+purpose), and `ShippedReticleTests.cs` does the reticles. CI never builds the mod itself, because
 that needs the game's DLLs, so build it against your own copy and run `tools\check-game.ps1` before a pull request.
 
 ```
@@ -75,8 +78,15 @@ autoloader, rounds, the 3OF82's fuse), `Sights` (the gunner's Sosna-U and its la
 back-up TV sight and `Tracker`, in `Sights.Tracker.cs`, the target tracker in both sights), `Commander` (the remote Kord
 and the PK PAN panorama; its optics are in `Commander.Sight.cs`, its behaviour and patches in `Commander.Link.cs`),
 `Countermeasures` (TShU-1-2M), `Drive` (engine and gearbox) and `Reticles` (the one reticle loader), with `SettingText`
-holding the settings' descriptions. The tunable numbers are in `Firepower.cs` (gun, rounds, coax belt), `Mod.cs` (coax
-rounds) and `Commander.cs` (Kord).
+holding the settings' descriptions.
+
+Where to change things:
+
+| What | Where |
+|---|---|
+| Tunable numbers | `Firepower.cs` (gun, rounds, coax belt, the 3OF82's fuse), `Mod.cs` (coax rounds), `Commander.cs` (Kord), `Drive.cs` (engine and gears) |
+| A setting's description | `SettingText.cs`, except three that live in `Common`: `Weathered paint` (`PaintFinish.cs`), `Campaign prevalence` (`UnitRegistry.cs`) and `Check for updates` (`UpdateCheck.cs`) |
+| Armour values, hatches, glass, ERA, smoke points | the text files in `Resources\` |
 
 Every method named `Dev*` is an empty partial method (`static partial void Dev...`) that my own test harness fills in.
 Nothing here implements them, so the compiler removes each declaration and every call to it, and a normal build contains
@@ -151,6 +161,7 @@ three settings live in `Common` (`Weathered paint`, `Campaign prevalence`, `Chec
 | `Enabled` | `Mod.cs` | everything, off means the mod does nothing |
 | `Add to campaign roster`, `Campaign prevalence`, `Campaign unlock after missions` | `T90M\Mod.cs`, `Common\UnitRegistry.cs` (`CampaignConfig`) | the campaign roster, re-read at each mission load |
 | `APFSDS` | `Mod.cs` | `Firepower`, the default round where the game doesn't pick one |
+| `Force APFSDS` | `Mod.cs` | `Firepower` (`ForceApfsds`): the campaign's roll gives the `APFSDS` round |
 | `Fire only when the gun is laid` | `Mod.cs` | `Sights` and `Commander`, handed to `GunnerFcs` as the firing permission |
 | `Target tracker`, `Target tracker key`, `Target tracker from the day sight` | `Mod.cs` | `Tracker` (in `Sights.Tracker.cs`) |
 | `Weathered paint` | `T90M\Mod.cs`, `Common\PaintFinish.cs` | `Conversion` |

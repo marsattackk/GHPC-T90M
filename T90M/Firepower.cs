@@ -18,6 +18,9 @@ namespace T90M
 			Missile = 4,
 			Extra = new[] { 4 },
 		};
+		// 22 rounds in the carousel, 8 in the hull at the engine bulkhead and 10 in the bustle box, as the T-90M's
+		// technical description has them («Описание танка Т-90М»). The carousel and the hull rack hold two missiles each
+		// besides these. How the rounds split by type is mine, and the bustle box gets no missile.
 		internal static readonly PortAmmo.Mix CarouselCountsWithMissile = new PortAmmo.Mix
 		{
 			Apfsds = 12,
@@ -38,7 +41,7 @@ namespace T90M
 			RackPath = "T-72 TURRET COLLIDERS/SPARE AMMO RACK",
 			RackName = "bustle box",
 			RetrievalDelay = 20f,   // made up. Nobody times a crewman passing a round in through the roof
-			StorageDelay = 2f,
+			StorageDelay = 2f,   // the T-72M1 turret spares' value, never used: nothing restocks into the box
 			CompartmentName = "turret bustle",
 			// The M1's 2 m for 180 s burnt for ages on a box this size, so these are mine. Lids still go on GHPC's flame height.
 			ResidualFlame = 0.5f,
@@ -85,6 +88,7 @@ namespace T90M
 			},
 		};
 
+		// In the campaign the 3BM42 turns up half as often as the 3BM60: my own setting.
 		internal const float MangoPrevalence = 0.5f;
 
 		internal static PortAmmo.Settings Settings() => new PortAmmo.Settings
@@ -106,6 +110,8 @@ namespace T90M
 					Shape = "3BM60",
 					Set = ammo =>
 					{
+						// 693 mm at the muzzle: the maker's 300 mm at 60° at 2000 m (NIMI's figures for Army-2019), 600 mm
+						// in line of sight, carried back through this drag.
 						ammo.RhaPenetration = 693f;
 						// The 4.5 kg is the core's mass from the one Russian list that gives it; the flight mass isn't
 						// published. The coefficient is paired with it for a 3.5 % velocity loss per 1000 m. Muzzle
@@ -114,7 +120,7 @@ namespace T90M
 						ammo.MuzzleVelocity = 1660f;
 						ammo.Coeff = 0.093f;
 					},
-					Prevalence = 1f,
+					Prevalence = 1f,   // my setting; the 3BM42 gets half (MangoPrevalence)
 				},
 				new PortAmmo.Round
 				{
@@ -125,6 +131,9 @@ namespace T90M
 					Atlas = "125mm_co",
 					Set = ammo =>
 					{
+						// 578 mm at the muzzle: the maker's 230 mm at 60° at 2000 m, 460 mm in line of sight, carried back
+						// through this drag; 1700 m/s is the maker's too (NIMI). 4.85 kg is the dart without its sabot (the
+						// 3VBM17 spec sheet on lugansk-ukraine.livejournal.com) and the drag is the game's own 3BM32's.
 						ammo.RhaPenetration = 578f;
 						ammo.Mass = 4.85f;
 						ammo.MuzzleVelocity = 1700f;
@@ -134,6 +143,7 @@ namespace T90M
 				},
 			},
 			DefaultApfsds = () => T90MMod.Apfsds?.Value,
+			ForceApfsds = () => T90MMod.ForceApfsds?.Value == true,
 			ApfsdsListName = "125mm APFSDS (T-90M)",
 			MenuSuffix = " (T-90M)",
 			FixedHeat = "clip_3BK18M",
@@ -147,13 +157,15 @@ namespace T90M
 				Shape = "9M119M",
 				Set = ammo =>
 				{
-					ammo.RhaPenetration = 850f;
+					ammo.RhaPenetration = 850f;   // behind ERA, btvt.info's «Рефлекс-М» table
 					ammo.Tandem = true;
-					ammo.Mass = 17.2f;
+					ammo.Mass = 17.2f;   // Russian Wikipedia's «2А46»; Rosoboronexport gives 17.2 for the 9M119M only
 					// GHPC flies a missile at one constant speed, 5 km in 17 s.
 					ammo.MuzzleVelocity = 294f;
+					// Launched at 100 to 5000 m (the «Рефлекс-М» table); a hit nearer than 100 m doesn't go off.
 					ammo.MaximumRange = 5000f;
 					ammo.ArmingDistance = 100f;
+					// Self-destructs just past 5 km, as the game's own missiles do; the real time isn't published.
 					ammo.RangedFuseTime = 5000f / 294f + 0.3f;
 					ammo.Guidance = AmmoType.GuidanceType.Laser;
 				},
@@ -170,6 +182,9 @@ namespace T90M
 					Atlas = "125mm_co",
 					Set = ammo =>
 					{
+						// The game's 3OF26 is 3.97 kg of TNT for its 3.4 kg of A-IX-2 (НВО, 2011, «Антиквариату место не
+						// в танке, а в музее»). The Telnik carries 3.0 kg (its exhibition data, on andrei_bt's LiveJournal),
+						// so it gets the same share.
 						ammo.TntEquivalentKg = 3.97f * 3.0f / 3.4f;
 					},
 				},
@@ -183,6 +198,7 @@ namespace T90M
 				new PortAmmo.Rack { Index = 2, Counts = HullRearCounts, MissileSlots = new[] { 10, 9 } },
 			},
 			DropOtherRacks = true,
+			// The game's T-72M1 gunner's sight, relative to the fire control's parent.
 			GuidancePosition = new Vector3(-0.727f, 0.4631f, -5.7249f),
 			GuidanceName = "T90M guidance computer",
 			BeamName = "T90M guidance beam",
@@ -227,8 +243,8 @@ namespace T90M
 			// Turret slew up to 40 deg/s (the stabiliser of the modernised T-90MS; medium confidence for the T-90M);
 			// the T-72M1's is 20.
 			TurretSpeed = 40f,
-			// No elevation speed is published for the T-90M. Its elevation drive is hydraulic; 28 deg/s comes from a
-			// patent for that drive, as on the T-90A.
+			// No elevation speed is published for the T-90M. Its elevation drive is hydraulic; 28 deg/s is worked out from
+			// patent RU 2421679 (an electric drive 1.6 times faster, at 45), as on the T-90A.
 			GunSpeed = 28f,
 			// Depression -6 deg 13' and elevation +13 deg 47' over the nose, the T-72A manual's figures.
 			GunLimits = new Vector2(-(6f + 13f / 60f), 13f + 47f / 60f),
@@ -245,9 +261,9 @@ namespace T90M
 			var problems = new List<string>();
 			var bustleVolume = volumes != null && volumes.TryGetValue(Bustle.VolumeName, out var found) ? found : (null, null);
 			BlowoutRack.Apply(vehicle, Bustle, bustleVolume.mesh, bustleVolume.bone, problems);
-			if (problems.Count > 0 && !_bustleLogged)
-				MelonLogger.Warning($"{T90MMod.FriendlyName} bustle box: {string.Join("; ", problems)}; its rounds burn with the crew's.");
+			if (problems.Count == 0 || _bustleLogged) return;
 			_bustleLogged = true;
+			MelonLogger.Warning($"{T90MMod.FriendlyName} bustle box: {string.Join("; ", problems)}; its rounds burn with the crew's.");
 		}
 	}
 }

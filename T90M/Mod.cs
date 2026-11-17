@@ -4,30 +4,36 @@ using MelonLoader.Utils;
 using T90M.Common;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.3.0", "marsattackk")]
+[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.3.1", "marsattackk")]
 [assembly: MelonGame("Radian Simulations LLC", "GHPC")]
 
 namespace T90M
 {
+	// Loads the bundle, registers the unit on the T-72M1 prefab and hangs the War Thunder model's HULL / TURRET / GUN on the base
+	// rig's bones (the base's visuals off, paint, real axes). The armour goes on before the axes move; the commander's station,
+	// the bustle box, the modules and TShU-1-2M are fitted at spawn, the sights, ПДТ and tracker once the unit has started
+	// (Conversion.Convert).
 	public partial class T90MMod : MelonMod
 	{
 		internal const string UnitKey = "T90M";
 
-		internal static GameObject Visual;
-		internal static VanillaEdits Edits;
-		internal static MaterialRoles Roles;
-		internal static RigMap Rig;
-		internal static Vector3[] SmokePoints;
+		internal static GameObject Visual;   // the War Thunder model, the bundle's T90M_visual prefab
+		internal static VanillaEdits Edits;   // the T-72M1's pieces switched off or changed (Resources\vanilla_edits.txt)
+		internal static MaterialRoles Roles;   // material roles: the vanilla glass at spawn (Resources\material_roles.txt)
+		internal static RigMap Rig;   // moving parts: hatches, the turret and gun axes (Resources\rig_map.txt)
+		internal static Vector3[] SmokePoints;   // the smoke tubes' launch points (Resources\smoke_points.txt)
 
 		internal const string FriendlyName = "T-90M";
-		const string BaseUnit = "T72M1";
+		const string BaseUnit = "T72M1";   // registry key of the vanilla prefab "T72M1" (crew, interior, damage model, running gear)
+		// The T-72M1 is NVA in GHPC, so the army comes off the T-80B.
 		const string ArmyFrom = "T80B";
-		internal const int CoaxRounds = 2000;
+		internal const int CoaxRounds = 2000;   // the T-90M's own table («Описание танка Т-90М»)
 		internal const string NumberPosition = "rear lamp";
 
 		internal static MelonPreferences_Entry<bool> Enabled;
 		internal static CampaignConfig Campaign;
 		internal static MelonPreferences_Entry<string> Apfsds;
+		internal static MelonPreferences_Entry<bool> ForceApfsds;
 		internal static MelonPreferences_Entry<bool> WeatheredPaint;
 		internal static MelonPreferences_Entry<bool> ScreensOn;
 		internal static MelonPreferences_Entry<bool> ScreensAutomatic;
@@ -62,7 +68,6 @@ namespace T90M
 		void CreateSettings()
 		{
 			var cfg = MelonPreferences.CreateCategory("T-90M");
-			DevInit(cfg);
 			Enabled = cfg.CreateEntry(
 				"Enabled",
 				true,
@@ -73,6 +78,10 @@ namespace T90M
 				"APFSDS",
 				"3BM60",
 				description: SettingText.Apfsds);
+			ForceApfsds = cfg.CreateEntry(
+				"Force APFSDS",
+				false,
+				description: SettingText.ForceApfsds);
 			FireWhenLaid = cfg.CreateEntry(
 				"Fire only when the gun is laid",
 				true,
@@ -121,6 +130,7 @@ namespace T90M
 				description: SettingText.EraEffects);
 			Armour.Config(cfg);
 			UpdateCheck.Config(cfg, FriendlyName, Info.Version, Repo);
+			DevInit(cfg);
 			PortSettings.Finish(cfg, Info.Version, Migrations);
 		}
 

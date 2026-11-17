@@ -1,8 +1,11 @@
-# Text files are LF in the repo and in every checkout, so a file looks the same on every machine.
+# Text files are LF in the repo and in every checkout, on any platform.
 * text=auto eol=lf
 
+# Binary files, never converted.
 *.png binary
 *.jpg binary
+*.gif binary
+*.webp binary
 *.wav binary
 *.bin binary
 *.mesh binary

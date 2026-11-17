@@ -29,14 +29,31 @@ namespace T90M
 
 		static readonly ConversionStep<Parts>[] Steps =
 		{
-			new ConversionStep<Parts> { What = "base visuals", Run = HideBase },
-			new ConversionStep<Parts> { What = "visuals", Run = AttachVisuals },
-			new ConversionStep<Parts> { What = "paint", Run = Paint },
+			new ConversionStep<Parts> { What = "base visuals", Otherwise = "the T-72M1's body stays drawn", Run = HideBase },
+			new ConversionStep<Parts>
+			{
+				What = "T-72M1 Luna out",
+				Otherwise = "the hidden T-72M1 Luna lights the ground in night sights",
+				Run = p => BaseStrip.TakeOutLuna(p.Vehicle, T90MMod.FriendlyName),
+				SpawnOnly = true,
+			},
+			new ConversionStep<Parts> { What = "visuals", Otherwise = "no T-90M model is drawn", Run = AttachVisuals },
+			new ConversionStep<Parts> { What = "paint", Otherwise = "the T-90M keeps the bundle's materials", Run = Paint },
 			new ConversionStep<Parts> { What = "hatch undersides", Otherwise = "left plain", Run = PaintHatchUndersides },
-			new ConversionStep<Parts> { What = "tactical numbers", Run = PlaceNumbers },
-			new ConversionStep<Parts> { What = "leftovers", Run = HideLeftovers },
+			new ConversionStep<Parts> { What = "tactical numbers", Otherwise = "no tactical numbers", Run = PlaceNumbers },
+			new ConversionStep<Parts>
+			{
+				What = "leftovers",
+				Otherwise = "the T-72M1's interior shows through the turret",
+				Run = HideLeftovers,
+			},
 			// Before PortAxes moves the pivots, the pieces are placed in prefab space with the rig at rest.
-			new ConversionStep<Parts> { What = "armour", Run = p => p.Volumes = Armour.Apply(p.Vehicle) },
+			new ConversionStep<Parts>
+			{
+				What = "armour",
+				Otherwise = "the T-72M1's armour stays",
+				Run = p => p.Volumes = Armour.Apply(p.Vehicle),
+			},
 			new ConversionStep<Parts>
 			{
 				What = "interior",
@@ -46,6 +63,7 @@ namespace T90M
 			new ConversionStep<Parts>
 			{
 				What = "bustle box",
+				Otherwise = "no bustle box: its rounds burn with the crew's",
 				Run = p => Firepower.FitBustle(p.Vehicle, p.Volumes),
 				SpawnOnly = true,
 				Late = LateText("bustle box", "no bustle box"),
@@ -53,6 +71,7 @@ namespace T90M
 			new ConversionStep<Parts>
 			{
 				What = "ammo setup",
+				Otherwise = "it keeps the T-72M1's ammunition",
 				Run = p => PortAmmo.ApplyAtSpawn(p.Vehicle),
 				SpawnOnly = true,
 				Late = LateText("ammo setup", "it keeps the T-72M1's ammunition"),
@@ -60,6 +79,7 @@ namespace T90M
 			new ConversionStep<Parts>
 			{
 				What = "3OF82 fuse setup",
+				Otherwise = "the 3OF82 has no air-burst fuse",
 				Run = p => AirBurst.Attach(p.Vehicle),
 				SpawnOnly = true,
 				Late = LateText("3OF82 fuse setup", "the 3OF82 has no air-burst fuse"),
@@ -67,15 +87,26 @@ namespace T90M
 			new ConversionStep<Parts>
 			{
 				What = "coax setup",
+				Otherwise = "the coax keeps the T-72M1's belt",
 				Run = p => PortAmmo.ApplyCoaxAtSpawn(p.Vehicle),
 				SpawnOnly = true,
 				Late = LateText("coax setup", "the coax keeps the T-72M1's belt"),
 			},
-			new ConversionStep<Parts> { What = "gun setup", Run = p => GunSetup.Apply(p.Vehicle, Firepower.Gun) },
+			new ConversionStep<Parts>
+			{
+				What = "gun setup",
+				Otherwise = "the T-72M1's gun speeds and limits stay",
+				Run = p => GunSetup.Apply(p.Vehicle, Firepower.Gun),
+			},
 			new ConversionStep<Parts> { What = "mobility setup", Otherwise = "left as the T-72M1's", Run = SetMobility },
-			new ConversionStep<Parts> { What = "smoke launchers", Run = SeatSmoke },
-			new ConversionStep<Parts> { What = "hatches", Run = MoveHatches },
-			new ConversionStep<Parts> { What = "turret axis", Run = MoveAxes },
+			new ConversionStep<Parts>
+			{
+				What = "smoke launchers",
+				Otherwise = "the smoke grenades leave from the T-72M1's tubes",
+				Run = SeatSmoke,
+			},
+			new ConversionStep<Parts> { What = "hatches", Otherwise = "the hatch lids stay shut", Run = MoveHatches },
+			new ConversionStep<Parts> { What = "turret axis", Otherwise = "the turret turns on the T-72M1's pivots", Run = MoveAxes },
 			new ConversionStep<Parts>
 			{
 				What = "commander's station",
@@ -112,11 +143,17 @@ namespace T90M
 			new ConversionStep<Parts>
 			{
 				What = "TShU-1-2M",
+				Otherwise = "no TShU-1-2M",
 				Run = p => Countermeasures.Apply(p.Vehicle),
 				SpawnOnly = true,
 				Late = LateText("TShU-1-2M", "no TShU-1-2M"),
 			},
-			new ConversionStep<Parts> { What = "LOD materials", Run = p => VisualLods.Sync(p.Root, T90MMod.FriendlyName) },
+			new ConversionStep<Parts>
+			{
+				What = "LOD materials",
+				Otherwise = "a distant T-90M shows the bundle's materials",
+				Run = p => VisualLods.Sync(p.Root, T90MMod.FriendlyName),
+			},
 		};
 
 		internal static void Convert(Vehicle vehicle, bool atSpawn = false)
@@ -239,6 +276,7 @@ namespace T90M
 			Mode = T90MMod.NumberPosition,
 			// The lamp on the model's axes, moved to the T-72's turret ring centre.
 			LampFace = new Vector3(-0.475f, 2.419f - BaseRigT72M1.TurretPivot.y, -1.872f - BaseRigT72M1.TurretPivot.z),
+			// Facing back. The lamp's window on War Thunder's model is 14.7 x 14.8 cm, the T-72's 12.4 cm plate x 1.18.
 			LampNormal = new Vector3(0f, 0f, -1f),
 			DigitScale = 1.18f,
 			Tag = T90MMod.FriendlyName,
@@ -247,23 +285,46 @@ namespace T90M
 
 		static readonly ConversionStep<Vehicle>[] LateSteps =
 		{
-			new ConversionStep<Vehicle> { What = "voices", Run = v => CrewVoices.Apply(v, T90MMod.FriendlyName) },
+			new ConversionStep<Vehicle>
+			{
+				What = "voices",
+				Otherwise = "the crew keeps the T-72M1's German voices",
+				Run = v => CrewVoices.Apply(v, T90MMod.FriendlyName),
+			},
 			new ConversionStep<Vehicle>
 			{
 				What = "sight setup",
 				Otherwise = "the T-72M1's sights kept",
 				Run = v => Sights.Apply(v),
 			},
-			new ConversionStep<Vehicle> { What = "ПДТ", Run = v => Pdt.Apply(v) },
-			new ConversionStep<Vehicle> { What = "commander's station late setup", Run = v => Commander.LateSetup(v) },
-			new ConversionStep<Vehicle> { What = "target tracker", Run = v => Tracker.Apply(v) },
-			new ConversionStep<Vehicle> { What = "module wiring", SpawnOnly = true, Run = v => Modules.Wire(v) },
+			new ConversionStep<Vehicle> { What = "ПДТ", Otherwise = "no ПДТ", Run = v => Pdt.Apply(v) },
+			new ConversionStep<Vehicle>
+			{
+				What = "commander's station late setup",
+				Otherwise = "the commander's machine gun starts unstabilised and the AI gunner does not use it",
+				Run = v => Commander.LateSetup(v),
+			},
+			new ConversionStep<Vehicle> { What = "target tracker", Otherwise = "no target tracker", Run = v => Tracker.Apply(v) },
+			new ConversionStep<Vehicle>
+			{
+				What = "module wiring",
+				Otherwise = "hits on the T-90M's own modules do nothing",
+				SpawnOnly = true,
+				Run = v => Modules.Wire(v),
+			},
 			new ConversionStep<Vehicle>
 			{
 				What = "thermal heat",
+				Otherwise = "the T-90M's own parts show cold in thermal sights",
 				Run = v => ThermalHeat.Apply(v.transform, ThermalHeat.PortParts(v.transform, "T90M_"), T90MMod.FriendlyName),
 			},
-			new ConversionStep<Vehicle> { What = "ammunition self-check", SpawnOnly = true, Run = v => PortAmmo.SelfCheck(v) },
+			new ConversionStep<Vehicle>
+			{
+				What = "ammunition self-check",
+				Otherwise = "a missing round model is not reported",
+				SpawnOnly = true,
+				Run = v => PortAmmo.SelfCheck(v),
+			},
 		};
 
 		static IEnumerator LateSetup(Vehicle vehicle, bool atSpawn)

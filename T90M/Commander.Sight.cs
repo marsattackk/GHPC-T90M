@@ -128,9 +128,14 @@ namespace T90M
 			string mono = spec.Num("Mono").ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
 			SightReadout.Attach(o, row, new SightReadout.Settings
 			{
-				Range = "range", RangePrefix = $"<mspace={mono}em>", RangeSuffix = "</mspace>", RangeQuantize = 5,
+				Range = "range",
+				RangePrefix = $"<mspace={mono}em>",
+				RangeSuffix = "</mspace>",
+				// The range counts in 5 m, the panorama's rangefinder step (the 2011 table of the «Калина» sights).
+				RangeQuantize = 5,
 				Ready = "ready",
-				Ammo = "ammo", AmmoText = a => Sights.ThermalLetter(a),
+				Ammo = "ammo",
+				AmmoText = a => Sights.ThermalLetter(a),
 			}, problems);
 			return row;
 		}

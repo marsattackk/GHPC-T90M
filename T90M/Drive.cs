@@ -20,11 +20,12 @@ namespace T90M
 			FinalDrive = 5.297f,
 			// NWH clamps the up-shift to 0.95 x max rpm. The T-72M1's 2250 sits over the new 2000 and it'd never shift up.
 			ShiftUpRpm = 1900f,
+			// The T-72 gearbox's one reverse, ratio 14.35 (the T-72A manual), times the track factor above.
 			ReverseGears = new[] { -14.35f * ReverseTrackFactor },
 			// The maximum road speed, at least 60 km/h.
 			MaxForwardKmh = 60f,
 			ReverseCapKmh = ReverseCapKmh,
-			// 51 t with ammunition and crew, plus or minus 2 %.
+			// 51 t with ammunition and crew, up to 2 % more (the T-90M's own table).
 			CombatMassKg = 51000f,
 		};
 	}
