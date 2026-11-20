@@ -21,6 +21,32 @@ namespace T90M
 			+ " customizer's ammo dropdown still decides."
 			+ AfterChange;
 
+		internal static readonly string RandomApfsds =
+			"false (default): each T-90M carries the APFSDS setting's round where the game does not choose one."
+			+ " true = each T-90M rolls its own APFSDS from APFSDS pool in Instant Action and scripted missions, and"
+			+ " the mission customizer's ammo dropdown starts on Random (a round picked there still decides). The"
+			+ " campaign keeps its own ammo supply."
+			+ AfterChange;
+
+		internal static readonly string ApfsdsPool =
+			"The rounds Random APFSDS rolls from, as name:weight, comma separated (3BM60, 3BM42; \"3BM60:3, 3BM42:1\""
+			+ " rolls 3BM60 three times as often as 3BM42; a name without a weight counts 1). Empty (default): every"
+			+ " APFSDS at its campaign weight."
+			+ AfterChange;
+
+		internal static readonly string AmmunitionLoad =
+			"How much ammunition each T-90M carries: Full (default, 40 rounds), Autoloader (only the 22 in the"
+			+ " autoloader, 2 of them missiles) or Autoloader and bustle (32: the autoloader and the turret bustle"
+			+ " box). Fewer rounds aboard, fewer to set off when the hull is hit. Applies to every T-90M, friend and"
+			+ " foe."
+			+ AfterChange;
+
+		internal static readonly string EmptyRacks =
+			"Racks left empty, by name, comma separated (hull: the hull rack; bustle: the turret bustle box); when"
+			+ " set it replaces Ammunition load. The autoloader is always loaded. Empty (default): Ammunition load"
+			+ " decides."
+			+ AfterChange;
+
 		internal static readonly string FireWhenLaid =
 			"true (default): after a lase the trigger does nothing until the gun has climbed to the elevation the"
 			+ " computer set for that range, as the real firing-permission circuit has it (the ready lamp comes on when"
@@ -72,6 +98,20 @@ namespace T90M
 			+ " it stays on screen the whole time you're in the T-90M, showing the grenades left and the mode between"
 			+ " warnings. Either way, in the thermal sight, the PDT and the panorama it sits larger in the black bar"
 			+ " right of the picture (on a widescreen), and in the day sight smaller, under the picture."
+			+ AfterChange;
+
+		internal static readonly string ArenaMine =
+			"false (default): your T-90M is the plain one. true = your T-90M is the trial tank with the whole Arena-M kit, not"
+			+ " just the Arena-M: radars and launchers round the turret that shoot down missiles, rockets and HEAT shells from"
+			+ " any side, the extra armour and the reshaped turret rear fitted with them. It adds about 1.2 t and leaves no room"
+			+ " for the turret bustle box, so 30 rounds instead of 40. The Showcase's T-90M follows this setting too. Switched"
+			+ " on and off, and reloaded, from the vehicle menu (Arena-M)."
+			+ AfterChange;
+
+		internal static readonly string ArenaShare =
+			"Percent of the other T-90Ms, friend and foe, that carry the Arena-M kit (see Arena-M kit on my tank). Each tank"
+			+ " rolls its own, so 30 gives about three in ten. 0 (default): none. A number outside 0 to 100 is read as the"
+			+ " nearer end."
 			+ AfterChange;
 
 		internal static readonly string KordCases =

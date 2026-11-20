@@ -161,6 +161,39 @@ screen yourself with the smoke key (default G) or from the vehicle menu.
 AI T-90Ms have it too. Lase one from the front and it screens itself. Lase it from the side and the turret comes round
 at you. The heads, the page and the rest are in [docs/screens.md](docs/screens.md).
 
+## Arena-M kit (trial fit)
+
+KBM has fitted its Arena-M active protection on a T-90M for trials. I found no sign it has been delivered, so it's not
+part of the normal T-90M, and it's off until you switch it on.
+
+The kit isn't just the Arena-M bolted onto the tank you know. It's the trial tank as a whole:
+
+- six radar panels round the turret and four launcher boxes, six rounds a side
+- extra armour round the new parts, and a reshaped turret rear with the Arena-M's computer in it
+- no bustle box, so 30 rounds instead of 40: 22 in the carousel and 8 in the hull, nothing behind blow-off lids
+- about 1.2 t more to drag about
+
+<p align="center">
+  <img src="docs/images/arena_coverage.jpg" width="80%" alt="What the Arena-M kit covers, seen from above">
+</p>
+
+`Arena-M kit on my tank` makes your own T-90M the kit tank. `Arena-M kit share` gives it to a percentage of the others,
+friend and foe, and each tank rolls its own. With both left alone every T-90M is the plain one.
+
+In a fight it's all-round. The radars pick up a missile, a rocket or a HEAT shell coming at the tank from any side, from 6°
+below the horizon to 20° above, and two rounds go at each one. A round climbs out of its box and bursts over the threat.
+Sabot is too fast for it and goes straight through, so against tanks you're still relying on the armour.
+
+- The fragments don't know friend from foe, same as the Drozd's. Keep your own infantry clear of the turret.
+- The 12 rounds go once. Reload from the vehicle menu, a round a minute while the tank is nearly still.
+- The crew switch it off and on from the same menu (**Arena-M**), and it takes a few minutes to be ready again after
+  it's switched back on.
+- A knocked-out radar panel leaves its arc blind, and losing the computer in the turret rear takes the whole system out.
+- The weapon info at the bottom left shows what's left in each box, front left first (`FL 3 FR 2 RL 3 RR 4`), and how
+  many radar panels still work.
+
+What's real and what's my reading is in [docs/details.md](docs/details.md).
+
 ## Armour protection
 
 ![Hit x-ray from the side: Relikt, crew, ammo and modules](docs/images/xray_inside.jpg)
@@ -235,6 +268,10 @@ before editing it.
 | `Campaign unlock after missions` | number | 2 |
 | `APFSDS` | `"3BM60"` / `"3BM42"`, where the game doesn't pick one itself | 3BM60 |
 | `Force APFSDS` | true: the campaign gives every T-90M the `APFSDS` round instead of drawing one from its ammo supply | false |
+| `Random APFSDS` | true: each T-90M rolls its own APFSDS from `APFSDS pool` in Instant Action and scripted missions, and the mission customizer's ammo dropdown starts on Random; the campaign keeps its own ammo supply | false |
+| `APFSDS pool` | the rounds `Random APFSDS` rolls from, as name:weight (`"3BM60:3, 3BM42:1"`); empty: every APFSDS at its campaign weight | `""` |
+| `Ammunition load` | `"Full"` / `"Autoloader"` (only the 22 rounds of the autoloader, 2 of them missiles) / `"Autoloader and bustle"` (32), on every T-90M, friend and foe | Full |
+| `Empty racks` | racks to leave empty, comma separated (`"hull"`, `"bustle"`); replaces `Ammunition load`; the autoloader is always loaded | `""` |
 | `Fire only when the gun is laid` | true: after a lase the gun waits until it's at the elevation the computer set, from the sight and the panorama alike. false: fires any time, but a shot while it's still climbing falls short | true |
 | `Target tracker` | false: no tracker in the sight or the panorama. Takes effect at once | true |
 | `Target tracker key` | a Unity key name: `Mouse2` is the middle mouse button, or `Y`, `H`, `U`, `Mouse3`, `Mouse4`, or `None` to lock by lasing only. Pick one the game doesn't use | Mouse2 |
@@ -245,6 +282,8 @@ before editing it.
 | `TShU-1-2M alarm tone` | false: the page only | true |
 | `TShU-1-2M warning page` | false: no page, the tone only | true |
 | `TShU-1-2M page always on screen` | true: on screen the whole time you're in the T-90M | false |
+| `Arena-M kit on my tank` | true: your own T-90M carries the Arena-M kit (a trial fit: about 1.2 t more, no bustle box, 30 rounds) | false |
+| `Arena-M kit share` | 0 to 100: the percentage of the other T-90Ms, friend and foe, that carry the Arena-M kit. Each tank rolls its own | 0 |
 | `Kord spent cases` | false: no cases, the belt still feeds | true |
 | `ERA destruction effects` | false: a Relikt box that's gone off still looks whole. true: it's gone with a blast, soot round it and the nets over it cut | true |
 | `Armour preset` | `"game-scale"` / `"source-only"` (the lower open-source figures) | game-scale |

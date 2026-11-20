@@ -11,7 +11,7 @@ namespace T90M.Tests
 	public class ShippedTextTests : IDisposable
 	{
 		// What this tank's table holds: its number of pieces, and whether any of them is reactive armour.
-		const int Pieces = 462;
+		const int Pieces = 683;
 		const bool Reactive = true;
 
 		readonly List<string> _warnings = new List<string>();

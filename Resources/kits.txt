@@ -1,0 +1,439 @@
+kit arena
+root HULL KIT_ARENA
+root TURRET KIT_ARENA
+root GUN KIT_ARENA
+hide HULL KITHIDE_ARENA
+hide TURRET KITHIDE_ARENA
+hide GUN KITHIDE_ARENA
+hide HULL ex_era_hull_13_c1
+hide HULL ex_era_hull_13
+hide HULL ex_era_hull_14_c1
+hide HULL ex_era_hull_14
+hide HULL ex_era_hull_15_c1
+hide HULL ex_era_hull_15_c2
+hide HULL ex_era_hull_15_c3
+hide HULL ex_era_hull_15
+hide HULL ex_era_hull_16_c1
+hide HULL ex_era_hull_16
+hide HULL ex_era_hull_17_c1
+hide HULL ex_era_hull_17
+hide HULL ex_era_hull_18_c1
+hide HULL ex_era_hull_18
+hide HULL ex_era_hull_19_c1
+hide HULL ex_era_hull_19
+hide HULL ex_era_hull_20_c1
+hide HULL ex_era_hull_20
+hide HULL ex_era_hull_21_c1
+hide HULL ex_era_hull_21
+hide HULL ex_era_hull_22_c1
+hide HULL ex_era_hull_22
+hide HULL ex_era_hull_23_c1
+hide HULL ex_era_hull_23
+hide HULL ex_era_hull_24_c1
+hide HULL ex_era_hull_24
+hide HULL ex_era_hull_25_c1
+hide HULL ex_era_hull_25
+hide HULL ex_era_hull_26_c1
+hide HULL ex_era_hull_26
+hide HULL ex_era_hull_27_c1
+hide HULL ex_era_hull_27
+hide HULL ex_era_hull_28_c1
+hide HULL ex_era_hull_28_c2
+hide HULL ex_era_hull_28_c3
+hide HULL ex_era_hull_28
+hide HULL ex_era_hull_29_c1
+hide HULL ex_era_hull_29
+hide HULL ex_era_hull_30_c1
+hide HULL ex_era_hull_30
+hide HULL ex_era_hull_31_c1
+hide HULL ex_era_hull_31
+hide HULL ex_era_hull_32_c1
+hide HULL ex_era_hull_32
+hide HULL ex_era_hull_33_c1
+hide HULL ex_era_hull_33
+hide HULL ex_era_hull_34_c1
+hide HULL ex_era_hull_34
+hide HULL ex_era_hull_35_c1
+hide HULL ex_era_hull_35
+hide HULL ex_era_hull_36_c1
+hide HULL ex_era_hull_36
+hide HULL ex_era_hull_37_c1
+hide HULL ex_era_hull_37
+hide HULL ex_era_hull_38_c1
+hide HULL ex_era_hull_38
+hide TURRET BUSTLE_LID_R
+hide TURRET BUSTLE_LID_L
+hide TURRET BUSTLE_LID_C
+hide TURRET HATCH_EJECTOR
+hide TURRET ex_era_turret_45_c1
+hide TURRET ex_era_turret_43_c1
+hide TURRET ex_era_turret_41_c1
+hide TURRET ex_era_turret_39_c1
+hide TURRET ex_era_turret_39
+hide TURRET ex_era_turret_17_c1
+hide TURRET ex_era_turret_16_c1
+hide TURRET ex_era_turret_13_c1
+hide TURRET ex_era_turret_14_c1
+hide TURRET ex_era_turret_15_c1
+hide TURRET ex_era_turret_15
+hide TURRET ex_era_turret_18_c1
+hide TURRET ex_era_turret_19_c1
+hide TURRET ex_era_turret_21_c1
+hide TURRET ex_era_turret_22_c1
+hide TURRET ex_era_turret_23_c1
+hide TURRET ex_era_turret_24_c1
+hide TURRET ex_era_turret_25_c1
+hide TURRET ex_era_turret_26_c1
+hide TURRET ex_era_turret_27_c1
+hide TURRET ex_era_turret_27
+hide TURRET ex_era_turret_28_c1
+hide TURRET ex_era_turret_29_c1
+hide TURRET ex_era_turret_30_c1
+hide TURRET ex_era_turret_30
+hide TURRET ex_era_turret_31_c1
+hide TURRET ex_era_turret_32_c1
+hide TURRET ex_era_turret_33_c1
+hide TURRET ex_era_turret_34_c1
+hide TURRET ex_era_turret_35_c1
+hide TURRET ex_era_turret_36_c1
+hide TURRET ex_era_turret_38_c1
+hide TURRET ex_era_turret_38
+hide TURRET ex_era_turret_44_c1
+hide TURRET ex_era_turret_20_c1
+hide TURRET NET_10
+hide TURRET NET_11
+hide TURRET NET_12
+hide TURRET NET_05
+hide TURRET NET_04
+hide TURRET NET_03
+hide TURRET NET_02
+hide TURRET NET_13
+hide TURRET NET_06
+hide TURRET NET_07
+hide TURRET NET_08
+hide TURRET NET_09
+rig hatch|hatch_03|Ejector|ARENA_HATCH_EJECTOR|EJECTOR|-0.2198,2.1341,-1.5224|0,0.2045,0.9789|90|0,0,0
+rig flap|ex_composite_armor_02|ARENA_NET_02|-1.8229,1.5816,0.1323|-1.0689,1.5816,0.7305|-0.6216,0,0.7834|33.2|0.12|0.04
+rig flap|ex_composite_armor_03|ARENA_NET_03|-1.5661,1.6789,-0.8459|-1.7833,1.6789,0.0512|-0.9719,0,-0.2354|33.2|0.12|0.04
+rig flap|ex_composite_armor_04|ARENA_NET_04|-1.3486,1.675,-1.7095|-1.5865,1.675,-0.7643|-0.9697,0,-0.2441|33.2|0.12|0.04
+rig flap|ex_composite_armor_05|ARENA_NET_05|-1.151,1.7088,-2.4743|-1.3903,1.7088,-1.5198|-0.97,0,-0.2433|33.2|0.12|0.04
+rig flap|ex_composite_armor_06|ARENA_NET_06|-1.1697,1.6837,-3.3604|-1.0931,1.6837,-2.323|-0.9973,0,0.0737|33.2|0.12|0.04
+rig flap|ex_composite_armor_07|ARENA_NET_07|-1.2473,1.7427,-3.4391|-0.6799,1.7427,-3.9797|-0.6898,0,-0.724|33.2|0.12|0.04
+rig flap|ex_composite_armor_08|ARENA_NET_08|-0.6617,1.8005,-3.9474|0.671,1.8005,-3.9396|0.0059,0,-1|15|0.12|0.04
+rig flap|ex_composite_armor_09|ARENA_NET_09|0.6728,1.7848,-3.9583|1.2098,1.7848,-3.5858|0.5699,0,-0.8217|33.2|0.12|0.04
+rig flap|ex_composite_armor_10|ARENA_NET_10|1.2499,1.6715,-3.5784|1.2942,1.6715,-2.4429|0.9992,0,-0.039|33.2|0.12|0.04
+rig flap|ex_composite_armor_11|ARENA_NET_11|1.1758,1.6688,-2.4156|1.6087,1.6688,-0.6304|0.9718,0,-0.2357|33.2|0.12|0.04
+rig flap|ex_composite_armor_12|ARENA_NET_12|1.616,1.6065,-0.6437|1.8021,1.6065,0.1529|0.9738,0,-0.2275|33.2|0.12|0.04
+rig flap|ex_composite_armor_13|ARENA_NET_13|1.2207,1.5728,0.6515|1.7948,1.5728,0.1566|0.6529,0,0.7574|33.2|0.12|0.04
+module_hide smoke_tube_01
+module_hide smoke_tube_02
+module_hide smoke_tube_03
+module_hide smoke_tube_04
+module_hide smoke_tube_05
+module_hide smoke_tube_06
+module_hide smoke_tube_07
+module_hide smoke_tube_08
+module_hide smoke_tube_09
+module_hide smoke_tube_10
+module_hide smoke_tube_11
+module_hide smoke_tube_12
+smoke_cap TURRET KIT_ARENA/smoke_cap_0
+smoke_cap TURRET KIT_ARENA/smoke_cap_1
+smoke_cap TURRET KIT_ARENA/smoke_cap_2
+smoke_cap TURRET KIT_ARENA/smoke_cap_3
+smoke_cap TURRET KIT_ARENA/smoke_cap_4
+smoke_cap TURRET KIT_ARENA/smoke_cap_5
+smoke_cap TURRET KIT_ARENA/smoke_cap_6
+smoke_cap TURRET KIT_ARENA/smoke_cap_7
+smoke_cap TURRET KIT_ARENA/smoke_cap_8
+smoke_cap TURRET KIT_ARENA/smoke_cap_9
+smoke_cap TURRET KIT_ARENA/smoke_cap_10
+smoke_cap TURRET KIT_ARENA/smoke_cap_11
+smoke_point 1.038 0.969 -0.008
+smoke_point -1.137 1.062 -0.373
+smoke_point 0.943 0.976 0.052
+smoke_point -1.04 1.061 -0.319
+smoke_point 0.843 0.98 0.098
+smoke_point -0.936 1.059 -0.278
+smoke_point 0.738 0.982 0.126
+smoke_point -1.15 0.903 -0.431
+smoke_point 0.627 0.979 0.139
+smoke_point -1.052 0.901 -0.379
+smoke_point 0.516 0.972 0.136
+smoke_point -0.947 0.9 -0.342
+armour_hide turret_04_back_dm
+armour_hide ex_decor_l_02_dm
+armour_hide ex_decor_03_dm
+armour_hide ex_armor_body_r_09_dm
+armour_hide ex_armor_body_l_09_dm
+armour_hide ex_composite_armor_08_dm
+armour_hide composite_armor_turret_05_dm
+armour_hide turret_back_dm
+armour_hide ex_decor_turret_04_dm
+armour_hide ex_composite_armor_11_dm
+armour_hide composite_armor_hull_09_dm
+armour_hide ex_armor_r_03_dm
+armour_hide composite_armor_hull_07_dm
+armour_hide ex_armor_r_02_dm
+armour_hide composite_armor_hull_03_dm
+armour_hide ex_armor_r_05_dm
+armour_hide ex_decor_12_dm
+armour_hide ex_decor_11_dm
+armour_hide ex_armor_r_04_dm
+armour_hide ex_armor_02_dm
+armour_hide ex_decor_05_dm
+armour_hide turret_commander_dm
+armour_hide composite_armor_hull_04_dm
+armour_hide ex_decor_10_dm
+armour_hide ex_composite_armor_10_dm
+armour_hide ex_composite_armor_02_dm
+armour_hide ex_decor_06_dm
+armour_hide ex_decor_07_dm
+armour_hide ex_composite_armor_03_dm
+armour_hide composite_armor_hull_05_dm
+armour_hide ex_composite_armor_04_dm
+armour_hide ex_composite_armor_12_dm
+armour_hide ex_composite_armor_05_dm
+armour_hide composite_armor_hull_08_dm
+armour_hide composite_armor_hull_06_dm
+armour_hide ex_composite_armor_13_dm
+armour_hide composite_armor_turret_03_dm
+armour_hide ex_decor_r_12_dm
+armour_hide ex_decor_r_14_dm
+armour_hide ex_decor_r_15_dm
+armour_hide ex_decor_r_13_dm
+armour_hide ex_decor_r_16_dm
+armour_hide ex_decor_l_11_dm
+armour_hide ex_decor_l_12_dm
+armour_hide ex_decor_l_16_dm
+armour_hide ex_decor_l_10_dm
+armour_hide ex_decor_l_09_dm
+armour_hide ex_decor_l_15_dm
+armour_hide ex_decor_l_13_dm
+armour_hide ex_decor_l_14_dm
+armour_hide ex_decor_l_07_dm
+armour_hide ex_decor_r_08_dm
+armour_hide ex_decor_r_11_dm
+armour_hide ex_decor_r_10_dm
+armour_hide ex_decor_l_08_dm
+armour_hide ex_decor_r_09_dm
+armour_hide ex_decor_r_07_dm
+armour_hide ex_composite_armor_06_dm
+armour_hide ex_era_hull_22_dm
+armour_hide ex_era_hull_20_dm
+armour_hide ex_era_hull_33_dm
+armour_hide ex_era_hull_37_dm
+armour_hide ex_era_hull_25_dm
+armour_hide ex_era_hull_21_dm
+armour_hide ex_era_hull_16_dm
+armour_hide ex_era_hull_29_dm
+armour_hide ex_era_hull_19_dm
+armour_hide ex_era_hull_35_dm
+armour_hide ex_era_hull_34_dm
+armour_hide ex_era_hull_36_dm
+armour_hide ex_era_hull_38_dm
+armour_hide ex_era_hull_23_dm
+armour_hide ex_era_hull_30_dm
+armour_hide ex_era_hull_24_dm
+armour_hide ex_era_hull_17_dm
+armour_hide ex_era_hull_18_dm
+armour_hide ex_era_hull_31_dm
+armour_hide ex_era_hull_32_dm
+armour_hide ex_decor_09_dm
+armour_hide ex_era_turret_14_dm
+armour_hide ex_era_turret_24_dm
+armour_hide ex_era_turret_23_dm
+armour_hide ex_era_turret_21_dm
+armour_hide ex_era_turret_13_dm
+armour_hide ex_decor_r_06_dm
+armour_hide ex_composite_armor_07_dm
+armour_hide ex_armor_03_dm
+armour_hide ex_composite_armor_09_dm
+armour_hide ex_decor_14_dm
+armour_hide composite_armor_turret_06_dm
+armour_hide ex_decor_l_06_dm
+armour_hide composite_armor_turret_04_dm
+armour_hide ex_era_hull_28_dm
+armour_hide ex_era_hull_15_dm
+armour_hide ex_era_turret_33_dm
+armour_hide ex_era_turret_32_dm
+armour_hide ex_era_turret_35_dm
+armour_hide ex_era_turret_31_dm
+armour_hide ex_era_turret_34_dm
+armour_hide ex_decor_08_dm
+armour_hide ex_decor_15_dm
+armour_hide ex_era_turret_19_dm
+armour_hide ex_era_turret_15_dm
+armour_hide ex_decor_l_04_dm
+armour_hide ex_decor_r_04_dm
+armour_hide ex_decor_r_05_dm
+armour_hide ex_decor_l_05_dm
+armour_hide ex_era_hull_14_dm
+armour_hide ex_era_turret_38_dm
+armour_hide ex_era_hull_26_dm
+armour_hide ex_era_hull_13_dm
+armour_hide ex_era_turret_18_dm
+armour_hide ex_era_hull_27_dm
+armour_hide ex_era_turret_43_dm
+armour_hide ex_era_turret_41_dm
+armour_hide ex_era_turret_39_dm
+armour_hide ex_era_turret_45_dm
+armour_hide ex_era_turret_30_dm
+armour_hide ex_era_turret_29_dm
+armour_hide ex_era_turret_27_dm
+armour_hide ex_era_turret_17_dm
+armour_hide ex_era_turret_16_dm
+armour_hide ex_era_turret_20_dm
+armour_hide ex_era_turret_22_dm
+armour_hide ex_era_turret_36_dm
+armour_hide ex_decor_turret_02_dm
+armour_hide ex_era_turret_26_dm
+armour_hide ex_era_turret_28_dm
+armour_hide ex_era_turret_25_dm
+era_link kit_arena_ex_era_hull_59_dm_c1 ex_armor_body_r_09_arena_c1
+era_link kit_arena_ex_era_hull_59_dm_c2 ex_armor_body_r_09_arena_c2
+era_link kit_arena_ex_era_hull_59_dm_c3 ex_armor_body_r_41_arena_c1
+era_link kit_arena_ex_era_hull_59_dm_c4 ex_armor_body_r_42_arena_c1
+era_link kit_arena_ex_era_hull_59_dm_c5 ex_armor_body_r_43_arena_c1
+era_link kit_arena_ex_era_hull_58_dm_c1 ex_armor_body_r_18_arena_c1
+era_link kit_arena_ex_era_hull_58_dm_c2 ex_armor_body_r_18_arena_c2
+era_link kit_arena_ex_era_hull_58_dm_c3 ex_armor_body_r_39_arena_c1
+era_link kit_arena_ex_era_hull_58_dm_c4 ex_armor_body_r_40_arena_c1
+era_link kit_arena_ex_era_hull_58_dm_c5 ex_armor_body_r_41_arena_c1
+era_link kit_arena_ex_era_hull_57_dm_c1 ex_armor_body_r_17_arena_c1
+era_link kit_arena_ex_era_hull_57_dm_c2 ex_armor_body_r_36_arena_c1
+era_link kit_arena_ex_era_hull_57_dm_c3 ex_armor_body_r_37_arena_c1
+era_link kit_arena_ex_era_hull_57_dm_c4 ex_armor_body_r_38_arena_c1
+era_link kit_arena_ex_era_hull_48_dm ex_armor_body_l_19_arena_c1
+era_link kit_arena_ex_era_hull_47_dm_c1 ex_armor_body_l_17_arena_c1
+era_link kit_arena_ex_era_hull_47_dm_c2 ex_armor_body_l_39_arena_c1
+era_link kit_arena_ex_era_hull_47_dm_c3 ex_armor_body_l_38_arena_c1
+era_link kit_arena_ex_era_hull_36_dm ex_armor_body_l_25_arena_c1
+era_link kit_arena_ex_era_hull_87_dm ex_armor_body_l_36_arena_c1
+era_link kit_arena_ex_era_hull_81_dm ex_armor_body_l_30_arena_c1
+era_link kit_arena_ex_era_hull_89_dm ex_armor_body_l_38_arena_c1
+era_link kit_arena_ex_era_hull_83_dm ex_armor_body_l_32_arena_c1
+era_link kit_arena_ex_era_hull_38_dm ex_armor_body_l_27_arena_c1
+era_link kit_arena_ex_era_hull_90_dm ex_armor_body_l_39_arena_c1
+era_link kit_arena_ex_era_hull_86_dm ex_armor_body_l_35_arena_c1
+era_link kit_arena_ex_era_hull_40_dm ex_armor_body_l_29_arena_c1
+era_link kit_arena_ex_era_hull_82_dm ex_armor_body_l_31_arena_c1
+era_link kit_arena_ex_era_hull_88_dm ex_armor_body_l_37_arena_c1
+era_link kit_arena_ex_era_hull_37_dm ex_armor_body_l_26_arena_c1
+era_link kit_arena_ex_era_hull_85_dm ex_armor_body_l_34_arena_c1
+era_link kit_arena_ex_era_hull_35_dm ex_armor_body_l_24_arena_c1
+era_link kit_arena_ex_era_hull_84_dm ex_armor_body_l_33_arena_c1
+era_link kit_arena_ex_era_hull_39_dm ex_armor_body_l_28_arena_c1
+era_link kit_arena_ex_era_hull_29_dm ex_armor_body_r_38_arena_c1
+era_link kit_arena_ex_era_hull_17_dm ex_armor_body_r_23_arena_c1
+era_link kit_arena_ex_era_hull_13_dm ex_armor_body_r_19_arena_c1
+era_link kit_arena_ex_era_hull_14_dm ex_armor_body_r_20_arena_c1
+era_link kit_arena_ex_era_hull_34_dm ex_armor_body_r_43_arena_c1
+era_link kit_arena_ex_era_hull_19_dm ex_armor_body_r_25_arena_c1
+era_link kit_arena_ex_era_hull_21_dm ex_armor_body_r_27_arena_c1
+era_link kit_arena_ex_era_hull_32_dm ex_armor_body_r_41_arena_c1
+era_link kit_arena_ex_era_hull_24_dm ex_armor_body_r_30_arena_c1
+era_link kit_arena_ex_era_hull_30_dm ex_armor_body_r_39_arena_c1
+era_link kit_arena_ex_era_hull_25_dm ex_armor_body_r_34_arena_c1
+era_link kit_arena_ex_era_hull_15_dm ex_armor_body_r_21_arena_c1
+era_link kit_arena_ex_era_hull_27_dm ex_armor_body_r_36_arena_c1
+era_link kit_arena_ex_era_hull_23_dm ex_armor_body_r_29_arena_c1
+era_link kit_arena_ex_era_hull_26_dm ex_armor_body_r_35_arena_c1
+era_link kit_arena_ex_era_hull_20_dm ex_armor_body_r_26_arena_c1
+era_link kit_arena_ex_era_hull_18_dm ex_armor_body_r_24_arena_c1
+era_link kit_arena_ex_era_hull_16_dm ex_armor_body_r_22_arena_c1
+era_link kit_arena_ex_era_hull_28_dm ex_armor_body_r_37_arena_c1
+era_link kit_arena_ex_era_hull_22_dm ex_armor_body_r_28_arena_c1
+era_link kit_arena_ex_era_hull_33_dm ex_armor_body_r_42_arena_c1
+era_link kit_arena_ex_era_hull_31_dm ex_armor_body_r_40_arena_c1
+era_link kit_arena_ex_era_hull_60_dm_c1 ex_armor_body_l_18_arena_c1
+era_link kit_arena_ex_era_hull_60_dm_c2 ex_armor_body_l_18_arena_c2
+era_link kit_arena_ex_era_turret_14_dm ex_era_turret_14_arena_c2
+era_link kit_arena_ex_era_turret_20_dm_c1 ex_era_turret_20_arena_c1
+era_link kit_arena_ex_era_turret_20_dm_c2 ex_era_turret_20_arena_c2
+era_link kit_arena_ex_era_turret_27_dm ex_era_turret_27_arena_c1
+era_link kit_arena_ex_era_turret_45_dm_c1 ex_era_turret_45_arena_c1
+era_link kit_arena_ex_era_turret_45_dm_c2 ex_era_turret_45_arena_c2
+era_link kit_arena_ex_era_turret_19_dm_c1 ex_era_turret_19_arena_c1
+era_link kit_arena_ex_era_turret_19_dm_c2 ex_era_turret_19_arena_c2
+era_link kit_arena_ex_era_turret_34_dm ex_era_turret_34_arena_c1
+era_link kit_arena_ex_era_turret_33_dm ex_era_turret_33_arena_c1
+era_link kit_arena_ex_era_turret_50_dm ex_era_turret_50_arena_c1
+era_link kit_arena_ex_era_turret_32_dm ex_era_turret_32_arena_c1
+era_link kit_arena_ex_era_turret_35_dm ex_era_turret_35_arena_c1
+era_link kit_arena_ex_era_turret_30_dm_c1 ex_era_turret_30_arena_c1
+era_link kit_arena_ex_era_turret_30_dm_c2 ex_era_turret_30_arena_c2
+era_link kit_arena_ex_era_turret_16_dm_c1 ex_era_turret_16_arena_c1
+era_link kit_arena_ex_era_turret_16_dm_c2 ex_era_turret_16_arena_c2
+era_link kit_arena_ex_era_turret_23_dm_c1 ex_era_turret_23_arena_c1
+era_link kit_arena_ex_era_turret_23_dm_c2 ex_era_turret_23_arena_c2
+era_link kit_arena_ex_era_turret_53_dm ex_armor_turret_r_27_arena_c1
+era_link kit_arena_ex_era_turret_55_dm ex_armor_turret_r_29_arena_c1
+era_link kit_arena_ex_era_turret_52_dm ex_armor_turret_r_26_arena_c1
+era_link kit_arena_ex_era_turret_51_dm ex_armor_turret_r_25_arena_c1
+era_link kit_arena_ex_era_turret_54_dm ex_armor_turret_r_28_arena_c1
+era_link kit_arena_ex_era_turret_24_dm_c1 ex_era_turret_24_arena_c1
+era_link kit_arena_ex_era_turret_24_dm_c2 ex_era_turret_24_arena_c2
+era_link kit_arena_ex_era_turret_57_dm ex_armor_turret_r_31_arena_c1
+era_link kit_arena_ex_era_turret_22_dm_c1 ex_era_turret_22_arena_c1
+era_link kit_arena_ex_era_turret_22_dm_c2 ex_era_turret_22_arena_c2
+era_link kit_arena_ex_era_turret_18_dm_c1 ex_era_turret_18_arena_c1
+era_link kit_arena_ex_era_turret_18_dm_c2 ex_era_turret_18_arena_c2
+era_link kit_arena_ex_era_turret_17_dm_c1 ex_era_turret_17_arena_c1
+era_link kit_arena_ex_era_turret_17_dm_c2 ex_era_turret_17_arena_c2
+era_link kit_arena_ex_era_turret_56_dm ex_armor_turret_r_30_arena_c1
+era_link kit_arena_ex_era_turret_21_dm ex_era_turret_21_arena_c1
+era_link kit_arena_ex_era_hull_76_dm_c1 ex_era_hull_76_arena_c1
+era_link kit_arena_ex_era_hull_76_dm_c2 ex_era_hull_76_arena_c2
+era_link kit_arena_ex_era_hull_76_dm_c3 ex_era_hull_76_arena_c3
+era_link kit_arena_ex_era_turret_63_dm ex_armor_turret_18_arena_c1
+era_link kit_arena_ex_era_turret_58_dm ex_armor_turret_r_32_arena_c1
+era_link kit_arena_ex_era_turret_62_dm ex_armor_turret_19_arena_c1
+era_link kit_arena_ex_era_turret_61_dm ex_armor_turret_20_arena_c1
+era_link kit_arena_ex_era_turret_60_dm ex_armor_turret_21_arena_c1
+era_link kit_arena_ex_era_turret_59_dm ex_armor_turret_22_arena_c1
+era_link kit_arena_ex_era_turret_65_dm ex_armor_turret_l_29_arena_c1
+era_link kit_arena_ex_era_turret_64_dm ex_armor_turret_l_30_arena_c1
+era_link kit_arena_ex_era_hull_49_dm_c1 ex_armor_body_l_09_arena_c1
+era_link kit_arena_ex_era_hull_49_dm_c2 ex_armor_body_l_09_arena_c2
+era_link kit_arena_ex_era_turret_69_dm ex_armor_turret_l_25_arena_c1
+era_link kit_arena_ex_era_turret_70_dm ex_armor_turret_l_24_arena_c1
+era_link kit_arena_ex_era_turret_67_dm ex_armor_turret_l_27_arena_c1
+era_link kit_arena_ex_era_turret_66_dm ex_armor_turret_l_28_arena_c1
+era_link kit_arena_ex_era_turret_68_dm ex_armor_turret_l_26_arena_c1
+era_link kit_arena_ex_era_turret_15_dm ex_era_turret_15_arena_c1
+era_link kit_arena_ex_era_turret_13_dm ex_era_turret_13_arena_c1
+era_link kit_arena_ex_era_turret_49_dm ex_era_turret_49_arena_c1
+era_link kit_arena_ex_era_hull_69_dm ex_armor_13_arena_c1
+era_link kit_arena_ex_era_hull_68_dm ex_armor_12_arena_c1
+era_link kit_arena_ex_era_hull_67_dm ex_armor_11_arena_c1
+era_link kit_arena_ex_era_hull_66_dm ex_armor_14_arena_c1
+era_link kit_arena_ex_era_hull_65_dm ex_armor_07_arena_c1
+era_link kit_arena_ex_era_turret_39_dm ex_era_turret_39_arena_c1
+era_link kit_arena_ex_era_turret_26_dm ex_era_turret_26_arena_c1
+era_link kit_arena_ex_era_turret_28_dm ex_era_turret_28_arena_c1
+era_link kit_arena_ex_era_turret_38_dm ex_era_turret_38_arena_c1
+era_link kit_arena_ex_era_turret_41_dm ex_era_turret_41_arena_c1
+era_link kit_arena_ex_era_turret_36_dm ex_era_turret_36_arena_c1
+era_link kit_arena_ex_era_turret_25_dm ex_era_turret_25_arena_c1
+era_link kit_arena_ex_era_turret_29_dm ex_era_turret_29_arena_c1
+era_link kit_arena_ex_era_turret_31_dm ex_era_turret_31_arena_c1
+era_link kit_arena_ex_era_hull_75_dm_c1 ex_era_hull_75_arena_c1
+era_link kit_arena_ex_era_hull_75_dm_c2 ex_era_hull_75_arena_c2
+era_link kit_arena_ex_era_hull_77_dm_c1 ex_era_hull_77_arena_c1
+era_link kit_arena_ex_era_hull_77_dm_c2 ex_era_hull_77_arena_c2
+era_link kit_arena_ex_era_hull_78_dm_c1 ex_era_hull_78_arena_c1
+era_link kit_arena_ex_era_hull_78_dm_c2 ex_era_hull_78_arena_c2
+era_link kit_arena_ex_era_hull_74_dm ex_armor_13_arena_c1
+era_link kit_arena_ex_era_hull_73_dm ex_armor_12_arena_c1
+era_link kit_arena_ex_era_hull_72_dm ex_armor_11_arena_c1
+era_link kit_arena_ex_era_hull_71_dm ex_armor_14_arena_c1
+era_link kit_arena_ex_era_hull_70_dm ex_armor_07_arena_c1
+era_link kit_arena_ex_era_turret_48_dm ex_era_turret_48_arena_c1
+era_link kit_arena_ex_era_turret_47_dm ex_era_turret_47_arena_c1
+era_link kit_arena_ex_era_hull_80_dm ex_era_hull_80_arena_c1
+era_link kit_arena_ex_era_hull_79_dm ex_era_hull_79_arena_c1
+era_link kit_arena_ex_era_turret_43_dm ex_era_turret_43_arena_c1
+armour_group KIT_ARENA_GUN GUN
+armour_group KIT_ARENA_HULL HULL
+armour_group KIT_ARENA_TURRET TURRET

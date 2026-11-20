@@ -43,6 +43,7 @@ namespace T90M.Common
 				ResidualTemp = 600f;
 			public float FireScale = 1f;
 			public string ReplaceCompartment;
+			public string[] HolderPaths = new string[0];
 		}
 #pragma warning restore CS0649
 
@@ -127,6 +128,55 @@ namespace T90M.Common
 			Reflect.FieldRefAccess<GHPC.Weapons.AmmoRack, float>("_storageDelaySeconds");
 		static readonly AccessTools.FieldRef<FlammablesCluster, Transform> ClusterMarker =
 			Reflect.FieldRefAccess<FlammablesCluster, Transform>("_fireMarker");
+
+		internal static string Remove(Vehicle vehicle, Settings s, List<string> problems)
+		{
+			var rackTransform = InteriorMap.Find(vehicle.transform, s.RackPath);
+			var rack = rackTransform != null ? rackTransform.GetComponent<GHPC.Weapons.AmmoRack>() : null;
+			if (rack == null)
+			{
+				problems.Add($"rack '{s.RackPath}' not found");
+				return null;
+			}
+			var loadout = vehicle.GetComponent<GHPC.Weapons.LoadoutManager>();
+			int taken = 0;
+			foreach (var clip in rack.StoredClips.ToList())
+			{
+				if (!rack.RetrieveClipWithPattern(clip)) continue;
+				taken += clip.Capacity;
+				int index = loadout != null ? loadout.GetAmmoIndexByType(clip) : -1;
+				if (index >= 0 && loadout.TotalAmmoCounts != null && index < loadout.TotalAmmoCounts.Length)
+					loadout.TotalAmmoCounts[index] = Mathf.Max(0, loadout.TotalAmmoCounts[index] - clip.Capacity);
+			}
+			if (!rack.IsEmpty) problems.Add($"rack '{rack.Name}' still holds {rack.StoredClips.Count} round(s)");
+			int holders = 0;
+			foreach (var path in s.HolderPaths ?? new string[0])
+			{
+				var holder = InteriorMap.Find(vehicle.transform, path);
+				if (holder == null)
+				{
+					problems.Add($"holder '{path}' not found");
+					continue;
+				}
+				holder.gameObject.SetActive(false);
+				holders++;
+			}
+			var manager = vehicle.GetComponent<FlammablesManager>();
+			var compartment = manager != null && manager.Compartments != null
+				? manager.Compartments.FirstOrDefault(c => c != null
+					&& c.Name == s.CompartmentName
+					&& c.GetComponent<Isolated>() != null)
+				: null;
+			if (compartment == null)
+			{
+				problems.Add($"compartment '{s.CompartmentName}' not found (already gone?)");
+				return $"{taken} round(s) taken out of '{rack.Name}'; {holders} holders off";
+			}
+			manager.Compartments = manager.Compartments.Where(c => c != compartment).ToArray();
+			compartment.gameObject.SetActive(false);
+			return $"{taken} round(s) taken out of '{rack.Name}'; {holders} holders off; compartment '{s.CompartmentName}' switched off "
+				+ $"({compartment.Exits.Count} vents, {compartment.Detachables.Count} lids)";
+		}
 
 		internal static string Apply(Vehicle vehicle, Settings s, Mesh volume, Transform bone, List<string> problems)
 		{

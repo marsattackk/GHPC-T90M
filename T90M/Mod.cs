@@ -4,7 +4,7 @@ using MelonLoader.Utils;
 using T90M.Common;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.3.1", "marsattackk")]
+[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.4.0", "marsattackk")]
 [assembly: MelonGame("Radian Simulations LLC", "GHPC")]
 
 namespace T90M
@@ -34,12 +34,18 @@ namespace T90M
 		internal static CampaignConfig Campaign;
 		internal static MelonPreferences_Entry<string> Apfsds;
 		internal static MelonPreferences_Entry<bool> ForceApfsds;
+		internal static MelonPreferences_Entry<bool> RandomApfsds;
+		internal static MelonPreferences_Entry<string> ApfsdsPool;
+		internal static MelonPreferences_Entry<string> AmmunitionLoad;
+		internal static MelonPreferences_Entry<string> EmptyRacks;
 		internal static MelonPreferences_Entry<bool> WeatheredPaint;
 		internal static MelonPreferences_Entry<bool> ScreensOn;
 		internal static MelonPreferences_Entry<bool> ScreensAutomatic;
 		internal static MelonPreferences_Entry<bool> ScreensTone;
 		internal static MelonPreferences_Entry<bool> ScreensPage;
 		internal static MelonPreferences_Entry<bool> ScreensPageAlways;
+		internal static MelonPreferences_Entry<bool> ArenaMine;
+		internal static MelonPreferences_Entry<int> ArenaShare;
 		internal static MelonPreferences_Entry<bool> KordCases;
 		internal static MelonPreferences_Entry<bool> EraEffects;
 		internal static MelonPreferences_Entry<bool> FireWhenLaid;
@@ -57,6 +63,7 @@ namespace T90M
 			UnityErrors.Install(typeof(T90MMod).Namespace);
 			CreateSettings();
 			if (!Enabled.Value) return;
+			Arena.CheckSettings();
 			PortAmmo.S = Firepower.Settings();
 			AirBurst.S = Firepower.Fuse;
 			NetScreens.Apply(HarmonyInstance);
@@ -82,6 +89,22 @@ namespace T90M
 				"Force APFSDS",
 				false,
 				description: SettingText.ForceApfsds);
+			RandomApfsds = cfg.CreateEntry(
+				"Random APFSDS",
+				false,
+				description: SettingText.RandomApfsds);
+			ApfsdsPool = cfg.CreateEntry(
+				"APFSDS pool",
+				"",
+				description: SettingText.ApfsdsPool);
+			AmmunitionLoad = cfg.CreateEntry(
+				"Ammunition load",
+				"Full",
+				description: SettingText.AmmunitionLoad);
+			EmptyRacks = cfg.CreateEntry(
+				"Empty racks",
+				"",
+				description: SettingText.EmptyRacks);
 			FireWhenLaid = cfg.CreateEntry(
 				"Fire only when the gun is laid",
 				true,
@@ -119,6 +142,14 @@ namespace T90M
 				"TShU-1-2M page always on screen",
 				false,
 				description: SettingText.ScreensPageAlways);
+			ArenaMine = cfg.CreateEntry(
+				"Arena-M kit on my tank",
+				false,
+				description: SettingText.ArenaMine);
+			ArenaShare = cfg.CreateEntry(
+				"Arena-M kit share",
+				0,
+				description: SettingText.ArenaShare);
 			KordCases = cfg.CreateEntry(
 				"Kord spent cases",
 				true,
@@ -153,6 +184,7 @@ namespace T90M
 			var roles = PortText.Load(bundle, MaterialRoles.AssetName);
 			if (roles != null) Roles = MaterialRoles.Parse(roles);
 			else MelonLogger.Warning($"{FriendlyName}: no material roles; glass keeps the bundle's own materials.");
+			Arena.Load(bundle);
 			SmokePoints = SmokeLaunchers.Load(bundle);
 			if (bundle != null && SmokePoints == null)
 				MelonLogger.Warning($"{FriendlyName}: no smoke launch points; the smoke grenades leave from the T-72's positions.");
@@ -204,6 +236,7 @@ namespace T90M
 			DevSceneLoaded(sceneName, MenuScenes.Contains(sceneName), HarmonyInstance);
 			if (!MenuScenes.Contains(sceneName))
 				ConvertSweep.AtPlayerReady(UnitKey, v => Conversion.Convert(v));
+			Arena.OnSceneLoaded(MenuScenes.Contains(sceneName), sceneName == ShowcaseSpawner.Scene);
 		}
 
 		// Dev hooks: optional methods the author's own test harness fills in. They compile to nothing in a normal build.

@@ -460,3 +460,224 @@ R_pkg14_layer_rubber2	drawn	0	0	0	0	0		0.85,0.08,0.08,0.35	rubber (x-ray only)		
 R_pkg14_layer_thin2	drawn	0	0	0	0	0		0.55,0.10,0.95,0.35	thin steel plate (x-ray only)		0
 R_pkg14_layer_gap	drawn	0	0	0	0	0		0.00,1.00,0.00,0.35	package gap fill (x-ray only)		0
 R_pkg15_plate	geometry	1.1628	1.6178	0	0	0	filling_steel	0.00,0.62,0.85,0.55	cheek pack: SK-2Sh 50 mm		0
+kit_arena_ex_armor_r_06_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen (plane)		0
+kit_arena_ex_decor_r_02_dm	nominal	3	3	0	0	1	mild_steel		turret fitting		0
+kit_arena_ex_decor_l_02_dm	nominal	3	3	0	0	1	mild_steel		turret fitting		0
+kit_arena_ex_decor_turret_04_dm	nominal	3	3	0	0	1	mild_steel		stowage box		0
+kit_arena_aps_launcher_02_dm	nominal	10	10	0	0	1	armour_steel		Arena-M launcher box housing, left rear		0
+kit_arena_ex_composite_armor_11_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_turret_07_bottom_dm	nominal	10	10	0	0	1	armour_steel		turret rear housing (APS)		0
+kit_arena_turret_07_front_dm	nominal	10	10	0	0	1	armour_steel		turret rear housing (APS)		0
+kit_arena_turret_07_side_dm	nominal	10	10	0	0	1	armour_steel		turret rear housing (APS)		0
+kit_arena_ex_armor_r_03_dm	nominal	1	1	0	0	1	mild_steel		fender box		0
+kit_arena_ex_armor_r_02_dm	nominal	1	1	0	0	1	mild_steel		fender box		0
+kit_arena_ex_decor_08_dm	nominal	10	10	0	0	1	armour_steel		APS box / cover		0
+kit_arena_ex_composite_armor_08_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_turret_07_back_dm	nominal	10	10	0	0	1	armour_steel		turret rear housing (APS)		0
+kit_arena_ex_decor_07_dm	nominal	10	10	0	0	1	armour_steel		APS box / cover		0
+kit_arena_ex_armor_r_05_dm	nominal	1	1	0	0	1	mild_steel		fender box		0
+kit_arena_turret_commander_dm	nominal	45	45	0	0	1	armour_steel		commander's station base		0
+kit_arena_ex_armor_r_04_dm	nominal	1	1	0	0	1	mild_steel		fender box		0
+kit_arena_ex_armor_02_dm	geometry	1.05	1	0	0	0	armour_steel		gun mask cover		0
+kit_arena_ex_armor_body_r_07_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_armor_body_r_31_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_composite_armor_10_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_composite_armor_02_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_armor_body_l_08_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_composite_armor_03_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_armor_body_r_33_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_composite_armor_04_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_armor_body_l_22_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_composite_armor_06_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_decor_l_04_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_decor_r_04_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_decor_l_05_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_decor_r_05_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_composite_armor_07_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_composite_armor_12_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_composite_armor_05_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_aps_sensor_01_dm	nominal	10	10	0	0	1	armour_steel		Arena-M radar housing 1, front left		0
+kit_arena_aps_sensor_05_dm	nominal	10	10	0	0	1	armour_steel		Arena-M radar housing 5, rear right		0
+kit_arena_aps_sensor_04_dm	nominal	10	10	0	0	1	armour_steel		Arena-M radar housing 4, rear left		0
+kit_arena_aps_sensor_02_dm	nominal	10	10	0	0	1	armour_steel		Arena-M radar housing 2, front right		0
+kit_arena_ex_composite_armor_13_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_aps_launcher_01_dm	nominal	10	10	0	0	1	armour_steel		Arena-M launcher box housing, left front		0
+kit_arena_turret_01_side_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_era_hull_48_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_armor_body_l_20_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_era_hull_36_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_87_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_aps_sensor_03_dm	nominal	10	10	0	0	1	armour_steel		Arena-M radar housing 3, left		0
+kit_arena_ex_era_hull_81_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_aps_sensor_06_dm	nominal	10	10	0	0	1	armour_steel		Arena-M radar housing 6, right		0
+kit_arena_ex_era_hull_89_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_83_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_38_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_90_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_86_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_40_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_82_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_88_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_37_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_85_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_35_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_84_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_39_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_armor_body_l_07_dm	nominal	0.8	0.8	0	0	0	plain		rubber-fabric side screen		0
+kit_arena_ex_composite_armor_09_dm	nominal	1	1	0	0	0	plain		net screen		1
+kit_arena_ex_era_hull_29_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_17_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_13_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_14_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_34_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_19_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_21_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_32_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_24_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_30_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_25_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_15_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_27_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_23_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_26_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_20_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_18_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_16_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_28_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_22_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_33_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_31_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_aps_launcher_03_dm	nominal	10	10	0	0	1	armour_steel		Arena-M launcher box housing, right rear		0
+kit_arena_composite_armor_hull_03_dm	nominal	1	1	0	0	0	plain		slat screen		1
+kit_arena_ex_era_turret_14_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_armor_03_dm	nominal	3	3	0	0	1	mild_steel		stowage box		0
+kit_arena_ex_armor_turret_r_05_dm	nominal	3	3	0	0	1	mild_steel		turret fitting		0
+kit_arena_ex_era_turret_27_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_armor_turret_r_27_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_era_turret_34_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_33_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_50_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_32_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_35_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_armor_turret_r_29_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_r_26_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_r_25_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_r_28_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_r_31_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_r_30_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_18_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_r_32_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_21_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_20_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_19_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_22_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_l_30_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_l_29_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_era_turret_53_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_55_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_52_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_51_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_54_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_armor_turret_l_25_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_l_24_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_l_28_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_l_27_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_ex_armor_turret_l_26_dm	nominal	0.8	0.8	0	0	0	plain		fabric cover (side bag)		0
+kit_arena_aps_launcher_04_dm	nominal	10	10	0	0	1	armour_steel		Arena-M launcher box housing, right front		0
+kit_arena_ex_era_turret_57_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_56_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_21_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_decor_15_dm	nominal	3	3	0	0	1	mild_steel		stowage box		0
+kit_arena_ex_era_turret_63_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_58_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_62_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_61_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_60_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_59_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_65_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_64_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_69_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_70_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_67_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_66_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_68_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	side bag ERA (Relikt)		0
+kit_arena_ex_era_turret_15_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_13_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_49_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_69_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_68_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_67_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_66_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_65_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_39_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_26_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_28_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_38_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_41_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_36_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_25_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_29_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_31_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_74_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_73_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_72_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_71_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_70_dm	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_48_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_47_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_80_dm	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_79_dm	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_turret_43_dm	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_slat_ex_armor_turret_01	nominal	1	1	0	0	0	plain		slat screen		1
+kit_arena_slat_ex_armor_turret_r_06	nominal	1	1	0	0	0	plain		slat screen		1
+kit_arena_slat_ex_armor_turret_l_06	nominal	1	1	0	0	0	plain		slat screen		1
+kit_arena_ex_era_hull_59_dm_c1	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_59_dm_c2	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_59_dm_c3	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_59_dm_c4	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_59_dm_c5	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_58_dm_c1	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_58_dm_c2	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_58_dm_c3	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_58_dm_c4	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_58_dm_c5	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_57_dm_c1	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_57_dm_c2	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_57_dm_c3	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_57_dm_c4	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_47_dm_c1	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_47_dm_c2	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_47_dm_c3	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_60_dm_c1	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_60_dm_c2	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_20_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_20_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_45_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_45_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_19_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_19_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_30_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_30_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_16_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_16_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_23_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_23_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_24_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_24_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_22_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_22_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_18_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_18_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_17_dm_c1	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_turret_17_dm_c2	era	250	650	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_76_dm_c1	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_76_dm_c2	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_76_dm_c3	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_49_dm_c1	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_49_dm_c2	era	250	600	0	0	0	plain	0.90,0.15,0.70,0.5	Relikt ERA		0
+kit_arena_ex_era_hull_75_dm_c1	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_75_dm_c2	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_77_dm_c1	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_77_dm_c2	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_78_dm_c1	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0
+kit_arena_ex_era_hull_78_dm_c2	era	1	500	0	0	0	plain	0.90,0.15,0.70,0.5	Kontakt-1 ERA		0

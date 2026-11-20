@@ -30,6 +30,7 @@ Edit these and rebuild the DLL, no Unity involved:
 | `era_links` | no | silently, each Relikt piece is matched to a container by position only |
 | `era_gone` | no | silently, nothing hides with a container. The current bundle has none |
 | `smoke_points` | no | warning, grenades leave from the T-72's tubes |
+| `kits` | no | warning when a setting asks for the Arena-M kit: it does nothing |
 
 The catch is that most lines name things in the bundle. Numbers, armour types, x-ray colours, roles, donors, hinge
 angles and smoke points are safe to change on their own. Renaming an armour piece, or pointing a line at a different
@@ -187,6 +188,25 @@ Floats separated by any spaces, commas, tabs or newlines, three per tube mouth, 
 right go by the sign of x, then top down, matched to the T-72M1's smoke slots. One bad number drops the whole list,
 since it would shift every tube after it.
 
+### `kits`
+
+What the Arena-M kit puts where, one fact per line, single spaces, facts after `kit arena` belong to it (`PortKits.Parse`;
+a line it doesn't understand is warned about with its number and left out):
+
+```
+kit arena
+root <group> KIT_ARENA                  the kit's parts of that rig group, switched off in the visual, switched on for a kit tank
+hide <group> <path>                     a normal object a kit tank doesn't draw, the path from the group's object (KITHIDE_ARENA, a hatch...)
+smoke_point <x> <y> <z>                 a launch point of the kit's own, tube by tube, in the turret bone's space
+smoke_cap <group> <path>                a smoke tube cap of the kit's (KIT_ARENA/smoke_cap_<n>)
+armour_group KIT_ARENA_<GROUP> <GROUP>  the armour prefab's group of the kit's pieces and the rig group whose bone they follow
+armour_hide <piece>                     a normal armour piece (named as in dm_armour) a kit tank drops
+```
+
+The groups are `HULL`, `TURRET`, `GUN` and `MANTLET_COVER`. The kit's armour pieces are in `T90M_armor` under the armour
+groups, named `kit_arena_<part>` and valued in `dm_armour` under the same names. The kit's modules are in `modules_built.json`
+with `"kit": "arena"` and are built only for a kit tank.
+
 ## Released bundles
 
 SHA-256 of `Mods/T90M/t90m` in each release zip. When a release changes the bundle, add a row.
@@ -202,6 +222,7 @@ SHA-256 of `Mods/T90M/t90m` in each release zip. When a release changes the bund
 | 0.2.2 | `deba555eb68f7aaf2e2d68d5e84a4ff380b8db3bd70ee0a95df2067afbabdfe2` |
 | 0.3.0 | `5df70af9173f96bce09b3736391a10ad244f07c456a6b63d07516867eda3b3fe` |
 | 0.3.1 | `9e7a79a5ed194035f2a3a3cee6449f83088b8ecc458209a3864144f0f21a0e9e` |
+| 0.4.0 | `728f33ec0b24040c2552dfeb966a37b004d6fb0553b4d3ece66c6430ae556afb` |
 
 ```
 Expand-Archive T90M_0.2.2.zip -DestinationPath T90M_0.2.2

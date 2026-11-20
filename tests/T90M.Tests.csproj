@@ -31,6 +31,7 @@
     <Compile Include="..\Common\TrackServo.cs" Link="Common\TrackServo.cs" />
     <Compile Include="..\Common\TrackFilter.cs" Link="Common\TrackFilter.cs" />
     <Compile Include="..\Common\FuseMath.cs" Link="Common\FuseMath.cs" />
+    <Compile Include="..\Common\PortKits.Text.cs" Link="Common\PortKits.Text.cs" />
   </ItemGroup>
 
 </Project>

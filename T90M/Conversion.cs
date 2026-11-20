@@ -265,7 +265,7 @@ namespace T90M
 			T90MMod.FriendlyName,
 			T90MMod.UnitKey,
 			"T-72M1");
-		static readonly PortModules Modules = new PortModules(
+		internal static readonly PortModules Modules = new PortModules(
 			typeof(T90MMod).Assembly,
 			T90MMod.FriendlyName,
 			"T-72M1",
@@ -282,6 +282,28 @@ namespace T90M
 			Tag = T90MMod.FriendlyName,
 			DigitSpacing = 0.059f,   // two windows on the lamp, the T-72's 7.3 cm put each digit off its window
 		};
+
+		// The Arena-M kit's reshaped rear carries the same lamp 12.9 cm further right: on its War Thunder model every face of the
+		// lamp lies 0.129 m right of the plain model's, at the same height and depth.
+		static readonly Vector3 ArenaLampShift = new Vector3(0.129f, 0f, 0f);
+
+		// After the Arena-M kit's parts: the convoy plates and their glow move onto the kit's lamp. The plates keep the size and
+		// spacing the conversion gave them, only their place changes.
+		internal static string NumbersOnKitLamp(Vehicle vehicle)
+		{
+			var root = vehicle.transform;
+			var turret = root.Find("---MESH---/HULL/TURRET");
+			if (turret == null || Numbers.Mode == "T-72 position") return "convoy numbers left where they are";
+			var shift = turret.TransformVector(ArenaLampShift);
+			var plates = root
+				.GetComponentsInChildren<MeshRenderer>(true)
+				.Where(r => Numbers.PlateNames.Any(p => r.name.StartsWith(p)))
+				.ToList();
+			foreach (var plate in plates) plate.transform.position += shift;
+			var glow = root.GetComponentsInChildren<Light>(true).FirstOrDefault(l => l.name == "numbers glow");
+			if (glow != null && plates.Count > 0) glow.transform.position += shift;
+			return $"{plates.Count} convoy plates moved {ArenaLampShift.x * 100f:0.0} cm right onto the kit's lamp";
+		}
 
 		static readonly ConversionStep<Vehicle>[] LateSteps =
 		{
@@ -333,6 +355,8 @@ namespace T90M
 			yield return SmokeLaunchers.RefreshCrewLater(vehicle, T90MMod.FriendlyName);
 			if (vehicle == null) yield break;
 			ConversionSteps.Run(T90MMod.FriendlyName, LateSteps, vehicle, vehicle.name, atSpawn);
+			// The Arena-M kit, for the tanks that carry it: last, once the racks are filled and the modules wired.
+			Arena.Offer(vehicle);
 			DevAfter(vehicle, atSpawn);
 		}
 

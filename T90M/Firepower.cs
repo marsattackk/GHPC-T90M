@@ -48,6 +48,9 @@ namespace T90M
 			ResidualBurn = 30f,
 			FireScale = 0.5f,   // the vents' flames drawn at half the size GHPC gives them
 			VolumeName = "Bustle Volume (COMPARTMENT)",
+			// The frames drawn round the box's rounds: off on a tank with the Arena-M kit, which has no box, so no empty box
+			// shows in the ammunition x-ray.
+			HolderPaths = new[] { "T-72 TURRET COLLIDERS/AAR/Bustle box racks" },
 			UpReference = "---MESH---/HULL/TURRET",
 			// The lids: 10 mm steel (the box's armour, thickness my reading) in War Thunder's lid sizes, 0.37 x 0.82 m
 			// (24 kg) at the sides and 0.51 x 0.88 m (35 kg) in the centre. They are thrown at the M1's speeds (6 and
@@ -144,6 +147,10 @@ namespace T90M
 			},
 			DefaultApfsds = () => T90MMod.Apfsds?.Value,
 			ForceApfsds = () => T90MMod.ForceApfsds?.Value == true,
+			RandomApfsds = () => T90MMod.RandomApfsds?.Value == true,
+			ApfsdsPool = () => T90MMod.ApfsdsPool?.Value,
+			LoadPreset = () => T90MMod.AmmunitionLoad?.Value,
+			EmptyRacks = () => T90MMod.EmptyRacks?.Value,
 			ApfsdsListName = "125mm APFSDS (T-90M)",
 			MenuSuffix = " (T-90M)",
 			FixedHeat = "clip_3BK18M",
@@ -193,9 +200,16 @@ namespace T90M
 			// GHPC restocks from the end of this list: hull rack first, the bustle box last.
 			Racks = new[]
 			{
-				new PortAmmo.Rack { Index = 0, Counts = CarouselCountsWithMissile, MissileSlots = new[] { 21, 20 } },
-				new PortAmmo.Rack { Index = SpareRack, Counts = BustleCounts, NoRestockInto = true },
-				new PortAmmo.Rack { Index = 2, Counts = HullRearCounts, MissileSlots = new[] { 10, 9 } },
+				new PortAmmo.Rack { Index = 0, Name = "autoloader", Counts = CarouselCountsWithMissile, MissileSlots = new[] { 21, 20 } },
+				new PortAmmo.Rack { Index = SpareRack, Name = "bustle", Counts = BustleCounts, NoRestockInto = true },
+				new PortAmmo.Rack { Index = 2, Name = "hull", Counts = HullRearCounts, MissileSlots = new[] { 10, 9 } },
+			},
+			// The names are the words the player types in Empty racks. "Autoloader" keeps only the carousel;
+			// "Autoloader and bustle" also keeps the turret box and drops the hull rack.
+			LoadPresets = new Dictionary<string, string[]>
+			{
+				{ "Autoloader", new[] { "hull", "bustle" } },
+				{ "Autoloader and bustle", new[] { "hull" } },
 			},
 			DropOtherRacks = true,
 			// The game's T-72M1 gunner's sight, relative to the fire control's parent.
@@ -253,6 +267,10 @@ namespace T90M
 			GunName = "125mm Gun 2A46M-5",
 			CodexName = "T90M 2A46M-5",
 		};
+
+		// A kit tank has no bustle box (the Arena-M kit): its rounds out of the rack, its compartment off. 30 rounds are left,
+		// 22 in the carousel and 8 in the hull.
+		internal static string DropBustle(Vehicle vehicle, List<string> problems) => BlowoutRack.Remove(vehicle, Bustle, problems);
 
 		static bool _bustleLogged;
 

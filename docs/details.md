@@ -90,6 +90,37 @@ spread is 0.05 s either way. That's the published figure, which I read as one st
 round bursts well off. It throws 450 fragments in a cone 20° either side of its line. Under 300 m, or with no valid
 range, it falls back to impact, and the vehicle menu shows what the round in the breech was set to.
 
+## The Arena-M kit
+
+KBM has the Arena-M on a T-90M in trials: the maker's own account is that the Arena is operational in Russia and was shown
+at IDEX 2025 on this tank, and the T-90M has been seen with the new turret at its trials. I found no delivery paperwork,
+so the kit is a trial fit, and the settings text says so. The model is War Thunder's T-90M with the Arena-M. Its turret
+isn't shaped like the normal one, so the kit brings the reshaped parts and hides the normal ones they replace. A tank
+without it is exactly the T-90M without a kit.
+
+What a kit tank gets:
+
+- **12 rounds in four launcher boxes** on the turret, six a side. The model has 13 launcher tubes, and the thirteenth, at
+  the back in the middle, is left out.
+- **Six radar panels** on the model, each watching an arc of the turret's circle. A destroyed panel blinds its arc, a
+  destroyed launcher box loses its rounds without a cook-off, and the fire computer in the turret's rear box takes the whole
+  system out when it goes.
+- **Two rounds at each threat.** A round leaves its tube, climbs and turns toward the threat, and bursts over it with a cone
+  of fragments pointed at it. The threat is rolled as a kill, as with the Drozd: destroyed, broken up, or it flies on.
+  A missile, rocket or HEAT shell flying at 70 to 1000 m/s is tracked from about 130 m. A sabot round is faster than
+  that and goes straight through.
+- **The fragments are real.** They hit whatever stands in their cone, friend or foe, as with the Drozd's. KBM gives the
+  danger zone for own infantry as 20 to 30 m.
+- **Reloading** is the Drozd's option: a round a minute from the vehicle menu while the tank is nearly still, as many
+  as you like. The crew's switch is in the same menu, with the Drozd's five minutes before it's ready again.
+- **About 1.2 t more** and the turret's armour round the new parts, from the model's own damage model.
+- **No bustle box.** The model has no stowage there and the computer sits in the turret's rear, so a kit tank has 30 rounds,
+  22 in the carousel and 8 in the hull. The box, its lids and its blow-off go with it.
+
+Who carries it is decided when the mission starts, because the game only says which tank is yours then: yours by `Arena-M kit
+on my tank`, every other T-90M by a roll against `Arena-M kit share`. A tank you switch to later keeps what it was given. The
+console says once a mission how it came out.
+
 ## The paint
 
 <p align="center">
@@ -185,6 +216,27 @@ Some of these are my choices against what the sources would give, and the rest a
   leave out is copied from the T-90A's Shtora-1: no automatic screen with a hatch open or for 15 s after your own shot, the
   tubes at 12° and the 3D17 cloud.
 
+**The Arena-M kit**
+
+- Real Arena-M figures are rare. Where the Arena-M has none I took the Arena-E's from KBM's page (70 to 700 m/s widened
+  to the Arena-M's 1000, the 0.07 s reaction), then the old Arena's (ready again after 0.3 s, the cone of 35° between its
+  25 to 40), then the Drozd's (a five minute warm-up, the kill chances, the fragments, the round's speed). Nobody publishes
+  a warm-up for the Arena-M.
+- KBM gives the Arena-E's detection as about 50 m. At 50 m a 1000 m/s shell is past the burst point before the reaction
+  time and the round's flight are over, and even the Arena-E's own 700 m/s wouldn't work. So the radar tracks from 130 m,
+  where the fastest threat can still be met. That figure is worked out, not published.
+- The sectors of the four launcher boxes and the arcs of the six radar panels are my reading of where each sits on the
+  turret and of «360° all round». No source gives them. The radar's bearing origin, on the turret's axis at the roof, is mine too.
+- The burst height of 2 m, the 8 m from the radar it happens at and the 4 m its fragments reach are mine. The sources say
+  a round turns toward the threat and fires a stream of heavy fragments at it, nothing more.
+- Right rear holds six rounds because the tube at the back in the middle joined it, so that each side holds six as Janes says.
+- The mass, 1150 kg, is the middle of KBM's 1000 to 1300 kg for the Arena-E. The weight of the extra armour isn't published.
+- No bustle box and so 30 rounds is my reading: War Thunder's Arena-M has no stowage there and Janes puts the computer in the
+  turret's rear.
+- No hatch interlock, because none is published. The Drozd has one.
+- The drones the Arena-M is advertised against aren't in the game, so nothing engages one.
+- Only a trial fit has been shown on the T-90M. The turret's armour and the modules come from War Thunder's model of it.
+
 **Armour**
 
 - The armour presets are the T-90A's figures (game-scale: turret 690 / 820, glacis 550 / 750; source-only: 575 / 750 and
@@ -242,6 +294,22 @@ These are the ones the numbers on this page and in the code lean on.
   (archived 2015) and Союзмаш,
   [«НИИ стали» разработал невидимую защиту от гранат](https://soyuzmash.ru/news/companies-news/nii-stali-razrabotal-nevidimuyu-zashchitu-ot-granat/)
   (the nets).
+- Rossiyskaya Gazeta on the Arena-M:
+  [«Раскрыты особенности работы комплекса активной защиты "Арена-М"»](https://web.archive.org/web/2021/https://rg.ru/2021/09/20/raskryty-osobennosti-raboty-kompleksa-aktivnoj-zashchity-arena-m.html)
+  (2021: the rounds, two at a threat, −6° to +20°, all round), and
+  [the 2023 patent piece](https://web.archive.org/web/2023/https://rg.ru/2023/10/26/zapatentovan-obrazec-t-72b3m-s-ustanovlennym-kompleksom-zashchity-arena-m.html)
+  and [the 2024 qualification piece](https://web.archive.org/web/2024/https://rg.ru/2024/02/15/kompleks-aktivnoj-zashchity-arena-m-predstavili-na-kvalifikacionnye-ispytaniia.html)
+  (12 shafts). [Lenta, 2021](https://web.archive.org/web/2021/https://lenta.ru/news/2021/09/20/arena/) (two rounds a threat).
+- Janes, [«IDEX 2025: KBM confirms Arena APS operational in Russia, looks to export»](https://www.janes.com/osint-insights/defence-news/land/idex-2025-kbm-confirms-arena-aps-operation-in-russia-looks-to-export)
+  (the layout on the T-90M, the radar and the computer, the crew's switch).
+- [KBM's Arena-E page](https://web.archive.org/web/2023/https://www.kbm.ru/ru/production/saz/38.print) (detection, speeds,
+  reaction time, danger zone, mass, power), Russian Wikipedia,
+  [«Арена (активная защита)»](https://ru.wikipedia.org/wiki/Арена_(активная_защита)) (the old Arena's ready time), and
+  btvt.info, [«Комплекс активной защиты танка "Арена"»](https://btvt.info/3attackdefensemobility/kaz_arena.htm) (the cone).
+- Militarnyi, [«Russia builds T-90M with active protection system»](https://militarnyi.com/en/news/russia-builds-t-90m-with-active-protection-system/)
+  (the radar panels, the smoke launchers moved), and www1.ru,
+  [«Прорывные танки Т-90М усовершенствовали новой защитой Арена-М»](https://www1.ru/news/2025/09/09/proryvnye-tanki-t-90m-usoversenstvovali-teloxranitelem-arena-m-protiv-bpla.html)
+  (up to 1000 m/s).
 - In English: Coclé and others, «QWIP compact thermal imager: Catherine-XP and its evolutions» (Thales, SPIE 2007):
   [PDF](https://www.thermoview.ru/pdf/QWIP_paper_Orlando.pdf).
 

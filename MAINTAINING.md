@@ -77,14 +77,15 @@ the data load, the unit registration and the scene hooks. `Conversion.cs` does t
 autoloader, rounds, the 3OF82's fuse), `Sights` (the gunner's Sosna-U and its laser; `Pdt`, in `Sights.Pdt.cs`, is the
 back-up TV sight and `Tracker`, in `Sights.Tracker.cs`, the target tracker in both sights), `Commander` (the remote Kord
 and the PK PAN panorama; its optics are in `Commander.Sight.cs`, its behaviour and patches in `Commander.Link.cs`),
-`Countermeasures` (TShU-1-2M), `Drive` (engine and gearbox) and `Reticles` (the one reticle loader), with `SettingText`
+`Countermeasures` (TShU-1-2M; the Arena-M kit is `Arena`, in `Countermeasures.Arena.cs`), `Drive` (engine and gearbox) and
+`Reticles` (the one reticle loader), with `SettingText`
 holding the settings' descriptions.
 
 Where to change things:
 
 | What | Where |
 |---|---|
-| Tunable numbers | `Firepower.cs` (gun, rounds, coax belt, the 3OF82's fuse), `Mod.cs` (coax rounds), `Commander.cs` (Kord), `Drive.cs` (engine and gears) |
+| Tunable numbers | `Firepower.cs` (gun, rounds, coax belt, the 3OF82's fuse), `Mod.cs` (coax rounds), `Commander.cs` (Kord), `Drive.cs` (engine and gears), `Countermeasures.Arena.cs` (the Arena-M's blocks, radar arcs and ranges, the kit's mass) |
 | A setting's description | `SettingText.cs`, except three that live in `Common`: `Weathered paint` (`PaintFinish.cs`), `Campaign prevalence` (`UnitRegistry.cs`) and `Check for updates` (`UpdateCheck.cs`) |
 | Armour values, hatches, glass, ERA, smoke points | the text files in `Resources\` |
 
@@ -114,7 +115,7 @@ shape under its key logs a warning and keeps a table of its own, and the ports s
 `Resources\` is embedded under each file's plain name (one wildcard line in `T90M.csproj`, its README left out) and read
 with `GetManifestResourceStream`: the reticles (`*.jsonc`), round textures and meshes, the screen page art and alarm,
 the module, interior and gun depression data, the trimmed T-72M1 hull skin, and the text files that used to sit in the
-bundle (armour values, vanilla edits, rig map, material roles, ERA links, smoke points).
+bundle (armour values, vanilla edits, rig map, material roles, ERA links, smoke points, the Arena-M kit's list).
 
 The bundle's contents and formats are in [docs/bundle.md](docs/bundle.md).
 
@@ -140,6 +141,19 @@ weapon and camera lists straight afterwards (a step marked `SpawnOnly`). A T-90M
 `PlayerReady` by `ConvertSweep` (in `Common\`) and gets everything else, and the log says which step it skipped and what
 that leaves undone.
 
+The Arena-M kit comes last (`Arena.Offer`, called at the end of `LateSetup`, so the racks are filled and the modules wired).
+With both Arena-M settings at 0 / false it returns at once and the tank is the plain T-90M. Otherwise it waits for
+`PlayerReady` (`Arena.OnSceneLoaded` asks `StateController` for it, low priority): GHPC's mission composer only hands the
+player his tank then, so a flex mission's T-90Ms are converted before anyone knows which is the player's. At that moment
+the player's tank takes its answer from `Arena-M kit on my tank` and every other waiting T-90M rolls against `Arena-M kit share`
+(`PortKits.Decide`, a generator of its own seeded from the clock, never `UnityEngine.Random`, which GHPC reseeds). A T-90M
+that finishes its setup after `PlayerReady` is decided at once. A tank the player switches to later keeps what it was given.
+A kit tank then walks `Arena.Steps`: `PortKits.Apply` (the kit's parts on, the parts they replace hidden, its armour pieces
+built and the ones they replace switched off, its modules built and wired), 1150 kg on the rigid body's mass, the bustle
+box taken away with its 10 rounds (`BlowoutRack.Remove`: 30 left, 22 in the carousel and 8 in the hull) and `Aps.Apply` with
+the Arena-M's settings. The console gets one line a mission, a moment after `PlayerReady`: your tank yes or no, how many of
+the others carry it.
+
 Parts borrowed from other vehicles (T-80B voices and sight sounds, the T-64B's machine gun station, the M60A3's thermal
 screen) are copied at the main menu by `DonorParts` (in `Common\`), because GHPC can unload those vehicles between
 missions.
@@ -162,11 +176,15 @@ three settings live in `Common` (`Weathered paint`, `Campaign prevalence`, `Chec
 | `Add to campaign roster`, `Campaign prevalence`, `Campaign unlock after missions` | `T90M\Mod.cs`, `Common\UnitRegistry.cs` (`CampaignConfig`) | the campaign roster, re-read at each mission load |
 | `APFSDS` | `Mod.cs` | `Firepower`, the default round where the game doesn't pick one |
 | `Force APFSDS` | `Mod.cs` | `Firepower` (`ForceApfsds`): the campaign's roll gives the `APFSDS` round |
+| `Random APFSDS`, `APFSDS pool` | `Mod.cs` | `Firepower` (`RandomApfsds`, `ApfsdsPool`): each tank rolls its own APFSDS outside the campaign |
+| `Ammunition load`, `Empty racks` | `Mod.cs` | `Firepower` (`LoadPreset`, `EmptyRacks`, the racks' names and `LoadPresets`): racks left empty at spawn |
 | `Fire only when the gun is laid` | `Mod.cs` | `Sights` and `Commander`, handed to `GunnerFcs` as the firing permission |
 | `Target tracker`, `Target tracker key`, `Target tracker from the day sight` | `Mod.cs` | `Tracker` (in `Sights.Tracker.cs`) |
 | `Weathered paint` | `T90M\Mod.cs`, `Common\PaintFinish.cs` | `Conversion` |
 | `TShU-1-2M` | `Mod.cs` | `Countermeasures`, off leaves the game's ordinary smoke salvo |
 | `TShU-1-2M automatic screens`, `TShU-1-2M alarm tone`, `TShU-1-2M warning page`, `TShU-1-2M page always on screen` | `Mod.cs` | copied into the screen settings in `Countermeasures.cs` |
+| `Arena-M kit on my tank` | `Mod.cs` | `Arena` (`Countermeasures.Arena.cs`): the player's own T-90M carries the kit, never rolled |
+| `Arena-M kit share` | `Mod.cs` | `Arena`: the percentage of the other T-90Ms that roll the kit, kept to 0..100 with one warning |
 | `Kord spent cases` | `Mod.cs` | `Commander` |
 | `ERA destruction effects` | `Mod.cs` | `EraBricks.Look` |
 | `Armour preset` | `T90M\Armour.cs`, `Common\ArmourPresets.cs` | `Armour` (`game-scale` or `source-only` numbers) |

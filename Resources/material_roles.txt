@@ -1,3 +1,5 @@
+t90m_aps_arena_rocket	paint	-	
+t90m_chain_d	net	-	
 t90m_glass	optic_glass	fake glass	T62,T55A,LEO2A3
 t90m_glass_backing	glass_backing	-	
 t90m_glass_lamp	lamp_reflector	fake glass	T62,T55A,LEO2A3
@@ -23,6 +25,9 @@ t90m_pan_thermal_window	camera_glass	fake glass	T62,T55A,LEO2A3
 t90m_pan_tv_window	camera_glass	fake glass	T62,T55A,LEO2A3
 t90m_smooth_barrel_a	barrel	-	
 t90m_t_90m_add_body	paint	-	
+t90m_t_90m_arena_m_body	paint	-	
+t90m_t_90m_arena_m_gun	paint	-	
+t90m_t_90m_arena_m_turret	paint	-	
 t90m_t_90m_body	paint	-	
 t90m_t_90m_gun	paint	-	
 t90m_t_90m_turret	paint	-	

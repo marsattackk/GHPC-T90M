@@ -52,6 +52,9 @@ namespace T90M
 				MelonLogger.Warning($"{T90MMod.FriendlyName}: no vanilla_edits; the T-72M1's armour stays under the T-90M's.");
 		}
 
+		// The values a unit's armour is built from now, the Armour preset applied: what an add-on kit's pieces are valued from.
+		internal static DmArmour KitValues() => Values == null ? null : Presets.For(Values, ArmourPresets.Pick(Preset));
+
 		static bool _warned;
 		static bool _netsChecked;
 

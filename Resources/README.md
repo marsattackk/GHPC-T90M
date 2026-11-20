@@ -26,3 +26,4 @@ file only has to be dropped in. The reticle files (`*.jsonc`) are written in the
 | `shtora_pmf_layout.txt` | where the words sit on that page | `ShtoraPage` |
 | `shtora_alarm.wav` | laser warning tone | `ShtoraScreen.Hud` |
 | `dm_armour.txt`, `vanilla_edits.txt`, `material_roles.txt`, `rig_map.txt`, `era_links.txt`, `smoke_points.txt` | armour values, hatches, glass, ERA and smoke data, formats in [docs/bundle.md](../docs/bundle.md) | `PortText`, before the bundle's copy |
+| `kits.txt` | what the Arena-M kit switches on and off, its armour groups and smoke points, format in [docs/bundle.md](../docs/bundle.md) | `PortKits`, through `Arena` (in `Countermeasures.Arena.cs`) |
