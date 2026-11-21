@@ -32,7 +32,7 @@ namespace T90M.Common
 
 		internal static int Spawn(AmmoType info, Vector3 at, Vector3 fwd, float halfAngle, int count, float speed, float pen,
 			Unit shooter, bool npc, LiveRound parent, string name, Func<float> random, bool penAfterInit, Vector3 fallbackRight, Action<LiveRound> spawned =
-				null)
+				null, Func<Vector3, bool> keep = null)
 		{
 			var marshaller = LiveRoundMarshaller.Instance;
 			if (marshaller == null || count <= 0) return 0;
@@ -40,11 +40,14 @@ namespace T90M.Common
 			right = right.sqrMagnitude > 1e-6f ? right.normalized : fallbackRight;
 			var up = Vector3.Cross(fwd, right);
 			float tan = Mathf.Tan(halfAngle * Mathf.Deg2Rad);
+			int made = 0;
 			for (int i = 0; i < count; i++)
 			{
 				// sqrt spreads them evenly over the cone's cross-section, not bunched in the middle
 				float radius = tan * Mathf.Sqrt(random()), phi = 2f * Mathf.PI * random();
 				var dir = (fwd + radius * (Mathf.Cos(phi) * right + Mathf.Sin(phi) * up)).normalized;
+				if (keep != null && !keep(dir)) continue;
+				made++;
 				var round = marshaller.GetRoundOfVisualType(LiveRoundMarshaller.LiveRoundVisualType.Invisible);
 				round.Info = info;
 				round.RhaPenetrationOverride = pen;
@@ -60,7 +63,7 @@ namespace T90M.Common
 				round.gameObject.name = $"{name} {round.ID}";
 				spawned?.Invoke(round);
 			}
-			return count;
+			return made;
 		}
 	}
 }

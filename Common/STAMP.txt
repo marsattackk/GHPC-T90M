@@ -1,8 +1,8 @@
 Common is code shared by my GHPC mods and stamped whole into each repo. A change meant for this repo goes as an issue or a pull request describing it: I make it in the shared copy and stamp every mod again. In a fork of your own, edit Common as you need and put the file's new SHA-256 on its line below. tests/CommonSealTests.cs fails naming the file and prints the hash.
 stamp 1
 port T90M
-shared copy af01c479a4eaa5e71ac600b175e89d7d28ed6718
-0b15add3598d2502009f2534547eb27813be2690e23cc8f865d243ba0a2d4698  ActiveProtection.cs
+shared copy c2b59659eb05014b4337891a44b8b576b8805aa6
+67d6ca5f6ac75564d40459ee483fb0bdad199928e2bb230abfdd404437011093  ActiveProtection.cs
 6f98bfa0ddde6d1c08cdd41d27b856743a94f937fed5904285bb31e2447adc5a  ActiveProtectionMath.cs
 15d946b66238e55345ae2de2b5b28a6e27e0abb6a7e0e893d63fa8c4a3e7e641  AirBurst.cs
 c2b3d499b7c59ce55e30dfd03bb902d6dd83da3a5670ba836633d6a680eaff85  ArmourPresets.cs
@@ -28,7 +28,7 @@ fee12c1095ab94f98a8463dedb932326545529b1c077fd1846670a2057ed7326  EmbeddedFile.c
 b3583ceb68e69d4df1f16dcf1ba097a6b23aa06348289b50041d04cdcdc1e808  EraBricks.cs
 8a39afe1149d9509a71db1d2c1e73bb6729fc5bb6ba05442a6afe645c2d7dc62  FcsMath.cs
 7045a4d99c3761ccf2bc38656ae5dce4f0fdd8da53d2d2facd902ac0bf0b7f28  Followers.cs
-96f7e603d8c38043d2544928ff023d1f74ea0441188a294270c9e494616622fd  FragmentCone.cs
+338877c13cf2c98a8477bf7990e1f1482aa2d9d760726d5887332c597b566aa5  FragmentCone.cs
 5ec93367e90cbcd061595f25026feb273f2a1686b3980164f243c9f5ffb7f40f  FuseMath.cs
 fa338acb697a48533c23fb758f63a292681226e66c505c88bb1141078bc25116  GearArc.cs
 85ed16533c06d5a602153ed92cb0f0a304691e8b55e9e5179c252d7d9dbb3d2e  GearFollow.cs

@@ -224,6 +224,7 @@ SHA-256 of `Mods/T90M/t90m` in each release zip. When a release changes the bund
 | 0.3.1 | `9e7a79a5ed194035f2a3a3cee6449f83088b8ecc458209a3864144f0f21a0e9e` |
 | 0.4.0 | `728f33ec0b24040c2552dfeb966a37b004d6fb0553b4d3ece66c6430ae556afb` |
 | 0.5.0 | `242fd5c5cfd5b2d3c2ebacfe7548fad1c43f6eecf8eb0b5d44351ca69983c81a` |
+| 0.5.1 | `20fc8a80863f6e8e6540c9e748f17dec77079de2a3cc37b7dabeefc6d6604caf` |
 
 ```
 Expand-Archive T90M_<version>.zip -DestinationPath T90M_<version>

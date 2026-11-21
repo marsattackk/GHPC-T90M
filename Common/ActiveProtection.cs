@@ -11,6 +11,7 @@ using MelonLoader;
 using UnityEngine;
 using UnityEngine.Events;
 using DC = GHPC.Equipment.DestructibleComponent;
+using GHPC.PhysicsHelpers;
 using System.Reflection;
 
 namespace T90M.Common
@@ -894,7 +895,7 @@ namespace T90M.Common
 					{
 						float spread = tan * Mathf.Sqrt((i + 0.5f) / RecapFan), phi = i * 2.39996323f;
 						var direction = (axis + spread * (Mathf.Cos(phi) * right + Mathf.Sin(phi) * up)).normalized;
-						Line(aar, parent, burst, burst + direction * S.ConeReach, 3f);
+						if (AwayFromTank(burst, direction)) Line(aar, parent, burst, burst + direction * S.ConeReach, 3f);
 					}
 				}
 				catch (Exception exception) { PatchGuard.Failed($"{S.Tag} recap lines", exception); }
@@ -932,10 +933,37 @@ namespace T90M.Common
 				float pen = S.FragPen * (S.FragSpeed / S.FragPenSpeed) * (S.FragSpeed / S.FragPenSpeed);
 				return FragmentCone.Spawn(_frag, at, axis, S.FragConeHalf, S.FragCount, S.FragSpeed, pen, Vehicle, !IsPlayer, null, $"{S.Name} fragment",
 					() => ModRandom.Value, penAfterInit: true, fallbackRight: Turret.right
+					, keep: d => AwayFromTank(at, d)
 					);
 			}
 
-			AmmoType _frag;
+			const float OwnClear = 0.3f;
+			bool AwayFromTank(Vector3 burst, Vector3 direction)
+			{
+				var root = Vehicle.transform;
+				var point = root.InverseTransformPoint(burst);
+				var way = root.InverseTransformDirection(direction);
+				var half = Box.extents + Vector3.one * OwnClear;
+				return !ApsMath.RayHitsBox(
+					new V3(point.x, point.y, point.z),
+					new V3(way.x, way.y, way.z),
+					new V3(Box.center.x, Box.center.y, Box.center.z),
+					new V3(half.x, half.y, half.z));
+			}
+
+			AmmoType _frag
+			{
+				get => _fragType;
+				set
+				{
+					_fragType = value;
+					if (value == null || IsFragment(value)) return;
+					if (FragTypes.Count >= 64) FragTypes.RemoveAt(0);
+					FragTypes.Add(value);
+				}
+			}
+
+			AmmoType _fragType;
 
 			ApsMath.Threat ClassOf(LiveRound r) => r.Info == null ? ApsMath.Threat.Other
 				: ApsMath.ClassOf(
@@ -1062,7 +1090,77 @@ namespace T90M.Common
 			if (update != null) harmony.Patch(update, postfix: new HarmonyMethod(typeof(Aps), nameof(WatchPostfix)));
 			var menu = Reflect.Method(typeof(PlayerInput), "AddSmokeButtons");
 			if (menu != null) harmony.Patch(menu, postfix: new HarmonyMethod(typeof(Aps), nameof(MenuPostfix)));
+			var hit = Reflect.Method(typeof(LiveRound), "penCheck");
+			var health = Reflect.PropertySetter(typeof(GHPC.Equipment.DestructibleComponent), "Health");
+			var recorded = Reflect.Method(typeof(GHPC.Weapons.ShotInfo), "NotifyShotTerminated");
+			if (hit != null && health != null && recorded != null)
+			{
+				harmony.Patch(
+					hit,
+					prefix: new HarmonyMethod(typeof(Aps), nameof(HitPrefix)),
+					finalizer: new HarmonyMethod(typeof(Aps), nameof(HitFinalizer)));
+				harmony.Patch(health, prefix: new HarmonyMethod(typeof(Aps), nameof(HealthPrefix)));
+				harmony.Patch(recorded, prefix: new HarmonyMethod(typeof(Aps), nameof(RecapPrefix)));
+			}
+			else MelonLogger.Warning("APS: GHPC's hit or recap code not found (game update?); every fragment that hits is listed in the recap.");
+			var step = Reflect.Method(typeof(BallisticEvaluatorNonCorrected), "EvaluateTimestep");
+			if (step != null) harmony.Patch(step, prefix: new HarmonyMethod(typeof(Aps), nameof(FragmentStepPrefix)));
+			else MelonLogger.Warning("APS: GHPC's spall flight step not found (game update?); a long frame can turn a fragment back.");
 			if (LiveRounds == null) MelonLogger.Warning("APS: GHPC's live-round list not found (game update?); the APS sees nothing.");
+		}
+
+		static readonly List<AmmoType> FragTypes = new List<AmmoType>();
+		static readonly HashSet<GHPC.Weapons.ShotInfo> Destroyers = new HashSet<GHPC.Weapons.ShotInfo>();
+		static GHPC.Weapons.ShotInfo _hitting;
+
+		static bool IsFragment(AmmoType type)
+		{
+			if (type == null) return false;
+			for (int i = 0; i < FragTypes.Count; i++)
+				if (ReferenceEquals(FragTypes[i], type)) return true;
+			return false;
+		}
+
+		static void HitPrefix(LiveRound __instance) => _hitting = IsFragment(__instance.Info) ? __instance.ShotInfo : null;
+
+		static Exception HitFinalizer(Exception __exception)
+		{
+			_hitting = null;
+			return __exception;
+		}
+
+		static void HealthPrefix(GHPC.Equipment.DestructibleComponent __instance, float value)
+		{
+			if (_hitting == null || value > 0f || __instance.Health <= 0f) return;
+			if (Destroyers.Count > 1024) Destroyers.Clear();
+			Destroyers.Add(_hitting);
+		}
+
+		static bool RecapPrefix(GHPC.Weapons.ShotInfo __instance)
+		{
+			if (__instance.ParentShot != null || !IsFragment(__instance.TypeInfo)) return true;
+			return Destroyers.Remove(__instance);
+		}
+
+		static bool FragmentStepPrefix(
+			MotionState state,
+			float deltaTime,
+			AmmoType ammoType,
+			ref MotionState __result)
+		{
+			if (!IsFragment(ammoType) || ammoType.Mass <= 0f) return true;
+			float speed = state.velocity.magnitude;
+			float k = ammoType.Coeff * ammoType.SectionalArea * GHPC.World.WorldEnvironmentManager.AirDensity / ammoType.Mass;
+			if (speed < 1e-3f || k <= 0f || float.IsNaN(speed)) return true;
+			var direction = state.velocity / speed;
+			float slowing = 1f + k * speed * deltaTime;
+			var gravity = Physics.gravity;
+			__result = new MotionState
+			{
+				position = state.position + direction * (Mathf.Log(slowing) / k) + gravity * (0.5f * deltaTime * deltaTime),
+				velocity = direction * (speed / slowing) + gravity * deltaTime,
+			};
+			return false;
 		}
 
 		static void WatchPostfix(LiveRoundBatchHandler __instance)

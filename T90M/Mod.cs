@@ -4,7 +4,7 @@ using MelonLoader.Utils;
 using T90M.Common;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.5.0", "marsattackk")]
+[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.5.1", "marsattackk")]
 [assembly: MelonGame("Radian Simulations LLC", "GHPC")]
 [assembly: HarmonyDontPatchAll]   // off means off: nothing is patched until Enabled has been read
 
