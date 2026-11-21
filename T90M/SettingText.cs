@@ -8,7 +8,8 @@ namespace T90M
 		static readonly string AfterChange = " For T-90Ms spawned after the change.";
 
 		internal static readonly string Enabled =
-			"Adds the T-90M as its own unit (Instant Action, campaign roster, ATAC key \"T90M\").";
+			"Adds the T-90M as its own unit (Instant Action, campaign roster). Its unit key is \"T90M\", the name to give mods"
+			+ " like Any Tank Any Campaign.";
 
 		internal static readonly string Apfsds =
 			"Default APFSDS where the game does not choose one (the mission customizer's ammo dropdown and the"
@@ -32,6 +33,32 @@ namespace T90M
 			"The rounds Random APFSDS rolls from, as name:weight, comma separated (3BM60, 3BM42; \"3BM60:3, 3BM42:1\""
 			+ " rolls 3BM60 three times as often as 3BM42; a name without a weight counts 1). Empty (default): every"
 			+ " APFSDS at its campaign weight."
+			+ AfterChange;
+
+		internal static readonly string Heat =
+			"Default HEAT where the game does not choose one (the mission customizer's ammo dropdown and the campaign's"
+			+ " ammo supply override it): 3BK29M (default; tandem, 700 mm, beats add-on ERA such as Kontakt-1), 3BK31"
+			+ " Start-2 (experimental triple charge, 800 mm, beats built-in ERA such as Kontakt-5 too) or 3BK18M (the"
+			+ " older single charge, 585 mm).";
+
+		internal static readonly string ForceHeat =
+			"false (default): the campaign picks each T-90M's HEAT from the army's ammo supply (3BK29M or 3BK18M; never"
+			+ " the experimental 3BK31). true = every T-90M carries the HEAT setting's round in the campaign too. In"
+			+ " Instant Action the mission customizer's ammo dropdown still decides."
+			+ AfterChange;
+
+		internal static readonly string RandomHeat =
+			"false (default): each T-90M carries the HEAT setting's round where the game does not choose one."
+			+ " true = each T-90M rolls its own HEAT from HEAT pool in Instant Action and scripted missions, and"
+			+ " the mission customizer's HEAT dropdown starts on Random (a round picked there still decides). The"
+			+ " campaign keeps its own ammo supply."
+			+ AfterChange;
+
+		internal static readonly string HeatPool =
+			"The rounds Random HEAT rolls from, as name:weight, comma separated (3BK29M, 3BK31, 3BK18M; \"3BK29M:3,"
+			+ " 3BK18M:1\" rolls 3BK29M three times as often as 3BK18M and never 3BK31; a name without a weight"
+			+ " counts 1). Empty (default): 3BK29M and 3BK18M at their campaign weights; the experimental 3BK31 only"
+			+ " when named here."
 			+ AfterChange;
 
 		internal static readonly string AmmunitionLoad =
@@ -104,8 +131,8 @@ namespace T90M
 			"false (default): your T-90M is the plain one. true = your T-90M is the trial tank with the whole Arena-M kit, not"
 			+ " just the Arena-M: radars and launchers round the turret that shoot down missiles, rockets and HEAT shells from"
 			+ " any side, the extra armour and the reshaped turret rear fitted with them. It adds about 1.2 t and leaves no room"
-			+ " for the turret bustle box, so 30 rounds instead of 40. The Showcase's T-90M follows this setting too. Switched"
-			+ " on and off, and reloaded, from the vehicle menu (Arena-M)."
+			+ " for the turret bustle box, so 30 rounds instead of 40 (22 with Ammunition load at Autoloader and bustle). The"
+			+ " Showcase's T-90M follows this setting too. Switched on and off, and reloaded, from the vehicle menu (Arena-M)."
 			+ AfterChange;
 
 		internal static readonly string ArenaShare =

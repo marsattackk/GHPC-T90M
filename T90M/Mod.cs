@@ -4,15 +4,14 @@ using MelonLoader.Utils;
 using T90M.Common;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.4.0", "marsattackk")]
+[assembly: MelonInfo(typeof(T90M.T90MMod), "T-90M", "0.5.0", "marsattackk")]
 [assembly: MelonGame("Radian Simulations LLC", "GHPC")]
+[assembly: HarmonyDontPatchAll]   // off means off: nothing is patched until Enabled has been read
 
 namespace T90M
 {
-	// Loads the bundle, registers the unit on the T-72M1 prefab and hangs the War Thunder model's HULL / TURRET / GUN on the base
-	// rig's bones (the base's visuals off, paint, real axes). The armour goes on before the axes move; the commander's station,
-	// the bustle box, the modules and TShU-1-2M are fitted at spawn, the sights, ПДТ and tracker once the unit has started
-	// (Conversion.Convert).
+	// The entry point: the settings, the bundle and the text in Resources\, the T-90M registered as a unit on the T-72M1 prefab,
+	// and the scene callbacks. The tank itself is made in Conversion.
 	public partial class T90MMod : MelonMod
 	{
 		internal const string UnitKey = "T90M";
@@ -36,6 +35,10 @@ namespace T90M
 		internal static MelonPreferences_Entry<bool> ForceApfsds;
 		internal static MelonPreferences_Entry<bool> RandomApfsds;
 		internal static MelonPreferences_Entry<string> ApfsdsPool;
+		internal static MelonPreferences_Entry<string> Heat;
+		internal static MelonPreferences_Entry<bool> ForceHeat;
+		internal static MelonPreferences_Entry<bool> RandomHeat;
+		internal static MelonPreferences_Entry<string> HeatPool;
 		internal static MelonPreferences_Entry<string> AmmunitionLoad;
 		internal static MelonPreferences_Entry<string> EmptyRacks;
 		internal static MelonPreferences_Entry<bool> WeatheredPaint;
@@ -63,6 +66,7 @@ namespace T90M
 			UnityErrors.Install(typeof(T90MMod).Namespace);
 			CreateSettings();
 			if (!Enabled.Value) return;
+			PatchClasses.Apply(this);
 			Arena.CheckSettings();
 			PortAmmo.S = Firepower.Settings();
 			AirBurst.S = Firepower.Fuse;
@@ -97,6 +101,22 @@ namespace T90M
 				"APFSDS pool",
 				"",
 				description: SettingText.ApfsdsPool);
+			Heat = cfg.CreateEntry(
+				"HEAT",
+				"3BK29M",
+				description: SettingText.Heat);
+			ForceHeat = cfg.CreateEntry(
+				"Force HEAT",
+				false,
+				description: SettingText.ForceHeat);
+			RandomHeat = cfg.CreateEntry(
+				"Random HEAT",
+				false,
+				description: SettingText.RandomHeat);
+			HeatPool = cfg.CreateEntry(
+				"HEAT pool",
+				"",
+				description: SettingText.HeatPool);
 			AmmunitionLoad = cfg.CreateEntry(
 				"Ammunition load",
 				"Full",
@@ -154,7 +174,7 @@ namespace T90M
 				"Kord spent cases",
 				true,
 				description: SettingText.KordCases);
-			// On by default on the T-90M; off by default on the T-90A, as it has always shipped.
+			// On by default on the T-90M, but off by default on the T-90A, as it has always shipped.
 			EraEffects = cfg.CreateEntry(
 				"ERA destruction effects",
 				true,

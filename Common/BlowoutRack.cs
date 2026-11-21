@@ -60,7 +60,7 @@ namespace T90M.Common
 		[HarmonyPatch(typeof(CompartmentExit), nameof(CompartmentExit.SetFireRatioByFlameHeight))]
 		static class FireScalePatch
 		{
-			// The drawn flames only, the height that throws the lids and heats the box stays GHPC's.
+			// The drawn flames only. The height that throws the lids and heats the box stays GHPC's.
 			static void Prefix(CompartmentExit __instance, ref float __0)
 			{
 				if (ExitCompartment == null) return;
@@ -71,7 +71,7 @@ namespace T90M.Common
 			}
 		}
 
-		// GHPC's cook-off blast is a sphere that hits its own tank through the floor, it took the engine out 1.4 m below.
+		// GHPC's cook-off blast is a sphere that hits its own tank through the floor (it took the engine out 1.4 m below).
 		// Own parts hidden while the box updates, so it goes up and out like the panels are meant to send it.
 		[HarmonyPatch(typeof(Compartment), nameof(Compartment.DoUpdate))]
 		static class VentPatch
@@ -233,7 +233,7 @@ namespace T90M.Common
 				return null;
 			}
 
-			// Built inactive, Compartment.Awake has to see every field set.
+			// Built inactive because Compartment.Awake has to see every field set.
 			var volumeObject = new GameObject(s.VolumeName);
 			volumeObject.SetActive(false);
 			if (replaced != null)

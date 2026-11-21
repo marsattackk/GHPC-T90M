@@ -24,8 +24,8 @@ namespace T90M
 		internal const string Name = "12.7mm Machine Gun 6P49MT Kord";
 		internal const int BeltRounds = 300;   // one box on the mount, no spare inside (inferred from the box's place)
 		internal const int Belts = 1;
-		// The 6P49MT has a variable rate of fire; 200 and 100 are the two rates the T-90M's technical description gives
-		// («Описание танка Т-90М»; the T-90A's plain 6P49 fires at its cyclic 600-650).
+		// The 6P49MT has a variable rate of fire: 200 and 100 are the two rates the T-90M's technical description gives
+		// («Описание танка Т-90М»). The T-90A's plain 6P49 fires at its cyclic 600-650.
 		internal const float RoundsPerMinute = 200f;
 		internal const float LowRoundsPerMinute = 100f;
 		const int BeltB32PerTracer = 3;   // three B-32 to one BZT-44 («12,7 мм пулемет "КОРД"», vimpel-v.com)
@@ -34,8 +34,8 @@ namespace T90M
 		static readonly Vector2 Elevation = new Vector2(-10f, 45f);
 		// The same figure: 316 deg of traverse.
 		internal const float FireSector = 316f;
-		// The middle of the blind sector, over the gunner's Sosna-U head and hatch: my own choice, the manual gives
-		// only the size of the gap.
+		// The middle of the blind sector, over the gunner's Sosna-U head and hatch: my own choice, because the manual
+		// gives only the size of the gap.
 		internal const float BlindCentre = -45f;
 		// The panorama's figures here (fields, laser, limits, speeds) come from one 2011 table of the «Калина» sights.
 		// The station follows the panorama's line of sight, so its slew speeds are the panorama's: at least 45 deg/s in
@@ -43,7 +43,7 @@ namespace T90M
 		const float DrumSpeed = 45f;
 		const float CradleSpeed = 10f;
 
-		// The panorama's TV fields are 7.4 x 5.6 and 2.5 x 1.9 deg; these are the heights.
+		// The panorama's TV fields are 7.4 x 5.6 and 2.5 x 1.9 deg (these are the heights).
 		const float TvWide = 5.6f;
 		const float TvNarrow = 1.9f;
 		static readonly GunnerFcs.Settings PanFcs = new GunnerFcs.Settings
@@ -54,11 +54,11 @@ namespace T90M
 			LaserMax = 7500f,
 			// The panorama's elevation limits, -15 / +45 deg.
 			LineOfSightLimits = new Vector2(-15f, 45f),
-			// The step of a hand-entered range isn't published; the Sosna-U's is used (my reading).
+			// The step of a hand-entered range isn't published, so the Sosna-U's is used (my reading).
 			RangeStep = 100,
 			// The range display counts in 5 m.
 			DisplayRangeIncrement = 5,
-			// The donor station's own fire gate; none is published for this one.
+			// The donor station's own fire gate, because none is published for this one.
 			FireGateAngle = -1f,
 			FireWhenLaid = () => T90MMod.FireWhenLaid == null || T90MMod.FireWhenLaid.Value,
 			ManualMode = false,
@@ -137,7 +137,7 @@ namespace T90M
 			internal Transform Carrier(string group) =>
 				group == DrumMount.Group ? Frame : group == CradleMount.Group ? CradleT : null;
 
-			// The model has the Kord pitched 1.17 deg nose down with the turret, GHPC lays the cradle level on the aim.
+			// The model has the Kord pitched 1.17 deg nose down with the turret, but GHPC lays the cradle level on the aim.
 			internal void Level(Transform part) => part.RotateAround(CradleT.position, CradleT.right, -Pitch);
 		}
 
@@ -158,7 +158,7 @@ namespace T90M
 			foreach (var problem in fit.Problems) MelonLogger.Warning($"{Tag} commander's station: {problem}");
 		}
 
-		// The rig mounts, the donor and the turret the station needs; null (and a warning) when one is missing.
+		// The rig mounts, the donor and the turret the station needs, or null (and a warning) when one is missing.
 		static Fit Begin(Vehicle vehicle)
 		{
 			if (SlotReparent == null)
@@ -280,7 +280,7 @@ namespace T90M
 			if (left.Count > 0) fit.Problems.Add("armour: " + string.Join("; ", left));
 		}
 
-		// The Kord and its fire control cloned from the donor into a holder that stays inactive until the end; false when the
+		// The Kord and its fire control cloned from the donor into a holder that stays inactive until the end. False when the
 		// gun fails, with the station left unbuilt.
 		static bool CloneGunAndFcs(Fit fit)
 		{
@@ -306,7 +306,7 @@ namespace T90M
 				Object.Destroy(fit.Holder);
 				return false;
 			}
-			// Ends up last under the root, GetComponentInChildren<FireControlSystem>() elsewhere has to find the gunner's.
+			// Ends up last under the root because GetComponentInChildren<FireControlSystem>() elsewhere has to find the gunner's.
 			var (fcsGo, fcs, tvGo, _, _) = RemoteMg.CloneFcs(fit.Donor, fit.Holder.transform, "T90M Kord fire control");
 			fit.FcsGo = fcsGo;
 			fit.Fcs = fcs;
@@ -346,7 +346,7 @@ namespace T90M
 				Elevation,
 				CradleSpeed,
 				null);
-			// GHPC ignores a goal more than 90 deg off, the drum froze on a quick slew behind.
+			// GHPC ignores a goal more than 90 deg off: the drum froze on a quick slew behind.
 			fit.Drum.ProtectFromBadProjection = false;
 			fit.Cradle.ProtectFromBadProjection = false;
 			fit.Drum.Stabilized = fit.Cradle.Stabilized = true;
@@ -426,7 +426,7 @@ namespace T90M
 			fit.Gun.Go.SetActive(true);
 			fit.FcsGo.transform.SetParent(fit.Scripts.transform, false);
 			fit.FcsGo.SetActive(true);
-			// Night channels first, a day slot marks its linked night sight when it wakes.
+			// Night channels first, because a day slot marks its linked night sight when it wakes.
 			foreach (var optic in new[] { fit.ThermalOptic, fit.DublThermal, fit.TvOptic, fit.DublTv })
 			{
 				if (optic.postAdditional != null
@@ -443,7 +443,7 @@ namespace T90M
 			fit.Gun.Weapon.SetCycleTime(fit.Gun.Cycle);
 		}
 
-		// The ammunition belt and the spent cases; nothing when the bundle has no belt part or the belt fails.
+		// The ammunition belt and the spent cases. Nothing when the bundle has no belt part or the belt fails.
 		static void FitBelt(Fit fit)
 		{
 			KordBelt.Belt belt = null;
@@ -546,8 +546,7 @@ namespace T90M
 			Prefix = "T90M_",
 			MeshName = "T90M Kord",
 			BeltMaterial = "t90m_mg_6p49_kord_ammo",
-			// My own number, taken from the T-90A (its elevation reaches +70 deg); this one reaches +45 and needs
-			// fewer.
+			// My own number, taken from the T-90A (its elevation reaches +70 deg). This one only reaches +45 and needs fewer.
 			SpareRounds = 24,
 			MaxCases = BeltRounds * Belts,
 		};

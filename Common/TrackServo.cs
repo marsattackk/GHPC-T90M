@@ -41,12 +41,12 @@ namespace T90M.Common
 		{
 			float integralGain = Integral ? 1f / (4f * PullIn * PullIn) : 0f;
 			float error = e - dWant;
-			// Only the error left over from last frame gets pulled in, take the whole lot and the target's move counts twice.
+			// Only the error left over from last frame gets pulled in. Take the whole lot and the target's move counts twice.
 			float step = dWant + error * (1f - (float)Math.Exp(-dt / PullIn)) + integralGain * integral * dt;
 			float max = SlewRate * dt;
 			bool clamped = step > max || step < -max;
 			if (clamped) step = step > 0f ? max : -max;
-			// No integral while clamped or right after a capture, the pull onto the target winds it up and it overshoots.
+			// No integral while clamped or right after a capture, because the pull onto the target winds it up and it overshoots.
 			else if (integralGain > 0f && _since >= 3f * PullIn)
 				integral = Clamp(integral + error * dt, -SlewRate / integralGain, SlewRate / integralGain);
 			return step;

@@ -15,7 +15,7 @@ namespace T90M.Common
 	internal static class NetScreens
 	{
 		internal const string NamePrefix = "net screen";
-		internal const float Spoil = 0.55f;   // a net does 0.5-0.6 against a PG-7, a particular vehicle's own figure isn't public
+		internal const float Spoil = 0.55f;   // a net does 0.5-0.6 against a PG-7, but a particular vehicle's own figure isn't public
 		const float GhpcSlatChance = 0.65f;
 
 		internal static bool Active;
@@ -56,7 +56,7 @@ namespace T90M.Common
 
 			static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> code)
 			{
-				// The first port to patch swaps GHPC's 0.65 for SlatChance, any other finds it gone and stands down.
+				// The first port to patch swaps GHPC's 0.65 for SlatChance. Any other finds it gone and stands down.
 				var list = code.ToList();
 				int chanceIndex = list.FindIndex(i => i.opcode == OpCodes.Ldc_R4
 					&& i.operand is float chance

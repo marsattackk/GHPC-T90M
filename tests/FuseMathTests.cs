@@ -4,8 +4,7 @@ using Xunit;
 
 namespace T90M.Tests
 {
-	// The 3ОФ82 air-burst fuse's arithmetic. Each expected value is worked out by hand in the comment above it. Metres and
-	// seconds.
+	// The 3ОФ82 air-burst fuse's arithmetic. Each expected value is worked out by hand in the comment above it. Metres and seconds.
 	public class FuseMathTests
 	{
 		static void Near(double expected, double actual, string what, double tolerance) =>
@@ -56,7 +55,7 @@ namespace T90M.Tests
 		[Fact]
 		public void The_burst_falls_in_the_frame_that_reaches_its_time()
 		{
-			// A frame from 1.00 to 1.02 s: a burst at 1.01 is 0.01 s in; at 1.03 it is next frame's; one already passed is now.
+			// A frame from 1.00 to 1.02 s: a burst at 1.01 is 0.01 s in, one at 1.03 is next frame's, and one already passed is now.
 			Assert.True(FuseMath.Due(1.0f, 0.02f, 1.01f, out float tau));
 			Near(0.01, tau, "tau", 1e-6);
 			Assert.False(FuseMath.Due(1.0f, 0.02f, 1.03f, out _));
@@ -67,7 +66,7 @@ namespace T90M.Tests
 		[Fact]
 		public void The_scatter_sample_is_a_standard_normal()
 		{
-			// Box-Muller: sqrt(-2 ln 1) = 0; sqrt(-2 ln e^-0.5) x cos 0 = 1.
+			// Box-Muller: sqrt(-2 ln 1) = 0, and sqrt(-2 ln e^-0.5) x cos 0 = 1.
 			Near(0, FuseMath.Gaussian(1f, 0.3f), "first sample 1", 1e-6);
 			Near(1, FuseMath.Gaussian((float)Math.Exp(-0.5), 0f), "first sample e^-0.5", 1e-6);
 			var random = new Random(3);

@@ -11,7 +11,7 @@ namespace T90M
 		{
 			Tag = T90MMod.FriendlyName,
 			// The heads as the T-90M's technical description gives them («Описание танка Т-90М»): the two precise ones see
-			// 45° each, together ±45° of the turret's axis, in 3°45' steps; every head sees from 5° down to 25° up.
+			// 45° each, together ±45° of the turret's axis, in 3°45' steps, and every head sees from 5° down to 25° up.
 			PreciseHalfAz = 45f,
 			PreciseStep = 3.75f,
 			HeadEl = new Vector2(-5f, 25f),

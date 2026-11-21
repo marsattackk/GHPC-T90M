@@ -170,7 +170,8 @@ The kit isn't just the Arena-M bolted onto the tank you know. It's the trial tan
 
 - six radar panels round the turret and four launcher boxes, six rounds a side
 - extra armour round the new parts, and a reshaped turret rear with the Arena-M's computer in it
-- no bustle box, so 30 rounds instead of 40: 22 in the carousel and 8 in the hull, nothing behind blow-off lids
+- no bustle box, so 30 rounds instead of 40: 22 in the carousel and 8 in the hull, nothing behind blow-off lids (22 with
+  `Ammunition load` at "Autoloader and bustle")
 - about 1.2 t more to drag about
 
 <p align="center">
@@ -233,9 +234,23 @@ manual where it gives them; the mix of rounds is my own, no source gives a regul
 | 3BM42 "Mango" | ~580 mm at the muzzle, as on the T-90A |
 | 9M119M1 "Invar-M" | 850 mm, tandem |
 | 3OF82 "Telnik" | air-burst HE-Frag |
-| 3BK18M HEAT, 3OF26 HE-Frag | the game's own rounds |
+| 3BK29M HEAT (default) | 700 mm, tandem, 915 m/s |
+| 3BK31 "Start-2" HEAT | 800 mm, a precursor and two main charges |
+| 3BK18M HEAT | 585 mm, the game's own round |
+| 3OF26 HE-Frag | the game's own round |
 
-You pick 3BM60 or 3BM42 in the game's normal ammo menu.
+You pick the APFSDS and the HEAT in the game's normal ammo menu, and both have a Random entry there.
+
+**The HEAT.** 3BK29M has a small charge in the nose that sets off add-on ERA like Kontakt-1 before the main charge gets
+there, and it comes out about 50 mm down. It can't do that to built-in ERA (Kontakt-5, Relikt), so against those it's a
+single charge again. 3BK31 was only ever an experimental round, shown at Omsk in 1997. It gets through either kind of
+ERA with 660-680 mm left, and its two main charges go in as two jets, which you can see in the recap. The ERA rules
+work on other mods' tanks too, PIL's included. Every tandem round, the Invar-M as well, hits with a small pop before
+the main burst, and the recap shows the precursor as its own short yellow line.
+
+Against tanks without ERA it's down to penetration. 3BK29M goes through a T-80B's front and a Leopard 2A0's glacis but
+not an M1's turret, and 3BK31 usually gets through that as well. The campaign never hands out 3BK31. Set `Force HEAT`
+if you want it there.
 
 **The Invar-M.** It rides a laser beam from the Sosna-U, so it goes where the cross is. Keep it on the target until it
 hits. It arms at 100 m and takes about 17 s to reach 5 km, and the tandem warhead sets the ERA off before the main
@@ -270,6 +285,10 @@ before editing it.
 | `Force APFSDS` | true: the campaign gives every T-90M the `APFSDS` round instead of drawing one from its ammo supply | false |
 | `Random APFSDS` | true: each T-90M rolls its own APFSDS from `APFSDS pool` in Instant Action and scripted missions, and the mission customizer's ammo dropdown starts on Random; the campaign keeps its own ammo supply | false |
 | `APFSDS pool` | the rounds `Random APFSDS` rolls from, as name:weight (`"3BM60:3, 3BM42:1"`); empty: every APFSDS at its campaign weight | `""` |
+| `HEAT` | `"3BK29M"` / `"3BK31"` / `"3BK18M"`, where the game doesn't pick one itself | 3BK29M |
+| `Force HEAT` | true: the campaign gives every T-90M the `HEAT` round instead of drawing 3BK29M or 3BK18M from its ammo supply | false |
+| `Random HEAT` | true: each T-90M rolls its own HEAT from `HEAT pool` in Instant Action and scripted missions, and the mission customizer's HEAT dropdown starts on Random; the campaign keeps its own ammo supply | false |
+| `HEAT pool` | the rounds `Random HEAT` rolls from, as name:weight (`"3BK29M:3, 3BK18M:1"`); empty: 3BK29M and 3BK18M at their campaign weights, 3BK31 only if you name it | `""` |
 | `Ammunition load` | `"Full"` / `"Autoloader"` (only the 22 rounds of the autoloader, 2 of them missiles) / `"Autoloader and bustle"` (32), on every T-90M, friend and foe | Full |
 | `Empty racks` | racks to leave empty, comma separated (`"hull"`, `"bustle"`); replaces `Ammunition load`; the autoloader is always loaded | `""` |
 | `Fire only when the gun is laid` | true: after a lase the gun waits until it's at the elevation the computer set, from the sight and the panorama alike. false: fires any time, but a shot while it's still climbing falls short | true |
@@ -282,7 +301,7 @@ before editing it.
 | `TShU-1-2M alarm tone` | false: the page only | true |
 | `TShU-1-2M warning page` | false: no page, the tone only | true |
 | `TShU-1-2M page always on screen` | true: on screen the whole time you're in the T-90M | false |
-| `Arena-M kit on my tank` | true: your own T-90M carries the Arena-M kit (a trial fit: about 1.2 t more, no bustle box, 30 rounds) | false |
+| `Arena-M kit on my tank` | true: your own T-90M carries the Arena-M kit (a trial fit: about 1.2 t more, no bustle box, 30 rounds, or 22 with `"Autoloader and bustle"`) | false |
 | `Arena-M kit share` | 0 to 100: the percentage of the other T-90Ms, friend and foe, that carry the Arena-M kit. Each tank rolls its own | 0 |
 | `Kord spent cases` | false: no cases, the belt still feeds | true |
 | `ERA destruction effects` | false: a Relikt box that's gone off still looks whole. true: it's gone with a blast, soot round it and the nets over it cut | true |
@@ -334,8 +353,9 @@ only takes its own feature down, and `MelonLoader\Latest.log` names it. [docs/ga
 goes through the rest of the repair and what to test after it.
 
 `dotnet test tests` runs everything that doesn't need the game (the reticles, the armour data, the settings, the
-tracker's laying loop), and GitHub runs it on every push. `tools\check-settings.ps1` makes sure the settings table above
-still matches the code, so a new setting needs a row there.
+tracker's laying loop and point filter, the Telnik's fuse, the Arena-M kit's list and roll), and GitHub runs it on every
+push. `tools\check-settings.ps1` makes sure the settings table above still matches the code, so a new setting needs a row
+there.
 
 For the rest, [MAINTAINING.md](MAINTAINING.md) covers the layout, what happens when a T-90M spawns, the settings and
 releasing, and [docs/bundle.md](docs/bundle.md) says what the code expects to find in the bundle.
@@ -346,7 +366,9 @@ This README follows `main`, which can be ahead of the latest release.
 
 The 3D model and textures are War Thunder's T-90M, taken from War Thunder's game files. They belong to Gaijin
 Entertainment and they're not covered by this repository's licence. The same goes for the armour shapes, cut from War
-Thunder's damage model. Everything else (the armour values, the sights and their reticles, the fire control, the ammo,
-the screen system, the interior) was built for GHPC from Russian sources.
+Thunder's damage model. A few files in `Resources\` are made from GHPC's own assets, so they're Radian Simulations' and
+not under this licence either: the trimmed T-72M1 hull skin, and the round meshes and textures, which are the game's own
+round models reshaped and given new stencils. Everything else (the armour values, the sights and their reticles, the fire
+control, the ammo data, the screen system, the interior) was built for GHPC from Russian sources.
 
 The source code is under the [GNU General Public License v3.0](LICENSE).

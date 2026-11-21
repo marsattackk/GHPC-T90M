@@ -14,7 +14,7 @@ namespace T90M
 			Tag = T90MMod.FriendlyName,
 			// The V-92S2F's 831 kW (1130 hp).
 			MaxPower = 1130f,
-			// 33.3 revolutions a second, 2000 rpm; medium confidence.
+			// 33.3 revolutions a second, 2000 rpm (medium confidence).
 			MaxRpm = 2000f,
 			// Solved for the T-72A manual's speeds at 2000 rpm, as for the T-90A.
 			FinalDrive = 5.297f,

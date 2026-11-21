@@ -36,7 +36,7 @@ namespace T90M
 				|| a.Category == AmmoType.AmmoCategory.ShapedCharge);
 		static bool AnyLase(AmmoType a) => a != null;
 
-		// 575 is the Catherine-XP's picture, 768 x 575 (Thales); the panorama's TV camera isn't published, so a TV standard's 576.
+		// 575 is the Catherine-XP's picture, 768 x 575 (Thales). The panorama's TV camera isn't published, so a TV standard's 576.
 		const int ThermalLines = 575;
 		const int TvLines = 576;
 		const float ReadyPixels = 8f;   // made up (no published figure). A T-72 to about 4 km in the narrow thermal
@@ -164,7 +164,7 @@ namespace T90M
 			TargetTracker.Register(station.Fcs, new TargetTracker.Settings
 			{
 				Tag = T90MMod.FriendlyName + " PK PAN",
-				// The panorama lays its line of sight at 10 deg/s at least in elevation; the tracker's own rate isn't
+				// The panorama lays its line of sight at 10 deg/s at least in elevation. The tracker's own rate isn't
 				// published, so that is taken (my reading).
 				SlewRate = 10f,
 				ReadyPixels = ReadyPixels,

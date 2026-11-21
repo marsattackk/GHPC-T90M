@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Tests for the parts of Common\ that don't need the game: the reticle language, MiniJson, dm_armour, the bundle
-       text numbers, the settings versions, the fire control maths, the target tracker's laying loop and point filter,
-       and the air-burst fuse maths. The files are compiled in from ..\Common, with Stubs\MelonLoader.cs in place of
-       MelonLoader, so no game DLL is referenced and the T90M.dll build is untouched. -->
+       text numbers, the settings versions, the fire control maths, the Arena-M's engagement maths and kit file, the
+       target tracker's laying loop and point filter, and the air-burst fuse maths. The shared fire control test also
+       covers the Shtora-1 jammer's sector, which this tank doesn't have. The files are compiled in from ..\Common, with
+       Stubs\MelonLoader.cs in place of MelonLoader, so no game DLL is referenced and the T90M.dll build is untouched.
+       -->
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>10</LangVersion>
     <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
     <RootNamespace>T90M.Tests</RootNamespace>
@@ -32,6 +34,7 @@
     <Compile Include="..\Common\TrackFilter.cs" Link="Common\TrackFilter.cs" />
     <Compile Include="..\Common\FuseMath.cs" Link="Common\FuseMath.cs" />
     <Compile Include="..\Common\PortKits.Text.cs" Link="Common\PortKits.Text.cs" />
+    <Compile Include="..\Common\ActiveProtectionMath.cs" Link="Common\ActiveProtectionMath.cs" />
   </ItemGroup>
 
 </Project>

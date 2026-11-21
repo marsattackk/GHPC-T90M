@@ -457,7 +457,7 @@ namespace T90M.Common
 			_prevWant = want;
 			_hasPrevWant = true;
 			_servo.Step(error.x, error.y, dWant.x, dWant.y, dt, out float servoYaw, out float servoPitch);
-			// Same call as the gunner's handles. GHPC builds the lead off AdjustAimByDegrees only, set the aim any other way and there's no lead.
+			// Same call as the gunner's handles. GHPC builds the lead off AdjustAimByDegrees and nothing else.
 			Fcs.AdjustAimByDegrees(servoYaw, -servoPitch);
 		}
 
@@ -480,7 +480,7 @@ namespace T90M.Common
 			internal int Hits, Rays;
 		}
 
-		const float ClearOfOwn = 8f;   // from the laser window a ray to a target off to the side clips our own turret stowage
+		const float ClearOfOwn = 8f;   // from the laser window a ray to a target off to the side clips the tank's own turret stowage
 		static readonly RaycastHit[] SmokeBuf = new RaycastHit[16];
 		struct Hit
 		{

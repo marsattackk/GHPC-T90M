@@ -21,7 +21,7 @@ autoloader and gearbox, still the T-72's 4.2 km/h reverse. What changed:
 | Engine | V-92S2, 1000 hp | V-92S2F, 1130 hp |
 | Turret traverse | 24°/s | 40°/s |
 | Main gun ammo | 42 rounds | 40: 22 in the carousel, 8 in the hull, 10 in the bustle box |
-| Rounds | 3BM42 / 3BM60, 3BK18M, 3OF26, 9M119M Invar (700 mm) | the same shells plus the 3OF82 Telnik, and the 9M119M1 Invar-M (850 mm) |
+| Rounds | 3BM42 / 3BM60, 3BK18M, 3OF26, 9M119M Invar (700 mm) | the same shells plus 3BK29M and 3BK31 HEAT, the 3OF82 Telnik and the 9M119M1 Invar-M (850 mm) |
 
 So it's better protected where the ERA, the screens and the bustle box come in, quicker onto a target off to the side,
 and the commander can hunt on his own. The front armour under the ERA hasn't changed, though, and the Kord fires at a
@@ -142,7 +142,7 @@ gives the clean factory finish on the right.
 | Turret traverse / gun elevation | 40°/s / 28°/s |
 | Gun | 2A46M-5, -6°13′ / +13°47′ over the front, less depression over the engine deck |
 | Autoloader | The game's own T-72M1 timing, about 7.2 s for every round |
-| Main gun ammo | 40 rounds: 3BM60 or 3BM42, 3BK18M HEAT, 3OF26 HE-Frag, 3OF82 Telnik, 9M119M1 Invar-M |
+| Main gun ammo | 40 rounds: 3BM60 or 3BM42, 3BK29M, 3BK31 or 3BK18M HEAT, 3OF26 HE-Frag, 3OF82 Telnik, 9M119M1 Invar-M |
 | Coax PKTM | 2000 rounds (5 boxes of 400) |
 | Remote Kord MT | 300 rounds, 200 / 100 rounds a minute |
 | Smoke | 12 × 81 mm "Tucha", 3D17 aerosol grenades |
@@ -153,7 +153,9 @@ gives the clean factory finish on the right.
 | 3BM42 "Mango" | as on the T-90A |
 | 9M119M1 "Invar-M" | 850 mm, tandem warhead (sets off ERA first), arms at 100 m, out to 5000 m, guided along the gunner's sight line |
 | 3OF82 "Telnik" | the 3OF26's shell with an air-burst fuse, 450 fragments |
-| 3BK18M HEAT, 3OF26 HE-Frag | the game's own rounds |
+| 3BK29M HEAT (default) | 700 mm (the maker's guaranteed figure), 915 m/s, 18.4 kg. The precursor only beats add-on ERA: a 2019 article by NII Stali people says it was never made to get through built-in ERA, so Kontakt-5 and Relikt count in full against it. 650 mm behind add-on ERA is my reading of a second, unlabelled figure in the same table |
+| 3BK31 "Start-2" HEAT | 800 mm, 660 mm behind built-in and 680 mm behind add-on ERA, 19 kg. Experimental, never adopted, so the campaign never rolls it. Nobody publishes its muzzle velocity: I gave it 3BK18M's 905 m/s, because its direct-fire range is within 10 m of 3BK18M's. Its two main charges are two jets: the smaller rear one first with a third of what's left, then the main one 1 cm to the side with all of it, since the game's armour keeps no hole for it. The third and the 1 cm are my guesses |
+| 3BK18M HEAT, 3OF26 HE-Frag | the game's own rounds (3BK18M under a name of the T-90M's own) |
 
 ## Where it isn't the real tank
 
@@ -229,7 +231,8 @@ Some of these are my choices against what the sources would give, and the rest a
   turret and of «360° all round». No source gives them. The radar's bearing origin, on the turret's axis at the roof, is mine too.
 - The burst height of 2 m, the 8 m from the radar it happens at and the 4 m its fragments reach are mine. The sources say
   a round turns toward the threat and fires a stream of heavy fragments at it, nothing more.
-- Right rear holds six rounds because the tube at the back in the middle joined it, so that each side holds six as Janes says.
+- The right rear box holds four and the front right two. The rearmost tube on the right joins the rear box so that each
+  side holds six as Janes says, and the one on the centre line stays empty.
 - The mass, 1150 kg, is the middle of KBM's 1000 to 1300 kg for the Arena-E. The weight of the extra armour isn't published.
 - No bustle box and so 30 rounds is my reading: War Thunder's Arena-M has no stowage there and Janes puts the computer in the
   turret's rear.

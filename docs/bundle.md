@@ -24,9 +24,9 @@ Edit these and rebuild the DLL, no Unity involved:
 | File | Needed | If missing |
 |---|---|---|
 | `dm_armour` | with `T90M_armor` | warning, the T-72M1's armour stays |
-| `vanilla_edits` | with `T90M_armor` | silently, the T-72M1's own armour stays switched on inside the T-90M's |
+| `vanilla_edits` | with `T90M_armor` | warning, the T-72M1's own armour stays switched on inside the T-90M's |
 | `rig_map` | yes, in practice | warnings: no moving hatches or lids, the turret on the T-72M1's pivots, the commander's station fixed and unarmed |
-| `material_roles` | no | silently, glass and lamps keep the bundle's own materials |
+| `material_roles` | no | warning, glass and lamps keep the bundle's own materials |
 | `era_links` | no | silently, each Relikt piece is matched to a container by position only |
 | `era_gone` | no | silently, nothing hides with a container. The current bundle has none |
 | `smoke_points` | no | warning, grenades leave from the T-72's tubes |
@@ -223,8 +223,9 @@ SHA-256 of `Mods/T90M/t90m` in each release zip. When a release changes the bund
 | 0.3.0 | `5df70af9173f96bce09b3736391a10ad244f07c456a6b63d07516867eda3b3fe` |
 | 0.3.1 | `9e7a79a5ed194035f2a3a3cee6449f83088b8ecc458209a3864144f0f21a0e9e` |
 | 0.4.0 | `728f33ec0b24040c2552dfeb966a37b004d6fb0553b4d3ece66c6430ae556afb` |
+| 0.5.0 | `242fd5c5cfd5b2d3c2ebacfe7548fad1c43f6eecf8eb0b5d44351ca69983c81a` |
 
 ```
-Expand-Archive T90M_0.2.2.zip -DestinationPath T90M_0.2.2
-(Get-FileHash T90M_0.2.2\Mods\T90M\t90m -Algorithm SHA256).Hash
+Expand-Archive T90M_<version>.zip -DestinationPath T90M_<version>
+(Get-FileHash T90M_<version>\Mods\T90M\t90m -Algorithm SHA256).Hash
 ```

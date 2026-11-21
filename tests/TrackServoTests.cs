@@ -84,7 +84,7 @@ namespace T90M.Tests
 				t += Dt;
 				servo.Step((float)(0.0 - aim), 0f, 0f, 0f, (float)Dt, out float stepYaw, out _);
 				aim += stepYaw;
-				double left = Mrad(-aim);   // still to go; negative is past the target
+				double left = Mrad(-aim);   // still to go (negative is past the target)
 				Assert.True(left >= -0.02, $"overshoot of {left:0.000} mrad at {t:0.00} s");
 				if (t > 0.5) after = Math.Max(after, Math.Abs(left));
 			}

@@ -28,8 +28,9 @@ namespace T90M
 		// KBM gives the Arena-E at 1000 to 1300 kg: the middle. The extra armour's weight is not published (inferred).
 		internal const float KitMassKg = 1150f;
 
-		// War Thunder's model frame (x forward, y up, z right) in the prefab's (x right, y up, z forward): the port's
-		// wt_to_prefab, with the model's rocket bones read through it.
+		// A rocket bone from War Thunder's model (x forward, y up, z right) into the T-72M1 prefab's frame (x right, y up, z
+		// forward). The offset, 3.6 cm down and 83.7 cm back, is the one the whole model got when its road wheels were lined
+		// up with the T-72M1's, so a bone lands where its tube is drawn.
 		static Vector3 Bone(float x, float y, float z) => new Vector3(z, y - 0.036f, x - 0.837f);
 
 		// The 12 shafts on the turret (Rossiyskaya Gazeta 2023 and 2024: 12) at the model's rocket bones, in two launcher modules
@@ -37,8 +38,8 @@ namespace T90M
 		// turret's centre line, is left unused and bone 08 joins the right rear box, six a side (inferred). The four boxes are
 		// the model's four launchers. Each serves a sector of the turret's circle that overlaps its neighbours', read off where
 		// the box sits on the turret and «360 deg» all round (Rossiyskaya Gazeta 2021), inferred. A round climbs out of its
-		// tube, turns toward the threat and bursts over it (ClimbBurst), so a box's axis is only where it points at the start:
-		// out from the turret and 60 deg up (the old Arena's munition stands 25 to 40 deg off the vertical, btvt.info; inferred).
+		// tube, turns towards the threat and bursts over it (ClimbBurst), so a box's axis is only where it points at the start:
+		// out from the turret and 60 deg up, inferred (the old Arena's munition stands 25 to 40 deg off the vertical, btvt.info).
 		static readonly Aps.BlockSpec[] Blocks =
 		{
 			new Aps.BlockSpec
@@ -108,8 +109,8 @@ namespace T90M
 		};
 
 		// The six radar panels on the model (Militarnyi: six, or four with one secondary), each watching the arc its place on
-		// the turret gives it (inferred; Janes: the radar on the top of the turret above the cheeks, extra sensors at the rear,
-		// no radar facing back). A bearing is covered while one live panel holds it, so a destroyed panel blinds its arc.
+		// the turret gives it (inferred). Janes puts the radar on the top of the turret above the cheeks, extra sensors at the
+		// rear and no radar facing back. A bearing is covered while one live panel holds it, so a destroyed panel blinds its arc.
 		static readonly Aps.SensorSpec[] Sensors =
 		{
 			new Aps.SensorSpec { Name = "front left", Module = "arena_radar_1", AzMin = -90f, AzMax = 10f },
@@ -124,18 +125,18 @@ namespace T90M
 		{
 			Tag = "APS T-90M Arena-M",
 			Name = Label,
-			OnAtSpawn = true,   // armed from the start; the crew's on / off switch is the vehicle menu (Janes: the commander's switch)
+			OnAtSpawn = true,   // armed from the start. The crew's on / off switch is the vehicle menu (Janes: the commander's switch)
 			// WarmUp stays the module's 300 s after a switch-on: no Arena-M or Arena-E figure found, so the Drozd's.
 			HatchInterlock = false,   // none found for the Arena-M (the Drozd's blocks firing with a hatch open)
-			RoundsPerBlock = 6,   // a box holds as many rounds as it has mouths
+			RoundsPerBlock = 6,   // only a cap: a box gets a round per mouth, 3 and 3 on the left, 4 and 2 on the right
 			HudPerBlock = true,   // four boxes and six radars: the HUD shows each box's rounds and the radars lost
 			Blocks = Blocks,
 			Sensors = Sensors,
 			// In the turret's rear box (Janes: the rear of the turret holds the computing system), inferred.
 			ComputerModule = "arena_computer",
 			ElMin = -6f,
-			ElMax = 20f,   // -6 to +20 deg (Rossiyskaya Gazeta 2021; the 2024 piece also claims the upper hemisphere, no figure)
-			// KBM gives the Arena-E «около 50» m; at 50 m a 1000 m/s round (the Arena-M's figure below) is past the burst point
+			ElMax = 20f,   // -6 to +20 deg (Rossiyskaya Gazeta 2021). The 2024 piece also claims the upper hemisphere but gives no figure
+			// KBM gives the Arena-E «около 50» m, but at 50 m a 1000 m/s round (the Arena-M's figure below) is past the burst point
 			// before 0.07 s of reaction and the round's flight are over (even the Arena-E's own 700 m/s needs ~85 m). The track
 			// starts where the fastest threat can still be met: 1000 m/s x (0.07 + ~0.05 s) + the 8 m intercept, ~130 m (derived).
 			SearchRange = 150f,   // inferred: a little over the track range
@@ -153,13 +154,13 @@ namespace T90M
 			WarheadFragShare = 0.25f,
 			Cooldown = 0.3f,   // ready again after 0.2 to 0.4 s (Russian Wikipedia, the old Arena)
 			PickOverlap = true,   // the boxes' sectors overlap: of those that cover a bearing, the one whose burst misses least
-			ClimbBurst = true,   // the round climbs out of its tube and bursts over the threat (Rossiyskaya Gazeta 2021: turns toward it)
+			ClimbBurst = true,   // the round climbs out of its tube and bursts over the threat (Rossiyskaya Gazeta 2021: turns towards it)
 			InterceptRange = 8f,   // inferred: well inside the radar's 50 m, close to the turret
 			BurstHeight = 2f,   // inferred
 			ConeReach = 4f,   // inferred
 			FragConeHalf = 35f,   // the old Arena's cone, 25 to 40 deg round the line to the threat (btvt.info): the middle
 			RoundsPerThreat = 2,   // two rounds at one threat (Rossiyskaya Gazeta 2021, Lenta 2021)
-			DangerRange = 30f,   // 20 to 30 m for our own infantry (KBM's Arena-E page): the logged danger zone only
+			DangerRange = 30f,   // 20 to 30 m for friendly infantry (KBM's Arena-E page): the logged danger zone only
 			ReloadPerRound = 60f,   // mine, as the Drozd's: a round a minute from the vehicle menu while nearly still
 			ReloadMaxSpeed = 0.5f,   // mine, as the Drozd's
 			// The round leaves its shaft like a mortar bomb from a tube («выстреливается», Rossiyskaya Gazeta 2021), not like a
@@ -169,7 +170,7 @@ namespace T90M
 			VisualPrefix = "T90M_",   // the protected box: the tank's outline, the kit's parts in it (margin 0)
 		};
 
-		// ---------------------------------------------------------------- who carries it
+		// Who carries it
 
 		static PortKits.Kit _kit;
 		static readonly System.Random Roller = PortKits.NewRandom();
@@ -302,7 +303,7 @@ namespace T90M
 			if (carries) Fit(vehicle);
 		}
 
-		// ---------------------------------------------------------------- the kit tank
+		// The kit tank itself
 
 		static readonly ConversionStep<Vehicle>[] Steps =
 		{
@@ -327,9 +328,14 @@ namespace T90M
 			},
 		};
 
+		static bool _noParts;
+
+		// Never at spawn: PlayerReady or later. A SpawnOnly row added here would be skipped with its Late warning.
 		static void Fit(Vehicle vehicle)
 		{
-			ConversionSteps.Run(T90MMod.FriendlyName, Steps, vehicle, vehicle.name, atSpawn: true);
+			_noParts = false;
+			// The last argument skips a row when it returns true. Once FitParts finds no kit in the bundle the others stay off.
+			ConversionSteps.Run(T90MMod.FriendlyName, Steps, vehicle, vehicle.name, false, step => _noParts);
 		}
 
 		static PortKits.Context Context()
@@ -356,6 +362,14 @@ namespace T90M
 		{
 			var problems = new List<string>();
 			string done = PortKits.Apply(vehicle, _kit, Context(), problems);
+			if (done == null)
+			{
+				// a new DLL on an older bundle: a tank with the mass and the APS but none of the parts would be worse than none
+				_noParts = true;
+				DevFitted(vehicle, "parts", "none in the bundle");
+				Say(problems, "Arena-M kit");
+				return;
+			}
 			done += "; " + Conversion.NumbersOnKitLamp(vehicle);
 			// The kit's tubes point elsewhere than the plain ones of the same number: the screens' grenades follow the kit's caps.
 			var screens = ShtoraScreen.Of(vehicle);
@@ -364,7 +378,7 @@ namespace T90M
 			Say(problems, "Arena-M kit");
 		}
 
-		// A settings object of its own with only the mass in it: nothing else of the drive changes, the shared one stays as it is.
+		// A settings object of its own with only the mass in it: nothing else of the drive changes and the shared one stays as it is.
 		static void AddMass(Vehicle vehicle)
 		{
 			var settings = new Mobility.Settings

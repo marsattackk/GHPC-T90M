@@ -11,7 +11,7 @@ using UnityEngine.Events;
 
 namespace T90M
 {
-	// The remote Kord follows the panorama and the gunner; the patches that keep the two apart.
+	// The remote Kord follows the panorama and the gunner. These patches keep the two apart.
 	internal static partial class Commander
 	{
 		[DefaultExecutionOrder(-40)]

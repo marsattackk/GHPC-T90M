@@ -25,14 +25,16 @@ Then, in this order:
 4. Check the T-90M is in Instant Action, the mission customiser and the campaign.
 5. Spawn one and read the log again. Conversion runs at spawn, so most warnings only show up here.
 6. Go through the test list at the bottom.
-7. Play a mission with the mod off. Some patches touch every unit, so check a vanilla T-72M1 and T-80B still behave.
+7. Play a mission with vanilla T-72M1s and T-80Bs in it, mod on, because some patches touch every unit. Switched off,
+   the mod patches nothing, so that run would tell you nothing.
 
 ## What it looks like in the log
 
 - `Game field X.y not found: a game update may have changed it, ...` comes from `Reflect`. The word after "Game" can
   also be `method`, `property` or `property setter`. Once per session per member. `can't be read as bool (...)` means
   the field is still there but its type changed. `can't be looked up (...)` usually means a method gained an overload.
-- A Harmony error at startup naming a patch class, with `Undefined target method` or similar: the patch target went.
+- `T90M.<class> could not be patched (a game update?), so that part of the mod is off`, then the exception: that
+  class's patch target went. It's an error at startup, and the rest of the classes are patched as normal.
 - `<feature> failed (the game carries on without it this time; 1 of 3 logged)` is `PatchGuard`. The patch ran and the
   code inside threw. The stack trace has the line, and it goes quiet after three.
 - `Unity exception in our code: ...` is `UnityErrors`, an exception in one of the mod's behaviours or coroutines.
@@ -71,7 +73,8 @@ Files are in `Common\` unless they say `T90M\`. Each group ends with what you se
 **Unit lists and spawning.** `UnitRegistry.cs` patches `MissionConfigMenuPanel.GetUnitKeysByClass`,
 `UnitSpawner.GetMetadataByUniqueName` and `UnitSpawner.SpawnUnit`, and sets `Unit._uniqueName` and `_friendlyName`.
 Broken: the T-90M is missing from a list, spawns as a plain T-72M1, or shows as T-72M1 in the HUD. `ConvertSweep.cs`
-still catches a unit the spawn patch missed, minus the ammo, the station, the modules and TShU-1-2M.
+still catches a unit the spawn patch missed, but every step marked `SpawnOnly` in `T90M\Conversion.cs` is skipped and the
+Arena-M kit never comes.
 
 **Ammunition and the bustle box.** `PortAmmo.Menu.cs` patches the customiser's ammo dropdown and the campaign's
 logistics, `PortAmmo.Spawn.cs` the restock check `LoadoutManager.RackHasRestockSpace`, and `PortAmmo.cs` the tandem ERA
@@ -115,6 +118,19 @@ gun, or the Kord fires over the gunner's sight head.
 `VehicleSmokeManager.FireSmokes` to rebuild the crew lists a runtime spawn never got. Broken: no warning page, no
 screen, or the launchers never fire.
 
+**Arena-M kit.** Off by default, so a break here goes unnoticed unless you switch it on. `ActiveProtection.cs` patches
+two methods by hand once the first kit tank sets up, not through `[HarmonyPatch]`: `LiveRoundBatchHandler.Update`, where
+it reads `_liveRounds` to see every round in flight, and `PlayerInput.AddSmokeButtons`, where it adds the **Arena-M**
+entries through `PlayerInput.AddMenuButton`. When it kills a threat it sets `LiveRound._armed` or `_failedToDetonate`
+before `Detonate`, and calls `LiveRound.createExplosion` for the warhead's own fragments. The weapon info line rides
+`WeaponHud.Update` through the screen system's patch. What goes on the tank is mod data: `Resources\kits.txt` for the
+parts, the hidden objects and the armour groups (format in [bundle.md](bundle.md)), and the modules marked
+`"kit": "arena"` in `modules_built.json`. Past those, a game update reaches it through the module and armour code the
+plain tank uses as well, and the bustle box's path `T-72 TURRET COLLIDERS/SPARE AMMO RACK`, which the kit empties with
+`BlowoutRack.Remove`. Broken: `APS: GHPC's live-round list not found` and the kit never fires, `APS watch failed` from
+`PatchGuard` when a round field has gone, threats blowing up with no fragments, or no Arena-M entry in the vehicle menu
+(no switching, no reload).
+
 **Armour, ERA and nets.** `EraBricks.cs` patches `LiveRound.penCheck` and `UniformArmor.Detonate()` by hand, both or
 neither, and logs `ERA bricks: patching failed` if it can't. `DmArmourApply.cs` patches `penCheck` too and sets
 `UniformArmor._armorType`, `_isEra`, `_isSlatArmor` and friends. `NetScreens.cs` patches `penCheck` with a transpiler
@@ -134,10 +150,10 @@ update doesn't touch it.
 ## Names looked up as strings
 
 `tools\check-game.ps1` reads the literal names in `Reflect.*`, `AccessTools.Method`, `Traverse.Create(x).Field`,
-`Type.GetField` / `GetMethod` and the hit-zone table of `ModuleBuilder`. It can't check field enumerations (`GetFields`
-in `PortAmmo.MakeClip`, `RemoteMg.Platform`, `DonorParts.Scrub` and `FragmentCone`) or a lookup whose name is a
-variable: after a game update, read those against the class by hand. The script lists where they are. The names below
-don't go through any of those calls, so a rename gives no warning of that shape either.
+`Type.GetField` / `GetMethod` and the hit-zone table of `ModuleBuilder`. It can't check field enumerations (`GetFields`,
+for instance the `AmmoType` copies in `PortAmmo` and `FragmentCone`, or `RemoteMg.Platform`) or a lookup whose name is a
+variable: after a game update, read those against the class by hand. The script prints the full list of where they are.
+The names below don't go through any of those calls, so a rename gives no warning of that shape either.
 
 - **T-72M1 rig** (`BaseRigT72M1.cs`): the `---MESH---/HULL/TURRET/GUN` bones, the renderers it hides, and the hull
   skin, which is swapped for `Resources\T72M1_skin_hull_trimmed.bin` and has to match the game's vertex count. If GHPC
@@ -148,8 +164,18 @@ don't go through any of those calls, so a rename gives no warning of that shape 
 - **Donors**: units `T80B`, `M60A3TTS`, a T-64B (`RemoteMg.Donor` takes the best unit whose name starts `T64`), the
   white smoke donors in `ShtoraScreen.Settings` and the units `material_roles` names. `DonorParts.cs` copies them at
   the main menu, because VanillaAssetUtil can destroy the prefabs after a mission.
-- **Ammunition** (`T90M\Firepower.cs`): clips `clip_3BM32`, `clip_9M112M`, `clip_3OF26` and `clip_3BK18M` from the
-  T-80B's list.
+- **Ammunition** (`T90M\Firepower.cs`, `Common\Heat125.cs`): clips `clip_3BM32`, `clip_9M112M`, `clip_3OF26` and
+  `clip_3BK18M` from the T-80B's list. All three HEAT rounds are copies of `clip_3BK18M`. The 3BK31's ERA cost goes
+  through `LiveRound.RhaPenetrationOverride`, and built-in ERA is told apart by the armour's name (Kontakt-5, Relikt):
+  if another mod renames its blocks, 3BK29M treats them as add-on.
+- **3BK31's second jet** (`Common\SplitCharge.cs`): a postfix on `LiveRound.logHit` (reads `_jetActive`,
+  `_jetStartPoint`, sets `_armed`) launches it as a child round, and a postfix on `AarController.createShotTrace` (its
+  `_shotTraces`) draws it as a jet. If `logHit` goes, 3BK31 is back to one jet. If the trace list goes, the second jet
+  shows as fragment lines.
+- **Tandem look** (`Common\TandemLook.cs`): `LiveRound.doImpactVFX` and `ParticleEffectsManager.CreateImpactEffectOfType`
+  hold back a tandem round's impact effect for the precursor's pop (`_fusedStatus`, `_materialHit`, `HeatJet`), and
+  `LiveRound.logHit` adds the precursor's recap line, coloured through `ShotTraceVisual.jetColor`. If those move, the
+  rounds just look like plain HEAT again.
 - **Fonts and materials**: `Soviet7SegmentFont SDF` and `Reticle LiberationSans SDF` (named in the reticle files), fonts
   starting `TPD_Etch`, `Standard (FLIR)`, and `see-through teal gray` for the x-ray (no log line if that one goes).
 - **Scenes and input**: the menu scenes in `MenuScenes.cs`, `TR01_showcase`, and the buttons `Toggle Night Sight`,
@@ -167,5 +193,8 @@ don't go through any of those calls, so a rename gives no warning of that shape 
 7. TShU-1-2M: lase it from the front, check the page, tone and screen, then the smoke key.
 8. Shoot it with an APFSDS, a HEAT and a missile and read the damage report. Then a HEAT grenade at the nets and a shot
    into the bustle box.
-9. Traverse, then watch the AAR replay.
-10. A vanilla T-72M1 and T-80B in the same mission, untouched.
+9. Arena-M: set `Arena-M kit on my tank` to true and start a mission. The console should give the `Arena-M:` line with
+   your tank as yes. Have an RPG or a missile fired at you: two rounds go up and the box counts in the weapon info drop.
+   Switch it off and on from the vehicle menu and reload the empty tubes there.
+10. Traverse, then watch the AAR replay.
+11. A vanilla T-72M1 and T-80B in the same mission, untouched.

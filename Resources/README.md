@@ -6,7 +6,7 @@ file only has to be dropped in. The reticle files (`*.jsonc`) are written in the
 
 | File | What it holds | Read by |
 |---|---|---|
-| `T72M1_skin_hull_trimmed.bin` | T-72M1 hull skin mesh without the side skirts | `EmbeddedFile.T72M1Skin`, then `BaseRigT72M1.HideBaseVisuals` |
+| `T72M1_skin_hull_trimmed.bin` | the game's own T-72M1 hull skin mesh with the side skirts cut away | `EmbeddedFile.T72M1Skin`, then `BaseRigT72M1.HideBaseVisuals` |
 | `gun_depression.txt` | gun depression by turret angle, for the hull profile | `GunSetup`, name set in `Firepower` |
 | `interior_map.txt` | where each crew member and interior part moves to | `InteriorMap`, through `Conversion` |
 | `modules_built.json` | the T-90M's damageable modules and what they hook into | `PortModules`, through `Conversion` |
@@ -16,12 +16,14 @@ file only has to be dropped in. The reticle files (`*.jsonc`) are written in the
 | `pk_pan_tv_wide.jsonc`, `pk_pan_tv_narrow.jsonc` | commander's panoramic sight, wide and narrow field | `Commander` (in `Commander.Sight.cs`) |
 | `pdt.jsonc` | the PDT back-up sight's reticle | `Pdt` (in `Sights.Pdt.cs`) |
 | `asc_marks.jsonc` | the target tracker's ready, lock and memory frames | `Tracker` (in `Sights.Tracker.cs`) |
-| `round_3bm42_co.png`, `round_3bm60_co.png`, `round_3of82_co.png` | stencil textures for the 3BM42, 3BM60 and 3OF82 rounds | `Firepower`, applied by `PortAmmo` |
-| `round_9m119m1_co.png` | stencil texture for the 9M119M1 missile | `Firepower`, applied by `PortAmmo` |
+| `round_3bm42_co.png`, `round_3bm60_co.png`, `round_3of82_co.png` | stencil textures for the 3BM42, 3BM60 and 3OF82 rounds, the game's own round textures with new markings | `Firepower`, applied by `PortAmmo` |
+| `round_9m119m1_co.png` | stencil texture for the 9M119M1 missile, made the same way | `Firepower`, applied by `PortAmmo` |
+| `round_3bk29m_co.png`, `round_3bk31_co.png` | stencil textures for the 3BK29M and 3BK31 HEAT rounds, made the same way | `Common\Heat125.cs`, applied by `PortAmmo` |
 | `round_meshes.txt` | index of the round mesh pieces below, by round | `PortAmmo.Models` |
-| `round_mesh_3bm60_*.mesh` (charge, oring, rod, sabot 001 / 003 / 004) | 3BM60 shell pieces | `PortAmmo`, via `round_meshes.txt` |
-| `round_mesh_9m119m_missile.mesh` | 9M119M missile body | `PortAmmo`, via `round_meshes.txt` |
-| `round_mesh_9x949_charge.mesh` | booster piece for the missile | `PortAmmo`, via `round_meshes.txt` |
+| `round_mesh_3bm60_*.mesh` (charge, oring, rod, sabot 001 / 003 / 004) | 3BM60 shell pieces, reshaped from the game's own round meshes | `PortAmmo`, via `round_meshes.txt` |
+| `round_mesh_9m119m_missile.mesh` | 9M119M missile body, reshaped the same way | `PortAmmo`, via `round_meshes.txt` |
+| `round_mesh_9x949_charge.mesh` | booster piece for the missile, reshaped the same way | `PortAmmo`, via `round_meshes.txt` |
+| `round_mesh_3bk29m_warhead.mesh`, `round_mesh_3bk31_warhead.mesh`, `round_mesh_3bk31_oring.mesh` | the 3BK29M and 3BK31 shells, reshaped from the game's 3BK14M | `PortAmmo`, via `round_meshes.txt` |
 | `shtora_pmf_page.png`, `shtora_pmf_over.png` | the TShU-1-2M warning page on the commander's display, and its overlay | `ShtoraPage` |
 | `shtora_pmf_layout.txt` | where the words sit on that page | `ShtoraPage` |
 | `shtora_alarm.wav` | laser warning tone | `ShtoraScreen.Hud` |

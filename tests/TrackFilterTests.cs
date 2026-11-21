@@ -5,7 +5,7 @@ using Xunit;
 namespace T90M.Tests
 {
 	// The target tracker's point filter, loss clock and inertial memory. Each expected value is worked out by hand in the
-	// comment above it. Metres and seconds; the target runs along x, 1000 m ahead along z.
+	// comment above it. Metres and seconds. The target runs along x, 1000 m ahead along z.
 	public class TrackFilterTests
 	{
 		static void Near(double expected, double actual, string what, double tolerance) =>
@@ -71,7 +71,7 @@ namespace T90M.Tests
 			Assert.False(filter.Missed(1.0f));
 			Assert.False(filter.Missed(1.2f));
 			Assert.True(filter.Missed(1.31f));
-			// A sample that sees the target stops the clock; the next miss starts a new one.
+			// A sample that sees the target stops the clock and the next miss starts a new one.
 			filter.Correct(At(0f), 1.4f);
 			Assert.False(filter.Missed(1.5f));
 			Assert.False(filter.Missed(1.7f));
@@ -130,7 +130,7 @@ namespace T90M.Tests
 		[Fact]
 		public void The_gains_ease_from_their_capture_values_over_Settle()
 		{
-			// Halfway through Settle (0.75 of 1.5 s) alpha is (0.6 + 0.15) / 2 = 0.375; after it, 0.15.
+			// Halfway through Settle (0.75 of 1.5 s) alpha is (0.6 + 0.15) / 2 = 0.375, and after it 0.15.
 			var early = new TrackFilter();
 			early.Capture(At(0f), 0f);
 			early.Correct(At(1f), 0.75f);

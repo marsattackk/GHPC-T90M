@@ -121,7 +121,7 @@ namespace T90M.Common
 			var fuse = new Fuse { Mode = st.Mode, Range = range };
 			if (st.Mode != Mode.Impact && range >= S.MinRange)
 			{
-				// The range runs from the laser, the round starts at the muzzle about 6 m ahead of it.
+				// The range runs from the laser but the round starts at the muzzle, about 6 m ahead of it.
 				var dir = st.Fcs.AimWorldVector.sqrMagnitude > 1e-6f ? st.Fcs.AimWorldVector.normalized : st.Gun.MuzzleIdentity.forward;
 				var from = st.Fcs.LaserOrigin != null ? st.Fcs.LaserOrigin : st.Fcs.ReferenceTransform;
 				float ahead = st.Gun.MuzzleIdentity != null && from != null
@@ -133,7 +133,7 @@ namespace T90M.Common
 			st.Breech = fuse;
 		}
 
-		// Not GHPC's ballistic computer, its flight times come out one 0.02 s step short.
+		// Not GHPC's ballistic computer, because its flight times come out one 0.02 s step short.
 		static float FlightTime(AmmoType a, Vector3 dir, float distance)
 		{
 			float muzzleVelocity = a.MuzzleVelocity * (1f + 0.0004f * (GHPC.World.WorldEnvironmentManager.AmmoTempFahrenheit - 70f));
@@ -192,7 +192,7 @@ namespace T90M.Common
 				}
 			}
 
-			// GHPC picks a burst's effect by the surface it hit, in thin air it finds none and draws nothing.
+			// GHPC picks a burst's effect by the surface it hit. In thin air it finds none and draws nothing.
 			static void Postfix(LiveRound __instance)
 			{
 				if (_drawn == null || _drawn != __instance) return;
@@ -244,7 +244,7 @@ namespace T90M.Common
 			Motion(r) = after;
 			FuseActive(r) = true;
 			FuseLeft(r) = 0f;
-			Armed(r) = true;   // rounds only arm on a hit, unarmed it bursts as a dud
+			Armed(r) = true;   // rounds only arm on a hit (unarmed it bursts as a dud)
 			_drawn = r;
 			_drawnAt = after.position;
 			f.Triggered = true;
@@ -283,6 +283,11 @@ namespace T90M.Common
 			for (int i = 0; i < Stations.Count; i++)
 			{
 				var station = Stations[i];
+				if (station.Gun == null)
+				{
+					Stations.RemoveAt(i--);
+					continue;
+				}
 				if (station.Fcs != fcs) continue;
 				if (fcs.CurrentWeaponSystem != null && fcs.CurrentWeaponSystem != station.Gun) return 0f;
 				var fuse = station.Breech;
@@ -314,7 +319,7 @@ namespace T90M.Common
 			}
 		}
 
-		// GetSuperelevation doesn't know which fire control asked, the Update prefix tells it.
+		// GetSuperelevation doesn't know which fire control asked: the Update prefix tells it.
 		static FireControlSystem _gate;
 
 		[HarmonyPatch(typeof(FireControlSystem), "Update")]

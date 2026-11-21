@@ -280,7 +280,7 @@ namespace T90M
 			LampNormal = new Vector3(0f, 0f, -1f),
 			DigitScale = 1.18f,
 			Tag = T90MMod.FriendlyName,
-			DigitSpacing = 0.059f,   // two windows on the lamp, the T-72's 7.3 cm put each digit off its window
+			DigitSpacing = 0.059f,   // two windows on the lamp: the T-72's 7.3 cm put each digit off its window
 		};
 
 		// The Arena-M kit's reshaped rear carries the same lamp 12.9 cm further right: on its War Thunder model every face of the
@@ -355,8 +355,9 @@ namespace T90M
 			yield return SmokeLaunchers.RefreshCrewLater(vehicle, T90MMod.FriendlyName);
 			if (vehicle == null) yield break;
 			ConversionSteps.Run(T90MMod.FriendlyName, LateSteps, vehicle, vehicle.name, atSpawn);
-			// The Arena-M kit, for the tanks that carry it: last, once the racks are filled and the modules wired.
-			Arena.Offer(vehicle);
+			// The Arena-M kit, for the tanks that carry it: last, once the racks are filled and the modules wired. A tank converted
+			// late kept the T-72M1's racks and modules, and the kit's would hang off nothing.
+			if (atSpawn) Arena.Offer(vehicle);
 			DevAfter(vehicle, atSpawn);
 		}
 

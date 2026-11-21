@@ -29,7 +29,7 @@ namespace T90M
 			LineOfSightAzimuth = 7.5f,
 			// Lead kept inside the head's 7.5 deg travel. Unclamped, the gun ran off ahead after a long lase and dragged the view with it.
 			LeadLimit = 7.5f,
-			// The step of a hand-entered range isn't published; the T-90A's is used (my reading).
+			// The step of a hand-entered range isn't published: the T-90A's is used (my reading).
 			RangeStep = 100,
 			// The range display counts in 10 m.
 			DisplayRangeIncrement = 10,
@@ -40,12 +40,12 @@ namespace T90M
 		};
 
 		// The thermal fields' heights: 9 x 6.75°, 3 x 2.25° and 1.5 x 1.12° with the electronic zoom (the «Сосна-У»
-		// manual; Thales gives the Catherine-XP's own 9 x 6.75° and 3 x 2.25° with a 2 x 2 zoom).
+		// manual, and Thales gives the Catherine-XP's own 9 x 6.75° and 3 x 2.25° with a 2 x 2 zoom).
 		internal const float ThermalWide = 6.75f;
 		internal const float ThermalNarrow = 2.25f;
 		internal const float ThermalZoom = 1.125f;
-		// The render height, 576 as in the TV standard; the Catherine-XP's own picture is 768 x 575, which the tracker
-		// counts in lines.
+		// The render height, 576 as in the TV standard (the Catherine-XP's own picture is 768 x 575, which
+		// the tracker counts in lines).
 		internal const int ThermalHeight = 576;
 		// The render fills the 16:9 screen. 1024 across gives 768 over the 4:3 picture in the middle.
 		internal const int ThermalWidth = 1024;

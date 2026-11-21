@@ -150,6 +150,7 @@ namespace T90M.Common
 			return draw < share;
 		}
 
+		// not UnityEngine.Random: GHPC reseeds that
 		internal static Random NewRandom()
 		{
 			int seed = unchecked(Environment.TickCount * 397 ^ Guid.NewGuid().GetHashCode());
@@ -184,7 +185,9 @@ namespace T90M.Common
 			public int Total => Others + (PlayerSeen ? 1 : 0);
 
 			public string Line(string kitLabel, string unitName, int share) =>
-				$"{kitLabel}: your tank {(PlayerKit ? "yes" : "no")}; {OtherKits} of {Others} other {unitName}s (share {share} %)";
+				PlayerSeen
+					? $"{kitLabel}: your tank {(PlayerKit ? "yes" : "no")}; {OtherKits} of {Others} other {unitName}s (share {share} %)"
+					: $"{kitLabel}: {OtherKits} of {Others} {unitName}s (share {share} %)";
 		}
 	}
 }

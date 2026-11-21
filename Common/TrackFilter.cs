@@ -4,6 +4,7 @@ namespace T90M.Common
 {
 	internal sealed class TrackFilter
 	{
+		// TargetTracker copies its Settings over these, so a default changed here does nothing in game. Beta is per sample.
 		internal float Alpha = 0.15f, Beta = 0.01f, AlphaStart = 0.6f, BetaStart = 0.3f, Settle = 1.5f;
 		internal float SampleInterval = 0.1f;
 		internal float LossConfirm = 0.3f;

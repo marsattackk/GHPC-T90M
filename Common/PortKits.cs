@@ -46,31 +46,38 @@ namespace T90M.Common
 			return kits;
 		}
 
+		// Returns null when the bundle has none of the kit's parts (a new DLL on an older bundle). Then nothing is fitted:
+		// the normal parts and armour stay, and the caller should leave the rest of the kit off too.
 		internal static string Apply(Vehicle vehicle, Kit kit, Context context, List<string> problems)
 		{
-			var fitted = vehicle.GetComponent<Fitted>() ?? vehicle.gameObject.AddComponent<Fitted>();
+			var fitted = vehicle.GetComponent<Fitted>();
 			string key = kit.Name.ToLowerInvariant();
-			if (fitted.Kits.Contains(key)) return $"the {kit.Name} kit is fitted already";
-			fitted.Kits.Add(key);
+			if (fitted != null && fitted.Kits.Contains(key)) return $"the {kit.Name} kit is fitted already";
 			var root = vehicle.transform;
 			var everything = root.GetComponentsInChildren<Transform>(true);
 			Transform GroupObject(string group) => everything.FirstOrDefault(p => p.name == context.Prefix + group);
 			var log = new List<string>();
 
-			int rootsOn = 0;
+			var kitRoots = new List<Transform>();
+			var missing = new List<string>();
 			foreach (var (group, rootName) in kit.Roots)
 			{
 				var groupObject = GroupObject(group);
 				var kitRoot = groupObject != null ? groupObject.Find(rootName) : null;
-				if (kitRoot == null)
-				{
-					problems.Add($"{group}/{rootName} not in the unit");
-					continue;
-				}
-				kitRoot.gameObject.SetActive(true);
-				rootsOn++;
+				if (kitRoot != null) kitRoots.Add(kitRoot);
+				else missing.Add($"{group}/{rootName} not in the unit");
 			}
-			log.Add($"{rootsOn} of {kit.Roots.Count} kit roots on");
+			if (kit.Roots.Count > 0 && kitRoots.Count == 0)
+			{
+				problems.Add($"the bundle has no {kit.Name} parts (an older bundle?), so the kit is not fitted");
+				return null;
+			}
+			problems.AddRange(missing);
+			if (fitted == null) fitted = vehicle.gameObject.AddComponent<Fitted>();
+			fitted.Kits.Add(key);
+
+			foreach (var kitRoot in kitRoots) kitRoot.gameObject.SetActive(true);
+			log.Add($"{kitRoots.Count} of {kit.Roots.Count} kit roots on");
 
 			var hidden = new List<Renderer>();
 			int hides = 0;
@@ -115,6 +122,7 @@ namespace T90M.Common
 				log.Add("smoke caps: " + SmokeCaps.Apply(root, kit: true));
 			}
 
+			// HeatSource gathered its renderers before the kit's parts were on.
 			ThermalHeat.Apply(root, ThermalHeat.PortParts(root, context.Prefix), context.Tag);
 			log.Add("thermal heat applied again");
 			string line = $"{kit.Name} kit fitted: " + string.Join("; ", log);
@@ -201,6 +209,7 @@ namespace T90M.Common
 				{
 					if (before.Contains(piece)) continue;
 					fitted.Armour.Add(piece.gameObject);
+					// A collider group lists its colliders once, at Start, so a piece added later has to join it here.
 					RaycastColliderGroup.AddNewColliderSetToParentGroup(piece);
 					added++;
 				}

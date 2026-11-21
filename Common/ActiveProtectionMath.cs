@@ -17,6 +17,8 @@ namespace T90M.Common
 						? "HEAT shell"
 						: t == Threat.He ? "HE shell" : t == Threat.Kinetic ? "kinetic" : t == Threat.Spall ? "spall" : "other";
 
+		// category is (int)AmmoType.AmmoCategory, an int so the tests run without GHPC. Should GHPC reorder that enum,
+		// rounds fall into the wrong class and get its kill chance.
 		internal static Threat ClassOf(bool spall, bool guided, int category, string name, string[] grenadePrefixes)
 		{
 			if (spall) return Threat.Spall;
@@ -35,12 +37,16 @@ namespace T90M.Common
 
 		internal static float Diameter(float sectionalArea) => sectionalArea > 0f ? 2f * (float)Math.Sqrt(sectionalArea / Math.PI) : 0f;
 
+		// GHPC leaves a missile standing still for the odd frame. Reading 0 m/s there let a Konkurs through at 23 m.
 		internal static V3 FrameVelocity(bool hasPrev, V3 move, float dt, bool hasLast, V3 last, V3 fallback)
 		{
 			if (!hasPrev || dt <= 1e-5f) return hasLast ? last : fallback;
 			if (move.Length < 1e-4f) return hasLast ? last : fallback;
 			return move * (1f / dt);
 		}
+
+		internal static bool InWindow(Geometry g, float speed, float diameter, bool spall)
+			=> !(spall || speed > g.SpeedMax || speed < g.SpeedMin || diameter < g.SizeMin);
 
 		internal static string Window(Geometry g, float speed, float diameter, bool spall)
 		{
@@ -377,30 +383,24 @@ namespace T90M.Common
 		internal static bool RayHitsBox(V3 p, V3 d, V3 centre, V3 half)
 		{
 			float enter = 0f, leave = float.PositiveInfinity;
-			float[] offsets = {
-				p.x - centre.x,
-				p.y - centre.y,
-				p.z - centre.z
-			}, dir = { d.x, d.y, d.z }, extents = { half.x, half.y, half.z };
-			for (int k = 0; k < 3; k++)
+			return Slab(p.x - centre.x, d.x, half.x, ref enter, ref leave)
+				&& Slab(p.y - centre.y, d.y, half.y, ref enter, ref leave)
+				&& Slab(p.z - centre.z, d.z, half.z, ref enter, ref leave);
+		}
+
+		static bool Slab(float offset, float dir, float extent, ref float enter, ref float leave)
+		{
+			if (Math.Abs(dir) < 1e-9f) return !(offset < -extent || offset > extent);
+			float slabNear = (-extent - offset) / dir, slabFar = (extent - offset) / dir;
+			if (slabNear > slabFar)
 			{
-				if (Math.Abs(dir[k]) < 1e-9f)
-				{
-					if (offsets[k] < -extents[k] || offsets[k] > extents[k]) return false;
-					continue;
-				}
-				float slabNear = (-extents[k] - offsets[k]) / dir[k], slabFar = (extents[k] - offsets[k]) / dir[k];
-				if (slabNear > slabFar)
-				{
-					var swap = slabNear;
-					slabNear = slabFar;
-					slabFar = swap;
-				}
-				enter = Math.Max(enter, slabNear);
-				leave = Math.Min(leave, slabFar);
-				if (enter > leave) return false;
+				var swap = slabNear;
+				slabNear = slabFar;
+				slabFar = swap;
 			}
-			return true;
+			enter = Math.Max(enter, slabNear);
+			leave = Math.Min(leave, slabFar);
+			return !(enter > leave);
 		}
 
 		internal static Result Step(Geometry g, State s, Track t, V3 p, V3 v, bool atBox, float now, float dt, string ready)
