@@ -176,6 +176,11 @@ The names below don't go through any of those calls, so a rename gives no warnin
   hold back a tandem round's impact effect for the precursor's pop (`_fusedStatus`, `_materialHit`, `HeatJet`), and
   `LiveRound.logHit` adds the precursor's recap line, coloured through `ShotTraceVisual.jetColor`. If those move, the
   rounds just look like plain HEAT again.
+- **HEAT fragments** (`Common\BehindArmour.cs`): a postfix on `LiveRound.getSpallMaxAngle` widens the cone of the
+  tank's own HEAT off the first hull or turret plate it holes (up to 80°, full on 50 mm or more), and a prefix and
+  postfix on `LiveRound.penCheck` (`_jetActive`, `_jetStartPoint`, `_penetrationLevel`, `createSpall`) give 3BK31's
+  second jet the fragments GHPC skips for it. If they go, a strong jet holes a tank cleanly and throws most of its
+  fragments out the far side again.
 - **Fonts and materials**: `Soviet7SegmentFont SDF` and `Reticle LiberationSans SDF` (named in the reticle files), fonts
   starting `TPD_Etch`, `Standard (FLIR)`, and `see-through teal gray` for the x-ray (no log line if that one goes).
 - **Scenes and input**: the menu scenes in `MenuScenes.cs`, `TR01_showcase`, and the buttons `Toggle Night Sight`,

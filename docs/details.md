@@ -21,7 +21,7 @@ autoloader and gearbox, still the T-72's 4.2 km/h reverse. What changed:
 | Engine | V-92S2, 1000 hp | V-92S2F, 1130 hp |
 | Turret traverse | 24°/s | 40°/s |
 | Main gun ammo | 42 rounds | 40: 22 in the carousel, 8 in the hull, 10 in the bustle box |
-| Rounds | 3BM42 / 3BM60, 3BK18M, 3OF26, 9M119M Invar (700 mm) | the same shells plus 3BK29M and 3BK31 HEAT, the 3OF82 Telnik and the 9M119M1 Invar-M (850 mm) |
+| Rounds | 3BM42 / 3BM60, 3BK29M / 3BK31 / 3BK18M HEAT, 3OF26, 9M119M Invar (700 mm) | the same shells and HEAT plus the 3OF82 Telnik, and the 9M119M1 Invar-M (850 mm) |
 
 So it's better protected where the ERA, the screens and the bustle box come in, quicker onto a target off to the side,
 and the commander can hunt on his own. The front armour under the ERA hasn't changed, though, and the Kord fires at a
